@@ -1,0 +1,12 @@
+{
+  "name": "frontend-server",
+  "version": "1.0.0",
+  "description": "A simple Node.js server to host the static frontend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
