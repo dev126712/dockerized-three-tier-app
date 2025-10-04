@@ -8,9 +8,9 @@ app.use(cors());
 
 // Data Tier Simulation: In-memory array acting as our "database"
 let products = [
-    { id: 1, name: "Gemini AI Model", price: 299.99, category: "Software" },
-    { id: 2, name: "Compute Stick", price: 49.99, category: "Hardware" },
-    { id: 3, name: "Quantum Widget", price: 1200.00, category: "Hardware" }
+    { id: 1, name: "Gemini AI Model", price: 11299.99, category: "Software" },
+    { id: 2, name: "Compute Stick", price: 4339.99, category: "Hardware" },
+    { id: 3, name: "Quantum Widget", price: 12200.00, category: "Hardware" }
 ];
 
 // API Endpoint (Tier 2/3 interaction)

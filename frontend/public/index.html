@@ -34,9 +34,9 @@
             const loading = document.getElementById('loading');
             const errorDiv = document.getElementById('error-message');
 
-            // IMPORTANT CHANGE: We now use the internal service name (api-server) and port 
-            // for container-to-container communication, as we removed the NGINX proxy.
-            const API_URL = 'http://api-server:8080/api/products'; 
+            // FIX: Use localhost:8080 because the browser (external client)
+            // makes this request directly to the port exposed by Docker Compose.
+            const API_URL = 'http://localhost:8080/api/products'; 
 
             fetch(API_URL)
                 .then(response => {
@@ -66,7 +66,8 @@
                     console.error('Fetch error:', error);
                     loading.classList.add('hidden');
                     errorDiv.classList.remove('hidden');
-                    errorDiv.innerHTML = '<strong>Connection Error:</strong> Could not connect to the API server at ' + API_URL + '. Make sure the `api-server` container is running!';
+                    // Display the correct failure URL
+                    errorDiv.innerHTML = '<strong>Connection Error:</strong> Failed to connect to ' + API_URL + '. Check your Docker logs!';
                 });
         });
     </script>

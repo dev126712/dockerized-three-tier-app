@@ -12,5 +12,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(FRONTEND_PORT, () => {
-    console.log(`Presentation Tier server running on port ${FRONTEND_PORT}`);
+    console.log(`Presentation Tier server running  http://localhost:${FRONTEND_PORT}`);
 });
