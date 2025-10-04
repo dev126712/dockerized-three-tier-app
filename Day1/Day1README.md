@@ -46,11 +46,9 @@
 ### EXPOSE 8080	Documents that the application inside the container runs on port 8080. (Note: You still need to map the port externally with docker run -p or docker-compose).
 ### CMD ["npm", "start"]	Defines the default command that runs the application when the container starts up. This maps to the start script defined in your package.json.
 
-### Use these steps to construct your final Dockerfile! Once that is done, you can use the docker-compose.yml and nginx.conf files from the previous conversation to orchestrate the full three-tier system. Let me know if you run into any issues during the build process!
-
-
 
 ```
+
 dockerized-three-tier-app/
 ├── package.json(backend)
 ├── server.js(backend)
@@ -58,6 +56,7 @@ dockerized-three-tier-app/
 ├── server.js(frontend)
 ├── public/(frontend)
     └── index.html(frontend)
+
 ```
 
 
