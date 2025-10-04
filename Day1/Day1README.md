@@ -10,6 +10,18 @@
 
 ### You can save this as a file named Dockerfile in the root of your project directory.
 
+```
+
+dockerized-three-tier-app/
+├── package.json(backend)
+├── server.js(backend)
+├── package.json(frontend)
+├── server.js(frontend)
+├── public/(frontend)
+    └── index.html(frontend)
+
+```
+
 ### The Five Steps to Dockerize Your Node.js API
 ### Step 1: Establish the Foundation
 ### Every Dockerfile starts by defining the base image. For a Node.js application, you need an image that already contains the Node.js runtime. Using alpine versions is best for smaller final images.
@@ -47,15 +59,26 @@
 ### CMD ["npm", "start"]	Defines the default command that runs the application when the container starts up. This maps to the start script defined in your package.json.
 
 
+## End of day 1:
+
 ```
 
 dockerized-three-tier-app/
-├── package.json(backend)
-├── server.js(backend)
-├── package.json(frontend)
-├── server.js(frontend)
-├── public/(frontend)
-    └── index.html(frontend)
+├── docker-compose.yml
+├── README.md
+|
+├── backend/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── server.js
+|
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json       
+│   ├── server.js          
+│   └── public/
+│      └──index.html
 
 ```
 
