@@ -47,3 +47,20 @@
 ### CMD ["npm", "start"]	Defines the default command that runs the application when the container starts up. This maps to the start script defined in your package.json.
 
 ### Use these steps to construct your final Dockerfile! Once that is done, you can use the docker-compose.yml and nginx.conf files from the previous conversation to orchestrate the full three-tier system. Let me know if you run into any issues during the build process!
+
+
+
+```
+dockerized-three-tier-app/
+├── package.json(backend)
+├── server.js(backend)
+├── package.json(frontend)
+├── server.js(frontend)
+├── public/(frontend)
+    └── index.html(frontend)
+```
+
+
+
+
+
