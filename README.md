@@ -6,6 +6,27 @@
 
 #### The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
 
+```
+
+dockerized-three-tier-app/
+├── docker-compose.yml
+├── README.md
+|
+├── backend/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── server.js
+|
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json       
+│   ├── server.js          
+│   └── public/
+│      └──index.html
+
+```  
+
 ## Prerequisites
 #### You must have the following tools installed on your machine:
 
@@ -42,7 +63,6 @@ sudo docker compose logs -f
 ``` bash
 sudo docker compose down
 ```
-
 
 
 
