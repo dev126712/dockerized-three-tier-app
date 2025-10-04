@@ -1,9 +1,7 @@
-#### I wanted a simple app that I can contenerize with Docker so I ask google AI to help me. The prompr I sent it was: 
+# I wanted a simple app that I can contenerize with Docker so I ask google AI to help me. The prompr I sent it was: 
 
-#### Prompt: 
+## Prompt: 
 ### Can you make me a small three their application so that I can dockerize it myself. Can you specified all the dependencies I need. Do not give me the the docker files I want to build it myself.
-
-#### The response i got back:
 
 
 
