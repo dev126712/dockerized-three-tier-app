@@ -7,7 +7,7 @@ services:
     networks:
       - my-network 
     ports:
-      - "8080:8080"
+      - 8080:8080
     restart: always
     depends_on:
       - "mongodb"
@@ -20,7 +20,7 @@ services:
     networks:
       - my-network 
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - api-server
 
@@ -29,22 +29,22 @@ services:
     container_name: mongodb-1
     restart: always
     ports:
-      - "27017:27017"
+      - 27017:27017
     networks:
       - my-network 
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=pass
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
 
   mongo-express:
     image: mongo-express
     container_name: mon-expr-cont
     ports:
-      - "9000:8081"
+      - 8081:8081
     environment:
-      - ME_CONFIG_MONGODB_SERVER: mongodb-1
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=user
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
+      ME_CONFIG_MONGODB_SERVER: mongodb-1
+      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
     networks:
       - my-network
     depends_on:
