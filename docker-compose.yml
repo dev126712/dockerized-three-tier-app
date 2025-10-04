@@ -10,7 +10,7 @@ services:
       - 8080:8080
     restart: always
     depends_on:
-      - "mongodb"
+      - mongodb
 
   frontend:
     build:
@@ -48,7 +48,7 @@ services:
     networks:
       - my-network
     depends_on:
-      - "mongodb"
+      - mongodb
 
 networks:
   my-network:
