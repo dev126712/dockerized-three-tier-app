@@ -64,6 +64,31 @@ sudo docker compose logs -f
 sudo docker compose down
 ```
 
+## End of day 1:
+
+```
+
+dockerized-three-tier-app/
+├── docker-compose.yml
+├── README.md
+|
+├── backend/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── server.js
+|
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json       
+│   ├── server.js          
+│   └── public/
+│      └──index.html
+
+
+
+```
+
 
 
 
