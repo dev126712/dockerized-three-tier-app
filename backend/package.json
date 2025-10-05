@@ -2,7 +2,7 @@
   "name": "api-server",
   "version": "1.0.0",
   "description": "A simple Node.js API for the three-tier demo.",
-  "main": "server.js",
+  "main": "./backend/server.js",
   "scripts": {
     "start": "node server.js"
   },

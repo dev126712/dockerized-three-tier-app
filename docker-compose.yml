@@ -3,42 +3,49 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: api_app_tier
-    networks:
-      - ${DOCKER_NETWORK} 
+    image: server.1.0.0
+    container_name: ${API_SERVER_CONTAINER_NAME}
+    env_file: .env  
     ports:
-      - 8080:8080
+      - ${API_SERVER_PORT}:${API_SERVER_PORT}
     restart: always
+    networks: 
+    - ${DOCKER_NETWORK}
     depends_on:
       mongo:
         condition: service_healthy
     environment:
-      MONGO_URI: ${DATABASE_URL} # <-- This is needed
+      MONGO_URI: ${DATABASE_URI} # <-- This is needed
       PORT: ${API_SERVER_PORT_MAPPING} # <-- Match the port mapping
+    volumes:
+      - ./backend:/backend
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: web_presentation_tier
+    container_name: ${FRONTEN_CONTAINER_NAME}
     networks:
-      - ${DOCKER_NETWORK} 
+    - ${DOCKER_NETWORK} 
     ports:
-      - 8000:8000
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
     depends_on:
       - api-server
 
   mongo:
-    image: mongo:4.4
-    container_name: cont-mongodb
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    image: ${MONGO_IMAGE_NAME}
+    container_name: ${MONGO_CONTAINER_NAME}
+    env_file: .env
     ports:
-      - 27017:27017
+      - ${MONGO_PORT}:${MONGO_PORT}
     networks:
-      - ${DOCKER_NETWORK} 
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    - ${DOCKER_NETWORK} 
     restart: unless-stopped
+    volumes:
+      - database-v:/data/db
 
     healthcheck:
       test: [ "CMD", "mongo", "--eval", "db.runCommand({ping: 1})" ]
@@ -49,20 +56,29 @@ services:
 
 
   mongo-express:
-    image: mongo-express
-    container_name: mon-expr-cont
+    build:
+      context: ./databaseUi
+      dockerfile: Dockerfile
+    image: ${MONGO_ESPRESS_IMAGE_NAME}
+    container_name: ${MONGO_EXPRESS_CONTAINER_NAME}
     ports:
-      - 8081:8081
+      - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
     environment:
       ME_CONFIG_MONGODB_SERVER: ${MONGODB_EXPRESS_SERVER}
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_EXPRESS_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_EXPRESS_PASSWORD}
     networks:
-      - ${DOCKER_NETWORK}
+    - ${DOCKER_NETWORK}
     depends_on:
       mongo:
         condition: service_healthy
 
 networks:
-  ${DOCKER_NETWORK}:
+  mynetwork:
     driver: bridge
+
+volumes:
+  server-v-node-modules:
+    name: "server-v-node-modules"
+  database-v:
+    name: "database-v"

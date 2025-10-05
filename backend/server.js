@@ -6,8 +6,8 @@ const port = 8080;
 
 // Get MongoDB connection string from environment variables
 // The 'mongodb' host name is the service name from your docker-compose.yml
-const mongoDbUrl = process.env.DATABASE_URL;
-const dbName = process.env.DATABASE_NAME;
+const mongoDbUrl = process.env.DATABASE_URI;
+const dbName = process.env.DATABASE_USERNAME;
 
 async function main() {
   const client = new MongoClient(mongoDbUrl);
@@ -17,21 +17,7 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to MongoDB');
     const db = client.db(dbName);
-
-    // Hardcoded data
-    const hardcodedProducts = [
-      { id: 1, name: 'Laptop', price: 177777200 },
-      { id: 2, name: 'Mouse', price: 25 },
-      { id: 3, name: 'Keyboard', price: 75 }
-    ];
-
-    // Insert hardcoded data if the collection is empty
     const collection = db.collection('products');
-    const count = await collection.countDocuments();
-    if (count === 0) {
-        await collection.insertMany(hardcodedProducts);
-        console.log('Inserted initial hardcoded data into the database.');
-    }
 
     // Define the API endpoint
     app.get('/api/products', async (req, res) => {
@@ -55,4 +41,6 @@ async function main() {
   }
 }
 
-main();
+main()
+  .then(() => console.log('server started'))
+  .catch(err => console.error('Something went wrong', err));
