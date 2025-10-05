@@ -1,10 +1,23 @@
-# Dockerized-three-tier-app
+# Dockerized Three-Tier Architecture
 
-## A demonstration of containerizing a three-tier logical application architecture using Node.js and orchestrating services with Docker Compose.
+## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, and Docker Compose.
 
-## Project Goal
+## Project Goal (Architectural Focus)
 
 #### The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
+
+
+### This setup demonstrates critical skills required for modern, production-ready systems, including:
+
+#### * **Microservices Orchestration**: Managing independent services using Docker Compose
+
+#### * **Environment Parity**: Ensuring the development and production environment behave identically.
+
+#### * **Network Segmentation**: Utilizing a dedicated Docker network for secure inter-service communication.
+
+
+
+
 
 ```
 
