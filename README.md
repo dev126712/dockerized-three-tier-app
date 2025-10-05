@@ -51,6 +51,8 @@ sudo docker compose up --build -d
 
 #### API (Direct Access): http://localhost:8080/api/products (useful for testing)
 
+#### Database UI (Mongo Express): http://localhost:8081 (Use default credentials: admin:pass)
+
 ### 3. View Logs and Stop
 
 #### To view the live logs from both services 
