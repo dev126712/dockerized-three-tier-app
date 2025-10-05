@@ -9,11 +9,11 @@
 
 ### This setup demonstrates critical skills required for modern, production-ready systems, including:
 
-####  __Microservices Orchestration__: Managing independent services using Docker Compose
+####  ***Microservices Orchestration***: Managing independent services using Docker Compose
 
-####  **Environment Parity**: Ensuring the development and production environment behave identically.
+####  ***Environment Parity***: Ensuring the development and production environment behave identically.
 
-####  **Network Segmentation**: Utilizing a dedicated Docker network for secure inter-service communication.
+####  ***Network Segmentation***: Utilizing a dedicated Docker network for secure inter-service communication.
 
 
 
