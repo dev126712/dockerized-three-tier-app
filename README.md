@@ -9,7 +9,7 @@
 
 ### This setup demonstrates critical skills required for modern, production-ready systems, including:
 
-#### * **Microservices Orchestration**: Managing independent services using Docker Compose
+#### * __Microservices Orchestration__: Managing independent services using Docker Compose
 
 #### * **Environment Parity**: Ensuring the development and production environment behave identically.
 
