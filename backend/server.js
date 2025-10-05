@@ -6,7 +6,7 @@ const port = 8080;
 
 // Get MongoDB connection string from environment variables
 // The 'mongodb' host name is the service name from your docker-compose.yml
-const mongoDbUrl = 'mongodb://user:pass@mongo:27017';
+const mongoDbUrl = process.env.DATABASE_URL;
 const dbName = 'mydatabase';
 
 async function main() {
