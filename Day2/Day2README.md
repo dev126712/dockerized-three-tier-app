@@ -63,11 +63,13 @@ sudo docker compose up --build --remove-orphans
 
 
 
-#### Demonstrating DevOps Principles
+### Demonstrating DevOps Principles
 
-### The way we have set up the project follows modern DevOps practices:
+#### The way we have set up the project follows modern DevOps practices:
 
-##
+#### 1. Infrastructure as Code (IaC): We've defined our entire application setup (all services, networks, and port settings) in a clear, written configuration file (docker-compose.yml). This ensures our environment is always reliable and reproducible.
+
+#### 2. Ready for Automatic Updates: By using separate Docker images for each service, we've structured the project for future automation. This allows us to quickly and safely update just one part of the app (like the Frontend) without risking the entire system, making it ready for automated testing and deployment.
 
 
 
