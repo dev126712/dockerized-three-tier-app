@@ -29,7 +29,7 @@ sudo docker compose up --build --remove-orphans
 |----------|----------|----------|----------|----------|
 | Presentation (Tier 1) | web_presentation_tier (Frontend) | Node.js Server | Serves the UI and fetches data. | [Row 1 Col 3](http://localhost:8000) |
 | Application (Tier 2) | api_app_tier (API Server) | Node.js/Express | Handles business logic and database access. |(http://localhost:8080) |
-| Data (Tier 3) | cont-mongodb (Database) | MongoDB 4.4 | Persistent storage for application data (products). | application data (products).
+| Data (Tier 3) | cont-mongodb (Database) | MongoDB 4.4 | Persistent storage for application data (products). | application data (products). |
 
 N/A (Internal) |
 | Utility | mon-expr-cont (Database UI) | Mongo Express | Web interface for viewing MongoDB data. | http://localhost:8081 (Use admin:pass) |
