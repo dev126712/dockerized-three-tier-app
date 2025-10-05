@@ -2,7 +2,7 @@
 
 ### Overview
 
-#### Building on the foundational work from Day 1 (defining the Dockerfiles and docker-compose.yml), we successfully built, deployed, and established inter-container communication for the three-tier application stack using docker compose. All three core services are now running, and the API has confirmed connectivity to the database and inserted the initial data.
+#### Building on the foundational work from Day 1 (defining the Dockerfiles and docker-compose.yml), I successfully built, deployed, and established inter-container communication for the three-tier application stack using docker compose. All three core services are now running, and the API has confirmed connectivity to the database and inserted the initial data.
 
 ## Day 2 Goal:
 
@@ -51,7 +51,7 @@ sudo docker compose up --build --remove-orphans
 
 ## Strategic Focus: Containerization and DevOps Benefits
 
-#### We are using Docker containers and Docker Compose to manage this project, which brings major benefits to how we develop and operate the application.
+#### I'm using Docker containers and Docker Compose to manage this project, which brings major benefits to how we develop and operate the application.
 
 ### Containerization for Faster Development
 
@@ -65,49 +65,9 @@ sudo docker compose up --build --remove-orphans
 
 ### Demonstrating DevOps Principles
 
-#### The way we have set up the project follows modern DevOps practices:
+#### The way I have set up the project follows modern DevOps practices:
 
-#### 1. Infrastructure as Code (IaC): We've defined our entire application setup (all services, networks, and port settings) in a clear, written configuration file (docker-compose.yml). This ensures our environment is always reliable and reproducible.
+#### 1. Infrastructure as Code (IaC): I've defined our entire application setup (all services, networks, and port settings) in a clear, written configuration file (docker-compose.yml). This ensures our environment is always reliable and reproducible.
 
-#### 2. Ready for Automatic Updates: By using separate Docker images for each service, we've structured the project for future automation. This allows us to quickly and safely update just one part of the app (like the Frontend) without risking the entire system, making it ready for automated testing and deployment.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### 2. Ready for Automatic Updates: By using separate Docker images for each service, I've structured the project for future automation. This allows us to quickly and safely update just one part of the app (like the Frontend) without risking the entire system, making it ready for automated testing and deployment.
 
