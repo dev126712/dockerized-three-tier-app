@@ -17,7 +17,7 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to MongoDB');
     const db = client.db(dbName);
-    const collection = db.collection('products');
+    const collection = db.collection('product');
 
     // Define the API endpoint
     app.get('/api/products', async (req, res) => {
