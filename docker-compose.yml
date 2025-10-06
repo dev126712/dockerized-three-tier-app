@@ -48,11 +48,11 @@ services:
       - database-v:/data/db
 
     healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.runCommand({ping: 1})" ]
+      test: [ "CMD", "mongosh", "--eval", "db.runCommand('ping').ok" ]
       interval: 5s
       timeout: 2s
       retries: 5
-      start_period: 10s # Wait 10 seconds before starting checks
+      start_period: 60s # Wait 10 seconds before starting checks
 
 
   mongo-express:
