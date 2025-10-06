@@ -1,7 +1,5 @@
-use mydatabase;
-
 db.createCollection('products');
-db.products.insertMany(
+db.products.insertMany([
     {
         name: 'paper',
         category: 'wood',
@@ -22,4 +20,4 @@ db.products.insertMany(
         category: 'Furniture',
         price: 350.00
     }
-);
+]);
