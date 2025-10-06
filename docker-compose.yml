@@ -43,7 +43,6 @@ services:
       - ${MONGO_PORT}:${MONGO_PORT}
     networks:
     - ${DOCKER_NETWORK} 
-    MONGO_INITDB_DATABASE: mydatabase
     restart: unless-stopped
     volumes:
       - database-v:/data/db
@@ -70,6 +69,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_EXPRESS_PASSWORD}
       ME_CONFIG_MONGODB_AUTH_DATABASE: ${MONGODB_EXPRESS_USERNAME}
       ME_CONFIG_BASICAUTH_DB: mydatabase 
+      MONGO_INITDB_DATABASE: mydatabase
     networks:
     - ${DOCKER_NETWORK}
     depends_on:
