@@ -1,14 +1,8 @@
 ## Day 3 DevOps Retrospective: Key Wins & Debugging
 
-#### I achieved a fully parameterized deployment, successfully centralizing all sensitive credentials, ports, and configuration constants into a single .env file, establishing a foundation of Infrastructure as Code (IaC). This led to critical debugging efforts, including fixing the Frontend's connection error by correctly using localhost for external browser access instead of internal Docker service names, and resolving a core MongoDB initialization failure by explicitly adding the MONGO_INITDB_DATABASE variable to Docker Compose to ensure the database existed upon container startup. Finally, we solidified service reliability by implementing Automated Health Checks across both the API and Frontend services, featuring a crucial Deep Readiness Probe on the API server that verifies successful database connectivity before marking the container as ready, which is essential for stable, production-grade deployments.
+#### I achieved a fully parameterized deployment, successfully centralizing all sensitive credentials, ports, and configuration constants into a single .env file, establishing a foundation of Infrastructure as Code (IaC). This led to critical debugging efforts, including fixing the Frontend's connection error by correctly using ${window.location.hostname} for external browser access instead of internal Docker service names or localhost, and resolving a core MongoDB initialization failure by explicitly adding the MONGO_INITDB_DATABASE variable to Docker Compose to ensure the database existed upon container startup. Finally, we solidified service reliability by implementing Automated Health Checks across both the API and Frontend services, featuring a crucial Deep Readiness Probe on the API server that verifies successful database connectivity before marking the container as ready, which is essential for stable, production-grade deployments.
 
 #### Result: The entire application is now deployed using the principle of Infrastructure as Code (IaC), making it portable and secure.
-
-####  Frontend Connection Error
-#### The Problem: The frontend container's JavaScript was attempting to connect to the API using the internal Docker service name (api-service), but the browser (the client) runs outside the Docker network and cannot resolve this name.
-
-#### The Fix: Changed the API_URL in index.html from http://api-service:8080 to http://localhost:8080.
-
 
 #### Challenge: Database Connection and Visibility (The Core Bug)
 #### The Problem: Even with the correct DATABASE_URI defined, the database (mydatabase) wasn't appearing in Mongo Express, and the API server failed to connect, leading to the initial data insert failure.
