@@ -1,5 +1,5 @@
 db.createCollection('products');
-db.user.insertOne(
+db.products.insertOne(
     {
         name: 'paper',
         category: 'wood',
