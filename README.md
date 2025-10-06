@@ -17,27 +17,6 @@
 
 
 
-
-
-```
-
-dockerized-three-tier-app/
-├── docker-compose.yml
-├── README.md
-|
-├── backend/
-│   ├── Dockerfile
-│   ├── .dockerignore
-│   ├── package.json
-│   └── server.js
-|
-├── frontend/
-│   ├── Dockerfile
-│   ├── package.json       
-│   ├── server.js          
-│   └── public/
-│      └──index.html
-
 ```  
 
 ## Prerequisites
