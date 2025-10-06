@@ -1,6 +1,6 @@
 ## Day 3 DevOps Retrospective: Key Wins & Debugging
 
-#### Parameterized Deployment (IaC) Action: Successfully moved all sensitive credentials (MongoDB access), container names, image tags, and ports from the hardcoded configuration into a single, clean .env file.
+#### I achieved a fully parameterized deployment, successfully centralizing all sensitive credentials, ports, and configuration constants into a single .env file, establishing a foundation of Infrastructure as Code (IaC). This led to critical debugging efforts, including fixing the Frontend's connection error by correctly using localhost for external browser access instead of internal Docker service names, and resolving a core MongoDB initialization failure by explicitly adding the MONGO_INITDB_DATABASE variable to Docker Compose to ensure the database existed upon container startup. Finally, we solidified service reliability by implementing Automated Health Checks across both the API and Frontend services, featuring a crucial Deep Readiness Probe on the API server that verifies successful database connectivity before marking the container as ready, which is essential for stable, production-grade deployments.
 
 #### Result: The entire application is now deployed using the principle of Infrastructure as Code (IaC), making it portable and secure.
 
