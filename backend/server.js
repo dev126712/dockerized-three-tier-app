@@ -9,6 +9,8 @@ const port = 8080;
 const mongoDbUrl = process.env.DATABASE_URI;
 const dbName = process.env.DATABASE_USERNAME;
 
+app.use(express.json());
+
 async function main() {
   const client = new MongoClient(mongoDbUrl);
 
@@ -27,7 +29,7 @@ async function main() {
             res.json(products);
         } catch (error) {
             console.error('Error fetching products from database:', error);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({message: err.message});
         }
     });
 
