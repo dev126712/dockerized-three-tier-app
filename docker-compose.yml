@@ -57,7 +57,6 @@ services:
 
   mongo-express:
     image: mongo-express
-    image: ${MONGO_ESPRESS_IMAGE_NAME}
     container_name: ${MONGO_EXPRESS_CONTAINER_NAME}
     ports:
       - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
