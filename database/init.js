@@ -1,4 +1,5 @@
 use mydatabase;
+
 db.createCollection('products');
 db.products.insertMany(
     {
