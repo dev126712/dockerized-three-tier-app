@@ -36,7 +36,7 @@
 
             // FIX: Use localhost:8080 because the browser (external client)
             // makes this request directly to the port exposed by Docker Compose.
-            const API_URL = 'http://localhost:8080/api/products'; 
+            const API_URL = 'http://api-service:8080/api/products'; 
 
             fetch(API_URL)
                 .then(response => {
