@@ -50,7 +50,7 @@ services:
     command: mongod --auth
 
     healthcheck:
-      test: [ "CMD", "mongosh", "--port", "27017", "-u", "admin", "-p", "pass", "--eval", "db.runCommand('ping').ok" ]
+      test: [ "CMD", "mongosh", "--eval", "db.runCommand('ping').ok" ]
       interval: 5s
       timeout: 2s
       retries: 5
@@ -67,6 +67,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_EXPRESS_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_EXPRESS_PASSWORD}
       ME_CONFIG_MONGODB_AUTH_DATABASE: ${MONGODB_EXPRESS_USERNAME}
+      ME_CONFIG_BASICAUTH_DB: mydatabase 
     networks:
     - ${DOCKER_NETWORK}
     depends_on:
