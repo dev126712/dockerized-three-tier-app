@@ -43,8 +43,7 @@ services:
       - ${MONGO_PORT}:${MONGO_PORT}
     networks:
     - ${DOCKER_NETWORK} 
-
-    MONGO_INITDB_DATABASE=mydatabase
+    MONGO_INITDB_DATABASE: mydatabase
     restart: unless-stopped
     volumes:
       - database-v:/data/db
