@@ -43,11 +43,14 @@ services:
       - ${MONGO_PORT}:${MONGO_PORT}
     networks:
     - ${DOCKER_NETWORK} 
+
+    MONGO_INITDB_DATABASE=mydatabase
     restart: unless-stopped
     volumes:
       - database-v:/data/db
       - ./database:/docker-entrypoint-initdb.d 
     command: mongod --auth
+  
 
     healthcheck:
       test: [ "CMD", "mongosh", "--eval", "db.runCommand('ping').ok" ]
