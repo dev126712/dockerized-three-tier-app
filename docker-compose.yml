@@ -50,7 +50,7 @@ services:
     command: mongod --auth
 
     healthcheck:
-      test: [ "CMD", "mongosh", "--eval", "db.runCommand('ping').ok" ]
+      test: [ "CMD", "mongosh", "--port", "27017", "-u", "admin", "-p", "pass", "--eval", "db.runCommand('ping').ok" ]
       interval: 5s
       timeout: 2s
       retries: 5
