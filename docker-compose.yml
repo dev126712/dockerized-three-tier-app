@@ -1,4 +1,20 @@
 services:
+  web:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    environment: # Explicitly pass the ports Nginx needs for proxy_pass
+      - FRONTEND_PORT=${FRONTEND_PORT}
+      - API_SERVER_PORT=${API_SERVER_PORT}
+    volumes:
+      - ./proxy/nginx.conf.template:/tmp/nginx.conf.template
+    env_file: .env
+    container_name: reverse_proxy
+    ports:
+      - 80:80
+    depends_on:
+      - frontend
+
   api-server:
     build:
       context: ./backend
