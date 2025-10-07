@@ -11,7 +11,7 @@ services:
     env_file: .env
     container_name: ${REVERSE_PROXY_CONTAINER_NAME}
     ports:
-      - 80:80
+      - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
     depends_on:
       - api-server
     networks: 
