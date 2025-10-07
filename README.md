@@ -14,11 +14,7 @@
 ####  ****Environment Parity****: Ensuring the development and production environment behave identically.
 
 ####  ****Network Segmentation****: Utilizing a dedicated Docker network for secure inter-service communication.
-
-
-
-```  
-
+  
 ## Prerequisites
 #### You must have the following tools installed on your machine:
 
