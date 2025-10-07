@@ -1,5 +1,5 @@
 services:
-  web:
+  proxy:
     build:
       context: ./proxy
       dockerfile: Dockerfile
