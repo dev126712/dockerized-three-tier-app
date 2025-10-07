@@ -9,7 +9,7 @@ services:
     volumes:
       - ./proxy/nginx.conf.template:/tmp/nginx.conf
     env_file: .env
-    container_name: reverse_proxy
+    container_name: ${REVERSE_PROXY_CONTAINER_NAME}
     ports:
       - 80:80
     depends_on:
