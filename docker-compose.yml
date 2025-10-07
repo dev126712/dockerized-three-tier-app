@@ -67,14 +67,12 @@ services:
       - ./database:/docker-entrypoint-initdb.d 
     command: mongod --auth
   
-
     healthcheck:
       test: [ "CMD", "mongosh", "--eval", "db.runCommand('ping').ok" ]
       interval: 5s
       timeout: 2s
       retries: 5
       start_period: 60s # Wait 10 seconds before starting checks
-
 
   mongo-express:
     image: ${MONGO_ESPRESS_IMAGE}
