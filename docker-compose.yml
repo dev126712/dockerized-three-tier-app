@@ -4,16 +4,16 @@ services:
       context: ./proxy
       dockerfile: Dockerfile
     environment: # Explicitly pass the ports Nginx needs for proxy_pass
-      - FRONTEND_PORT=${FRONTEND_PORT}
+      - FRONTEND_SERVER_ADDR=13.58.126.42:$FRONTEND_PORT
       - API_SERVER_PORT=${API_SERVER_PORT}
     volumes:
-      - ./proxy/nginx.conf.template:/tmp/nginx.conf.template
+      - ./proxy/nginx.conf.template:/tmp/nginx.conf
     env_file: .env
     container_name: reverse_proxy
     ports:
       - 80:80
     depends_on:
-      - frontend
+      - api-server
 
   api-server:
     build:
