@@ -12,7 +12,7 @@
 ## Host Not Found / DNS Error (host not found in upstream "frontend")
 
 ### Probleme 1:
-#### The reverse proxy was only able to 'proxy_pass' the request to the frontend by hardcoding the ec2 instance public addresse wich is not a good practice for security and for code reusable(Iac). The reverse_proxy service was not explicitly attached to the custom Docker network (mynetwork) where the frontend service resided.
+#### The reverse proxy was only able to 'proxy_pass' the request to the frontend by hardcoding the ec2 instance public addresse wich is not a good practice for security and for code reusable(Iac). The reverse_proxy service was not explicitly attached to the custom Docker network (mynetwork) where the frontend service resided. Because docker network make a default private network if its not specified in the docker compose services of each container so the container can communicate using 'private addresses'.
 
 ### Resolution: 
 #### Explicitly added the networks: [mynetwork] block to the reverse_proxy service in docker-compose.yml, allowing it to resolve hostnames via Docker's internal DNS without the need to go to public internet. It's a good practice for security measure and latency.
