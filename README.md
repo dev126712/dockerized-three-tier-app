@@ -33,7 +33,7 @@
 #### The following command will build both the frontend and api-server images using their respective Dockerfiles, start the containers, and run them in detached mode (-d).
 
 ``` bash
-sudo docker compose up --build -d
+sudo docker compose --env-file .env up --build
 ```
 
 ### 2. Access the Application
