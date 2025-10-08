@@ -57,4 +57,33 @@ sudo docker compose down
 
 
 
+dockerized-three-tier-app/
+├── backend/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── server.js
+|
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json       
+│   ├── server.js          
+│   └── public/
+│      └──index.html
+|
+├── database/
+│   ├── Dockerfile
+│   └── init.js
+|
+├── proxy/
+│   ├── Dockerfile
+│   └── nginx.conf.template
+|
+├── docker-compose.yml
+├── README.md
+└── .env
+
+
+
+
 
