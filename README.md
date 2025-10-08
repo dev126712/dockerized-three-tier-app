@@ -55,7 +55,7 @@ sudo docker compose down
 ```
 
 
-
+```
 
 dockerized-three-tier-app/
 ├── backend/
@@ -82,6 +82,7 @@ dockerized-three-tier-app/
 ├── docker-compose.yml
 ├── README.md
 └── .env
+```
 
 
 
