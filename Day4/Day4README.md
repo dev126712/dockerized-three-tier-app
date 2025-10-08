@@ -11,7 +11,7 @@
 
 ## Host Not Found / DNS Error (host not found in upstream "frontend")
 
-### Probleme 1:
+### Issue 1:
 #### The reverse proxy was only able to 'proxy_pass' the request to the frontend by hardcoding the ec2 instance public addresse wich is not a good practice for security and for code reusable(Iac). The reverse_proxy service was not explicitly attached to the custom Docker network (mynetwork) where the frontend service resided. Because docker network make a default private network if its not specified in the docker compose services of each container so the container can communicate using 'private addresses'.
 
 ### Resolution: 
@@ -20,7 +20,7 @@
 
 ## Configuration Context Error (events directive not allowed)
 
-### Probleme 2:
+### Issue 2:
 #### Custom Nginx config was loaded directly into the primary /etc/nginx/nginx.conf which requires top-level directives (like events and http).
 
 ### Resolution: 
@@ -28,7 +28,7 @@
 
 ## Variable Substitution Failure (unknown "variable", invalid number of arguments)
 
-### Probleme 3: 
+### Issue 3: 
 
 #### Nginx's envsubst utility failed because environment variables (like ${API_SERVER_PORT}) were empty or unset during container startup, leading to broken syntax in the final config file.
 
