@@ -35,7 +35,7 @@ jobs:
       run: |
         OUTPUT_FILE="GitHub Action/Trivy Automation/scan-results-${DATE}.json"
         mkdir -p "Github Actions/Trivy Automation"
-        trivy image --format json --ignore-unfixed --vul-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" nginx:latest
+        trivy image --format json --ignore-unfixed --vuln-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" nginx:latest
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
