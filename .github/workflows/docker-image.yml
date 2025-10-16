@@ -1,9 +1,7 @@
-name: Docker Image CI
+name: Build Docker Image and Publish it to Docker Hub
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -14,5 +12,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the Docker images
+      run: |
+        docker build ./backend/ -t dev126712/dockerized-three-tier-app-backend:latest
+        docker build ./frontend/ -t dev126712/dockerized-three-tier-app-frontend:latest
+        docker build ./database/ -t dev126712/dockerized-three-tier-app-database:latest
+        docker build ./proxy/ -t dev126712/dockerized-three-tier-app-proxy:latest
+    - name: push image to docker hub
+      run: |
+        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push dev126712/dockerized-three-tier-app-backend:latest
+        docker push dev126712/dockerized-three-tier-app-frontend:latest
+        docker push dev126712/dockerized-three-tier-app-database:latest
+        docker push dev126712/dockerized-three-tier-app-proxy:latest
