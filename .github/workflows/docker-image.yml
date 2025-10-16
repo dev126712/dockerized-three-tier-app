@@ -2,7 +2,13 @@ name: Build Docker Image and Publish it to Docker Hub
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - 'backend/Dockerfile'
+      - 'frontend/Dockerfile'
+      - 'database/Dockerfile'
+      - 'proxy/Dockerfile'
 
 jobs:
 
