@@ -1,4 +1,4 @@
-name: Build Docker Image and Publish it to Docker Hub
+name: Scan Docker Images, Build Docker Images & Publish it to Docker Hub
 
 on:
   push:
@@ -12,7 +12,36 @@ on:
 
 jobs:
 
-  build:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: heckout repo 
+      uses: actions/checkout@v4
+
+    - name: Create output directory
+      run: mkdir -p "Github Actions/Trivy Automation"
+
+    - name: Instann Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+    
+    - name: DownloadTrivy vulnerability database
+      run: trivy image --download-db-only
+
+    - name: Run Trivy vulnerability scanner
+      run: |
+        OUTPUT_FILE="GitHub Action/Trivy Automation/scan-results-${DATE}.json"
+        mkdir -p "Github Actions/Trivy Automation"
+        trivy image --format json --ignore-unfixed --vul-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" nginx:latest
+
+    - name: Verify scan results exist
+      run: ls -l "Github Actions/Trivy Automation"
+
+
+  build-and-publish:
 
     runs-on: ubuntu-latest
 
@@ -31,3 +60,4 @@ jobs:
         docker push dev126712/dockerized-three-tier-app-frontend:latest
         docker push dev126712/dockerized-three-tier-app-database:latest
         docker push dev126712/dockerized-three-tier-app-proxy:latest
+  
