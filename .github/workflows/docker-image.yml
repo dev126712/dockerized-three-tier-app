@@ -60,7 +60,7 @@ jobs:
 
         for IMAGE in "${IMAGES[@]}"; do
 
-          IMAGE_NAME_CLEAN=$(echo "$IMAGE" | sed 's/[^a-zA-Z0-9_-]/_/g')
+          IMAGE_NAME_CLEAN=$(echo "$IMAGE" | tr 's/[^a-zA-Z0-9_-]/_/g')
 
           OUTPUT_FILE="$OUTPUT_DIR/scan-results-${IMAGE_NAME_CLEAN}-${DATE}.json"
           
