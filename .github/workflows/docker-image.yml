@@ -5,78 +5,165 @@ on:
     branches:
       - main
     paths:
-      - 'backend/Dockerfile'
-      - 'frontend/Dockerfile'
-      - 'database/Dockerfile'
-      - 'proxy/Dockerfile'
+      # Use full paths for robustness: changing code in a service should trigger its build.
+      - 'backend/**'
+      - 'frontend/**'
+      - 'database/**'
+      - 'proxy/**'
+      - '.github/workflows/*.yml' # Include the workflow file itself
 
 jobs:
   build-and-publish:
 
     runs-on: ubuntu-latest
 
+    # This matrix is a useful alternative to individual steps, but for clarity and 
+    # granular control over each service, we will stick to conditional steps below.
+
     steps:
-    - name: checkout repo
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Build the Docker images
-      run: |
-        docker build ./backend/ -t dev126712/dockerized-three-tier-app-backend:latest
-        docker build ./frontend/ -t dev126712/dockerized-three-tier-app-frontend:latest
-        docker build ./database/ -t dev126712/dockerized-three-tier-app-database:latest
-        docker build ./proxy/ -t dev126712/dockerized-three-tier-app-proxy:latest
-
-    - name: set up docker
-      uses: docker/setup-buildx-action@v2
-
-    - name: Create output directory
-      run: mkdir -p "Github Actions/Trivy Automation"
-
     - name: Install Trivy
+      id: install_trivy
       run: |
+        echo "::group::Installing Trivy v0.57.0"
         sudo apt-get update
         sudo apt-get install -y curl
         curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+        trivy --version
+        echo "::endgroup::"
 
-    #- name: Login to GitHub Container Registery
-    #  run: echo "{{ secrets.GHCR_PAT }}" | docker login ghcr.io -u {{ github.actor }} --password-stdin
-  
-    - name: Download Trivy vulnerability database
-      run: trivy image --download-db-only
-
-    - name: Run Trivy vulnerability scanner
-      env:
-        DATE: $(date +%Y-%m-%d)
+    - name: Determine Changed Components (Saves time by skipping unchanged components)
+      id: changed_components
+      shell: bash
       run: |
+        # Use git diff to compare the current commit (HEAD) with its ancestor (HEAD^)
+        # '|| true' handles the case where HEAD^ does not exist (first commit on branch)
+        CHANGED_FILES=$(git diff --name-only HEAD^ HEAD || true)
+        
+        echo "::group::Changed Files"
+        echo "$CHANGED_FILES"
+        echo "::endgroup::"
 
-        IMAGES=(
-          "dev126712/dockerized-three-tier-app-backend:latest"
-          "dev126712/dockerized-three-tier-app-frontend:latest"
-          "dev126712/dockerized-three-tier-app-database:latest"
-          "dev126712/dockerized-three-tier-app-proxy:latest"
-        )
-
-        for IMAGE in "${IMAGES[@]}"; do
-
-          
-          echo "Scanning $IMAGE (locally built) and saving to $OUTPUT_FILE"
-          
-          trivy image \
-            --format json \
-            --ignore-unfixed \
-            --pkg-types os,library \
-            --severity CRITICAL,HIGH,MEDIUM \
-            "$IMAGE"
-        done
-
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
-
-    - name: push image to docker hub
+        # Check for changes in respective component directories and set environment flags
+        if echo "$CHANGED_FILES" | grep -E 'backend/'; then
+          echo "RUN_BACKEND=true" >> $GITHUB_ENV
+          echo "::notice::Backend changes detected. Will process."
+        fi
+        
+        if echo "$CHANGED_FILES" | grep -E 'frontend/'; then
+          echo "RUN_FRONTEND=true" >> $GITHUB_ENV
+          echo "::notice::Frontend changes detected. Will process."
+        fi
+        
+        if echo "$CHANGED_FILES" | grep -E 'database/'; then
+          echo "RUN_DATABASE=true" >> $GITHUB_ENV
+          echo "::notice::Database changes detected. Will process."
+        fi
+        
+        if echo "$CHANGED_FILES" | grep -E 'proxy/'; then
+          echo "RUN_PROXY=true" >> $GITHUB_ENV
+          echo "::notice::Proxy changes detected. Will process."
+        fi
+    
+    # --- Backend Service (Conditional Build, Scan, Push) ---
+    - name: Build, Scan, and Push Backend Image
+      if: env.RUN_BACKEND == 'true'
       run: |
+        IMAGE_NAME="dev126712/dockerized-three-tier-app-backend:latest"
+        
+        echo "::group::Building Backend"
+        docker build ./backend/ -t "$IMAGE_NAME"
+        echo "::endgroup::"
+
+        echo "::group::Scanning Backend with Trivy"
+        # --exit-code 1 fails the pipeline if HIGH/CRITICAL vulnerabilities are found
+        trivy image \
+          --exit-code 1 \
+          --ignore-unfixed \
+          --severity HIGH,CRITICAL \
+          "$IMAGE_NAME"
+        echo "::endgroup::"
+        
+        echo "::group::Pushing Backend Image to Docker Hub"
         docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker push dev126712/dockerized-three-tier-app-backend:latest
-        docker push dev126712/dockerized-three-tier-app-frontend:latest
-        docker push dev126712/dockerized-three-tier-app-database:latest
-        docker push dev126712/dockerized-three-tier-app-proxy:latest
+        docker push "$IMAGE_NAME"
+        echo "::endgroup::"
 
+    # --- Frontend Service (Conditional Build, Scan, Push) ---
+    - name: Build, Scan, and Push Frontend Image
+      if: env.RUN_FRONTEND == 'true'
+      run: |
+        IMAGE_NAME="dev126712/dockerized-three-tier-app-frontend:latest"
+        
+        echo "::group::Building Frontend"
+        docker build ./frontend/ -t "$IMAGE_NAME"
+        echo "::endgroup::"
+
+        echo "::group::Scanning Frontend with Trivy"
+        trivy image \
+          --exit-code 1 \
+          --ignore-unfixed \
+          --severity HIGH,CRITICAL \
+          "$IMAGE_NAME"
+        echo "::endgroup::"
+        
+        echo "::group::Pushing Frontend Image to Docker Hub"
+        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push "$IMAGE_NAME"
+        echo "::endgroup::"
+
+    # --- Database Service (Conditional Build, Scan, Push) ---
+    - name: Build, Scan, and Push Database Image
+      if: env.RUN_DATABASE == 'true'
+      run: |
+        IMAGE_NAME="dev126712/dockerized-three-tier-app-database:latest"
+        
+        echo "::group::Building Database"
+        docker build ./database/ -t "$IMAGE_NAME"
+        echo "::endgroup::"
+
+        echo "::group::Scanning Database with Trivy"
+        trivy image \
+          --exit-code 1 \
+          --ignore-unfixed \
+          --severity HIGH,CRITICAL \
+          "$IMAGE_NAME"
+        echo "::endgroup::"
+        
+        echo "::group::Pushing Database Image to Docker Hub"
+        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push "$IMAGE_NAME"
+        echo "::endgroup::"
+
+    # --- Proxy Service (Conditional Build, Scan, Push) ---
+    - name: Build, Scan, and Push Proxy Image
+      if: env.RUN_PROXY == 'true'
+      run: |
+        IMAGE_NAME="dev126712/dockerized-three-tier-app-proxy:latest"
+        
+        echo "::group::Building Proxy"
+        docker build ./proxy/ -t "$IMAGE_NAME"
+        echo "::endgroup::"
+
+        echo "::group::Scanning Proxy with Trivy"
+        trivy image \
+          --exit-code 1 \
+          --ignore-unfixed \
+          --severity HIGH,CRITICAL \
+          "$IMAGE_NAME"
+        echo "::endgroup::"
+        
+        echo "::group::Pushing Proxy Image to Docker Hub"
+        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push "$IMAGE_NAME"
+        echo "::endgroup::"
+        
+    - name: Log Skipping Status
+      if: env.RUN_BACKEND != 'true' && env.RUN_FRONTEND != 'true' && env.RUN_DATABASE != 'true' && env.RUN_PROXY != 'true'
+      run: echo "No service changes detected. Skipping all build/scan/push steps."
+
+    # NOTE: The setup steps related to 'docker/setup-buildx-action@v2', 'Create output directory',
+    # and 'Download Trivy vulnerability database' were removed or integrated, as they are not necessary 
+    # for this simpler, single-runner pipeline structure. Trivy downloads the DB on its first run automatically.
