@@ -4,12 +4,21 @@
 
 ## Workflow: Scan, Build, & Publish to Docker Hub
 
-    | Component | Image Name |
-    | --- | --- |
-    | Backend | dev126712/dockerized-three-tier-app-backend:latest |
-    | Frontend | dev126712/dockerized-three-tier-app-frontend:latest |
-    | Database | dev126712/dockerized-three-tier-app-database:latest |
-    | Proxy | dev126712/dockerized-three-tier-app-proxy:latest |
+
+
+
+
+|Component | Image Name |
+| --- | --- |
+| `Backend ` | dev126712/dockerized-three-tier-app-backend:latest |
+| `Frontend` | dev126712/dockerized-three-tier-app-frontend:latest |
+| `Database` | dev126712/dockerized-three-tier-app-database:latest |
+| `Proxy` | dev126712/dockerized-three-tier-app-proxy:latest |
+
+
+
+
+    
 
 # 📋 Automation Steps
 
