@@ -45,13 +45,35 @@ jobs:
       run: trivy image --download-db-only
 
     - name: Run Trivy vulnerability scanner
+      env:
+        DATE: $(date +%Y-%m-%d)
       run: |
-        OUTPUT_FILE="GitHub Action/Trivy Automation/scan-results-${DATE}.json"
-        mkdir -p "Github Actions/Trivy Automation"
-        trivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-frontden:latest
-        trivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-backend:latest
-        trivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-database:latest
-        trivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-proxy:latest
+        OUTPUT_FILE="GitHub Action/Trivy Automation"
+        mkdir -p "$OUTPUT_FILE"
+
+        IMAGES=(
+          "dev126712/dockerized-three-tier-app-backend:latest"
+          "dev126712/dockerized-three-tier-app-frontend:latest"
+          "dev126712/dockerized-three-tier-app-database:latest"
+          "dev126712/dockerized-three-tier-app-proxy:latest"
+        )
+
+        for IMAGE in "${IMAGES[@]}"; do
+
+          IMAGE_NAME_CLEAN=$(echo "$IMAGE" | sed 's/[^a-zA-Z0-9_-]/_/g')
+
+          OUTPUT_FILE="$OUTPUT_DIR/scan-results-${IMAGE_NAME_CLEAN}-${DATE}.json"
+          
+          echo "Scanning $IMAGE (locally built) and saving to $OUTPUT_FILE"
+          
+          trivy image \
+            --format json \
+            --ignore-unfixed \
+            --pkg-types os,library \
+            --severity CRITICAL,HIGH,MEDIUM \
+            -o "$OUTPUT_FILE" \
+            "$IMAGE"
+        done
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
