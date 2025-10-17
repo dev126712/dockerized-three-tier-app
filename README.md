@@ -1,6 +1,6 @@
 # Dockerized Three-Tier Architecture
 
-## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, and Docker Compose.
+## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, Nginx(reverse proxy) and Docker Compose.
 
 ## Project Goal (Architectural Focus)
 
@@ -83,6 +83,9 @@ dockerized-three-tier-app/
 ├── README.md
 └── .env
 ```
+
+## CI
+### I also added a enven trigger on push only for when one of the docker image have been modified and push on github
 
 
 
