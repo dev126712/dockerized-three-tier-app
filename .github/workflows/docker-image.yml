@@ -61,7 +61,7 @@ jobs:
         for IMAGE in "${IMAGES[@]}"; do
 
           
-          echo "Scanning $IMAGE (locally built) and saving to $OUTPUT_FILE"
+          echo "Scanning $IMAGE"
           
           trivy image \
             --exit-code 0 \
@@ -71,6 +71,8 @@ jobs:
             --severity CRITICAL,HIGH,MEDIUM \
             "$IMAGE"
         done
+        TRIVY_STATUS=$?
+        echo $TRIVU_STATUS
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
