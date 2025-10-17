@@ -23,3 +23,14 @@
     | 4. Push Image to Docker Hub | If the security scan passes, the workflow logs into Docker Hub using the stored secret (DOCKER_HUB_TOKEN) and pushes the newly built and validated images to the designated repository. | Deployment: Ensures only tested and scanned images are made publicly available for deployment. |
 
 ### This automated process guarantees that developers can focus on writing code while the pipeline handles the necessary packaging, security checks, and distribution tasks.
+
+
+
+
+
+
+
+| Command | Description |
+| --- | --- |
+| `git status` | List all *new or modified* files |
+| `git diff` | Show file differences that **haven't been** staged |
