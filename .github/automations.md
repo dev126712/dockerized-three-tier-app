@@ -24,6 +24,23 @@
 
 ### The workflow runs on every push to the main branch, but only if changes are detected in one of the service Dockerfiles or the GitHub workflow configuration itself.
 
+
+
+
+
+| Step | Purpose | Security Implication |
+| --- | --- | --- |
+| `1. Build the Docker Images ` | Compiles and packages the application code into the four distinct Docker images, tagging them with :latest locally. | Ensures the resulting artifacts are ready for the security check. |
+| ` 2. Install Trivy` | Installs Trivy, a comprehensive open-source vulnerability scanner, onto the GitHub Actions runner environment. | Sets up the necessary tool for performing deep security analysis. |
+| `3. Run Trivy Vulnerability Scanner` | Scans all four locally built Docker images. The scan checks the operating system packages and application dependencies for known security vulnerabilities. | Quality Gate: This is the core security step. It specifically checks for CRITICAL, HIGH, and MEDIUM severity vulnerabilities to ensure all published images meet a minimum security standard. |
+| `4. Push Image to Docker Hub` | If the security scan passes, the workflow logs into Docker Hub using the stored secret (DOCKER_HUB_TOKEN) and pushes the newly built and validated images to the designated repository. | Deployment: Ensures only tested and scanned images are made publicly available for deployment. |
+
+
+
+
+
+
+
     | Step | Purpose | Security Implication |
     | --- | --- | --- |
     | 1. Build the Docker Images | Compiles and packages the application code into the four distinct Docker images, tagging them with :latest locally. | Ensures the resulting artifacts are ready for the security check. |
