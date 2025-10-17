@@ -64,6 +64,7 @@ jobs:
           echo "Scanning $IMAGE (locally built) and saving to $OUTPUT_FILE"
           
           trivy image \
+            --exit-code 1 \
             --format json \
             --ignore-unfixed \
             --pkg-types os,library \
