@@ -48,8 +48,6 @@ jobs:
       env:
         DATE: $(date +%Y-%m-%d)
       run: |
-        OUTPUT_FILE="GitHub Action/Trivy Automation"
-        mkdir -p "$OUTPUT_FILE"
 
         IMAGES=(
           "dev126712/dockerized-three-tier-app-backend:latest"
@@ -68,7 +66,6 @@ jobs:
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH,MEDIUM \
-            -o "$OUTPUT_FILE" \
             "$IMAGE"
         done
 
