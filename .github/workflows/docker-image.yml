@@ -60,9 +60,6 @@ jobs:
 
         for IMAGE in "${IMAGES[@]}"; do
 
-          IMAGE_NAME_CLEAN=$(echo "$IMAGE" | tr '/:' '_')
-
-          OUTPUT_FILE="$OUTPUT_DIR/scan-results-${IMAGE_NAME_CLEAN}-${DATE}.json"
           
           echo "Scanning $IMAGE (locally built) and saving to $OUTPUT_FILE"
           
