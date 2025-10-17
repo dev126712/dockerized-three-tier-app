@@ -70,9 +70,13 @@ jobs:
             --pkg-types os,library \
             --severity CRITICAL,HIGH,MEDIUM \
             "$IMAGE"
+
+            TRIVY_STATUS=$?
+            echo $TRIVU_STATUS
+
+            echo "|||||||"""""" scan result: $TRIVU_STATUS |||||||||||||||"
         done
-        TRIVY_STATUS=$?
-        echo $TRIVU_STATUS
+        
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
