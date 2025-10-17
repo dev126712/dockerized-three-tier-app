@@ -11,48 +11,51 @@ on:
       - 'proxy/Dockerfile'
 
 jobs:
-
-  scan:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: heckout repo 
-      uses: actions/checkout@v4
-
-    - name: Create output directory
-      run: mkdir -p "Github Actions/Trivy Automation"
-
-    - name: Instann Trivy
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl
-        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
-    
-    - name: DownloadTrivy vulnerability database
-      run: trivy image --download-db-only
-
-    - name: Run Trivy vulnerability scanner
-      run: |
-        OUTPUT_FILE="GitHub Action/Trivy Automation/scan-results-${DATE}.json"
-        mkdir -p "Github Actions/Trivy Automation"
-        trivy image --format json --ignore-unfixed --vuln-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" nginx:latest
-
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
-
-
   build-and-publish:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: checkout repo
+      uses: actions/checkout@v4
+
     - name: Build the Docker images
       run: |
         docker build ./backend/ -t dev126712/dockerized-three-tier-app-backend:latest
         docker build ./frontend/ -t dev126712/dockerized-three-tier-app-frontend:latest
         docker build ./database/ -t dev126712/dockerized-three-tier-app-database:latest
         docker build ./proxy/ -t dev126712/dockerized-three-tier-app-proxy:latest
+
+    - name: set up docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Create output directory
+      run: mkdir -p "Github Actions/Trivy Automation"
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+
+    #- name: Login to GitHub Container Registery
+    #  run: echo "{{ secrets.GHCR_PAT }}" | docker login ghcr.io -u {{ github.actor }} --password-stdin
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+
+    - name: Run Trivy vulnerability scanner
+      run: |
+        OUTPUT_FILE="GitHub Action/Trivy Automation/scan-results-${DATE}.json"
+        mkdir -p "Github Actions/Trivy Automation"
+        trivy image --format json --ignore-unfixed --vuln-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" ttrivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-frontden:latest
+        trivy image --format json --ignore-unfixed --vuln-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" ttrivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-backend:latest
+        trivy image --format json --ignore-unfixed --vuln-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" ttrivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-database:latest
+        trivy image --format json --ignore-unfixed --vuln-type 0s,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" ttrivy image --format json --ignore-unfixed --vuln-type os,library --severity CRITICAL,HIGH,MEDIUM,LOW -o "$OUTPUT_FILE" dev126712/dockerized-three-tier-app-proxy:latest
+
+    - name: Verify scan results exist
+      run: ls -l "Github Actions/Trivy Automation"
+      
     - name: push image to docker hub
       run: |
         docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -60,4 +63,4 @@ jobs:
         docker push dev126712/dockerized-three-tier-app-frontend:latest
         docker push dev126712/dockerized-three-tier-app-database:latest
         docker push dev126712/dockerized-three-tier-app-proxy:latest
-  
+
