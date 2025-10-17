@@ -85,7 +85,7 @@ dockerized-three-tier-app/
 ```
 
 ## CI
-### I also added a enven trigger on push only for when one of the docker image have been modified and push on github
+### I also added a enven trigger on push only for when one of the docker image have been modified and push on github with github action
 
 
 
