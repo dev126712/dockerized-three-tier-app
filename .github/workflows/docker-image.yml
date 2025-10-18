@@ -76,9 +76,9 @@ jobs:
             echo "making the diractory first loop"
             mkdir -p "Github Actions/Trivy Automation"
             echo "first loop done"
-            ((count++))
-            echo "count added"
           fi
+          ((count++))
+          echo "count added"
             
           echo "ceate output file"
           OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
