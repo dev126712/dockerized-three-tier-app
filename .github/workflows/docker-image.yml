@@ -53,10 +53,10 @@ jobs:
 
         docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
         IMAGES=(
-          "dev126712/dockerized-three-tier-app-backend:$TIMESTAMP"
-          "dev126712/dockerized-three-tier-app-frontend:$TIMESTAMP"
-          "dev126712/dockerized-three-tier-app-database:$TIMESTAMP"
-          "dev126712/dockerized-three-tier-app-proxy:$TIMESTAMP"
+          "dev126712/dockerized-three-tier-app-backend:latest"
+          "dev126712/dockerized-three-tier-app-frontend:latest"
+          "dev126712/dockerized-three-tier-app-database:latest"
+          "dev126712/dockerized-three-tier-app-proxy:latest"
         )
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
