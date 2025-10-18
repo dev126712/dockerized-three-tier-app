@@ -72,7 +72,6 @@ jobs:
           TRIVY_STATUS=$?
           
           if [ $TRIVY_STATUS == 0 ]; then
-            docker tag $IMAGE $IMAGE-$TIMESTAMP
             docker push $IMAGE
             echo "$IMAGE pushed to Docke Hub"
           else 
