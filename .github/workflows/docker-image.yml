@@ -63,14 +63,10 @@ jobs:
           "dev126712/dockerized-three-tier-app-database:latest"
           "dev126712/dockerized-three-tier-app-proxy:latest"
         )
-
-        gitCount=0
         
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
-          
-          
-          
+       
           mkdir -p "Github Actions/Trivy Automation"
             
           echo "ceate output file"
@@ -86,16 +82,8 @@ jobs:
             > "$OUTPUT_FILE" \
             "$IMAGE" 
 
-            ls -l "Github Actions/Trivy Automation"
-
-            
-            git config --global user.email "solonoobhacker6767@gmail.com"
-            git config --global user.name "dev126712"
-            git add "Github Actions/Trivy Automation/scan-results.json"
-            git commit -m "Add trivy results (${DATE})"
-            git push
-            
-
+          ls -l "Github Actions/Trivy Automation"
+          
           TRIVY_STATUS=$?
           
           if [ $TRIVY_STATUS == 0 ]; then
@@ -105,6 +93,12 @@ jobs:
             echo "Image not push Vulnerability found"
           fi
          done
+
+         git config --global user.email "solonoobhacker6767@gmail.com"
+         git config --global user.name "dev126712"
+         git add "Github Actions/Trivy Automation/scan-results.json"
+         git commit -m "Add trivy results (${DATE})"
+         git push
          
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
