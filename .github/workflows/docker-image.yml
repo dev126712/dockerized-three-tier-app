@@ -64,7 +64,6 @@ jobs:
           "dev126712/dockerized-three-tier-app-proxy:latest"
         )
 
-        count=0
         gitCount=0
         
         for IMAGE in "${IMAGES[@]}"; do
@@ -72,13 +71,7 @@ jobs:
           
           
           
-          if [ "$count" -eq 0 ]; then 
-            echo "making the diractory first loop"
-            mkdir -p "Github Actions/Trivy Automation"
-            echo "first loop done"
-          fi
-          ((count++))
-          echo "count added"
+          mkdir -p "Github Actions/Trivy Automation"
             
           echo "ceate output file"
           OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
