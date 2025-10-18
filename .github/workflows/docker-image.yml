@@ -73,6 +73,13 @@ jobs:
 
             TRIVY_STATUS=$?
             echo "||||||||||||||||||||||||||||||||||||||||||||||||||||||||| scan result Trivy status: $TRIVY_STATUS |||||||||||||||||||||||||||||||||||||||||||||||"
+          
+          if TRIVY_STATUS == 0; then
+            echo "Status is 0"
+          elif TRIVY_STATUS == 0; then
+            echo "status is not equal to 0"
+          fi
+        
         done
         
 
