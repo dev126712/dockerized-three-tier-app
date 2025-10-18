@@ -71,7 +71,7 @@ jobs:
             --severity CRITICAL,HIGH,MEDIUM \
             "$IMAGE"
 
-            TRIVY_STATUS=$?
+            TRIVY_STATUS= $?
             echo $TRIVU_STATUS
 
             echo "|||||||"""""" scan result: $TRIVU_STATUS |||||||||||||||"
