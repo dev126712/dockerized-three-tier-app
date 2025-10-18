@@ -44,7 +44,9 @@ jobs:
       run: trivy image --download-db-only
 
     - name: create tag with date and time
-      run: TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+      run: |
+        TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+        echo "$TIMESTAMP"
 
     - name: Run Trivy vulnerability scanner
       run: |
