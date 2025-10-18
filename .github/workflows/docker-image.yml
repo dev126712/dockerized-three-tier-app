@@ -1,5 +1,4 @@
 name: Scan Docker Images, Build Docker Images & Publish it to Docker Hub
-
 on:
   push:
     branches:
