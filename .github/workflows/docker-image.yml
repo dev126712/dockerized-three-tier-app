@@ -77,11 +77,12 @@ jobs:
             mkdir -p "Github Actions/Trivy Automation"
             echo "first loop done"
             ((count++))
+            echo "count added"
           fi
             
-          
+          echo "ceate output file"
           OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
-          
+          echo "output file created"
           
           trivy image \
             --exit-code 0 \
