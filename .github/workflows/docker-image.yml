@@ -58,6 +58,8 @@ jobs:
           "dev126712/dockerized-three-tier-app-proxy:latest"
         )
 
+        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+
         for IMAGE in "${IMAGES[@]}"; do
 
           
@@ -72,12 +74,12 @@ jobs:
             "$IMAGE"
 
             TRIVY_STATUS=$?
-            echo "||||||||||||||||||||||||||||||||||||||||||||||||||||||||| scan result Trivy status: $TRIVY_STATUS |||||||||||||||||||||||||||||||||||||||||||||||"
-          
+            
             if [ $TRIVY_STATUS == 0 ]; then
-              echo "Status is 0"
-            elif TRIVY_STATUS == 0; then
-              echo "status is not equal to 0"
+              docker push $IMAGE
+              echo "$IMAGE pushed to Docke Hub"
+            elif 
+              echo "Image not push Vulnerability found"
             fi
         
          done
@@ -86,11 +88,5 @@ jobs:
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
 
-    - name: push image to docker hub
-      run: |
-        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker push dev126712/dockerized-three-tier-app-backend:latest
-        docker push dev126712/dockerized-three-tier-app-frontend:latest
-        docker push dev126712/dockerized-three-tier-app-database:latest
-        docker push dev126712/dockerized-three-tier-app-proxy:latest
+
 
