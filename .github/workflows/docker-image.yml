@@ -65,7 +65,7 @@ jobs:
         )
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
-          OUTPUT_FILE="Github Actions/Trivy Automation/scan-results-${DATE}.json"
+          OUTPUT_FILE="Github Actions/Trivy Automation/scan-results-$IMAGE.json"
           mkdir -p "Github Actions/Trivy Automation $IMAGE"
           
           trivy image \
@@ -74,7 +74,7 @@ jobs:
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH,MEDIUM \
-            -o "$OUTPUT_FILE" \
+            > "$OUTPUT_FILE" \
             "$IMAGE" 
 
             ls -l "Github Actions/Trivy Automation $IMAGE"
