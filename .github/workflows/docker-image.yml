@@ -80,7 +80,7 @@ jobs:
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH,MEDIUM \
-            > "$OUTPUT_FILE" \
+            >> "$OUTPUT_FILE" \
             "$IMAGE" 
 
           ls -l "Github Actions/Trivy Automation"
