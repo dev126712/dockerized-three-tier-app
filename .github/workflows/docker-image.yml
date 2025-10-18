@@ -66,14 +66,14 @@ jobs:
             --severity CRITICAL,HIGH,MEDIUM \
             "$IMAGE"
 
-            TRIVY_STATUS=$?
-            
-            if [ $TRIVY_STATUS == 0 ]; then
-              docker push $IMAGE
-              echo "$IMAGE pushed to Docke Hub"
-            elif 
-              echo "Image not push Vulnerability found"
-            fi
+          TRIVY_STATUS=$?
+          
+          if [ $TRIVY_STATUS == 0 ]; then
+            docker push $IMAGE
+            echo "$IMAGE pushed to Docke Hub"
+          else 
+            echo "Image not push Vulnerability found"
+          fi
          done
          
     - name: Verify scan results exist
