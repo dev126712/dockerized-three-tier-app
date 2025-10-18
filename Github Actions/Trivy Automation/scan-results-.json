@@ -1,31 +1,30 @@
 {
   "SchemaVersion": 2,
-  "CreatedAt": "2025-10-18T17:34:47.979417062Z",
-  "ArtifactName": "dev126712/dockerized-three-tier-app-backend:latest",
+  "CreatedAt": "2025-10-18T17:34:55.557576455Z",
+  "ArtifactName": "dev126712/dockerized-three-tier-app-frontend:latest",
   "ArtifactType": "container_image",
   "Metadata": {
     "OS": {
       "Family": "alpine",
       "Name": "3.21.3"
     },
-    "ImageID": "sha256:1a72ac80a08d11c532c3d9348980a70a5bd733aec180511f054dcc17b41ddf2b",
+    "ImageID": "sha256:4dfda1f80999992cfb3bd879db698c635dc609f6e32808e16d0c735dc8ad0124",
     "DiffIDs": [
       "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350",
       "sha256:0b1f26057bd0491a50f56fd7f2983bd3ad478511f12fff2b361a97c50cb5828b",
       "sha256:f3b40b0cdb1caad1db11b8589c814f85b3e69f3ed33f64a686e465e74a47c9f0",
       "sha256:82140d9a70a706b719632fec8e4d083419fc62159f94afec80dcabc52e0ed0d2",
       "sha256:52db1715a7714b196897365bf39688e21fe209e06a3093924d9d73def72909b4",
-      "sha256:814b581bb3c6005978467198fec6249604348cbf5cc72bf28e234b8f879b9ba4",
-      "sha256:ff57b3506561a3952686985571119b9be8c02572128a87a00c92e635065de41b",
-      "sha256:8a52b111e0d27010879e0b83f6aef38b91f70b2043d4ab5199c36f85205aac7a",
-      "sha256:47f0869a8758d30da3a2425168913a1aa2470e41439cf16a59e13d4b3391a096"
+      "sha256:51df7d9b261713e9ad07247d20c008ad9c5d0d5d99b76c3fc2e0adbcad5efbf6",
+      "sha256:3108100b7df1e1100c157277ee498ef0e1baabe6641dabb0353b5e5924247429",
+      "sha256:41e4b59b987e2da6ee0ed91419d8eb52a9363b80424e6c42237aa0d8ae8c08a6"
     ],
     "RepoTags": [
-      "dev126712/dockerized-three-tier-app-backend:latest"
+      "dev126712/dockerized-three-tier-app-frontend:latest"
     ],
     "ImageConfig": {
       "architecture": "amd64",
-      "created": "2025-10-18T17:34:07.938585567Z",
+      "created": "2025-10-18T17:34:11.139346606Z",
       "history": [
         {
           "created": "2025-02-14T03:28:36Z",
@@ -83,34 +82,29 @@
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-18T17:34:03Z",
+          "created": "2025-10-18T17:34:08Z",
           "created_by": "COPY package*.json . # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-18T17:34:06Z",
+          "created": "2025-10-18T17:34:11Z",
           "created_by": "RUN /bin/sh -c npm install # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-18T17:34:07Z",
-          "created_by": "RUN /bin/sh -c npm install mongodb # buildkit",
-          "comment": "buildkit.dockerfile.v0"
-        },
-        {
-          "created": "2025-10-18T17:34:07Z",
+          "created": "2025-10-18T17:34:11Z",
           "created_by": "COPY . . # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-10-18T17:34:07Z",
-          "created_by": "EXPOSE map[8080/tcp:{}]",
+          "created": "2025-10-18T17:34:11Z",
+          "created_by": "EXPOSE map[8000/tcp:{}]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-10-18T17:34:07Z",
-          "created_by": "CMD [\"node\" \"server.js\"]",
+          "created": "2025-10-18T17:34:11Z",
+          "created_by": "CMD [\"npm\" \"start\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         }
@@ -124,16 +118,15 @@
           "sha256:f3b40b0cdb1caad1db11b8589c814f85b3e69f3ed33f64a686e465e74a47c9f0",
           "sha256:82140d9a70a706b719632fec8e4d083419fc62159f94afec80dcabc52e0ed0d2",
           "sha256:52db1715a7714b196897365bf39688e21fe209e06a3093924d9d73def72909b4",
-          "sha256:814b581bb3c6005978467198fec6249604348cbf5cc72bf28e234b8f879b9ba4",
-          "sha256:ff57b3506561a3952686985571119b9be8c02572128a87a00c92e635065de41b",
-          "sha256:8a52b111e0d27010879e0b83f6aef38b91f70b2043d4ab5199c36f85205aac7a",
-          "sha256:47f0869a8758d30da3a2425168913a1aa2470e41439cf16a59e13d4b3391a096"
+          "sha256:51df7d9b261713e9ad07247d20c008ad9c5d0d5d99b76c3fc2e0adbcad5efbf6",
+          "sha256:3108100b7df1e1100c157277ee498ef0e1baabe6641dabb0353b5e5924247429",
+          "sha256:41e4b59b987e2da6ee0ed91419d8eb52a9363b80424e6c42237aa0d8ae8c08a6"
         ]
       },
       "config": {
         "Cmd": [
-          "node",
-          "server.js"
+          "npm",
+          "start"
         ],
         "Entrypoint": [
           "docker-entrypoint.sh"
@@ -150,7 +143,7 @@
   },
   "Results": [
     {
-      "Target": "dev126712/dockerized-three-tier-app-backend:latest (alpine 3.21.3)",
+      "Target": "dev126712/dockerized-three-tier-app-frontend:latest (alpine 3.21.3)",
       "Class": "os-pkgs",
       "Type": "alpine",
       "Vulnerabilities": [
