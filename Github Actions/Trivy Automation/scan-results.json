@@ -1,435 +1,239 @@
 {
   "SchemaVersion": 2,
-  "CreatedAt": "2025-10-18T17:59:22.019233303Z",
-  "ArtifactName": "dev126712/dockerized-three-tier-app-frontend:latest",
+  "CreatedAt": "2025-10-18T17:59:32.79978055Z",
+  "ArtifactName": "dev126712/dockerized-three-tier-app-database:latest",
   "ArtifactType": "container_image",
   "Metadata": {
     "OS": {
-      "Family": "alpine",
-      "Name": "3.21.3"
+      "Family": "ubuntu",
+      "Name": "22.04"
     },
-    "ImageID": "sha256:d1aae373831e500007a1c8a7c7210ddca95cac14b24552d9143c145129aef7fe",
+    "ImageID": "sha256:357941cfba47198bae967affd91383636f5cc762a2723b0bd8e8dafbe9ca3884",
     "DiffIDs": [
-      "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350",
-      "sha256:0b1f26057bd0491a50f56fd7f2983bd3ad478511f12fff2b361a97c50cb5828b",
-      "sha256:f3b40b0cdb1caad1db11b8589c814f85b3e69f3ed33f64a686e465e74a47c9f0",
-      "sha256:82140d9a70a706b719632fec8e4d083419fc62159f94afec80dcabc52e0ed0d2",
-      "sha256:2b4be71cbedf4ec5413b356db932cfa03a4ef0693ee54f618bf09b8b1cc77df3",
-      "sha256:a673fc2f023f631ed137cb5e5e5b98ed2f1e91f303ad9dd7b3bd9fe6f378f3d7",
-      "sha256:5d4c14cde7ce1e3b701072f5402af90424044164ccd6967babe641dd119a0008",
-      "sha256:078245d44493b3e151408f72cb06ff0fd7c40a6a74f7f43f6c56d38cf3270f2d"
+      "sha256:767e56ba346ae714b6e6b816baa839051145ed78cfa0e4524a86cc287b0c4b00",
+      "sha256:33ca6a9fdf4e3176af6f0803ea331e56cd6aa6492bcb3d4e4f4af624aecd1fef",
+      "sha256:a1e9551b2fc2927bbddaa74512731e1e64460f846556312d4eb945f2fce62883",
+      "sha256:97cbfaf08c3f8aaef10480098b774012efa046889533d89bceb76a358bbffe20",
+      "sha256:2523b4639fc77551e4e0ebefb1bec2e2aefcc2913fa225b49f8eb62a9736c4e9",
+      "sha256:6c4af99ba4a0da02a1fd627c82be3ee1daa0e13856534425db70a5540eb76f42",
+      "sha256:09d8f321963bdfdf89631965ef6c09166346faca44aeebae72e789040a389fa9",
+      "sha256:d458a856cfc1a9be87ff8b6310e48022b2365b3fc740cfb2b20ea8c189307ac5",
+      "sha256:f54fb878671f6e4e997ba24916f26bf788ba0364170d8314ec3ad906ca633a62"
     ],
     "RepoTags": [
-      "dev126712/dockerized-three-tier-app-frontend:latest"
+      "dev126712/dockerized-three-tier-app-database:latest"
     ],
     "ImageConfig": {
       "architecture": "amd64",
-      "created": "2025-10-18T17:58:33.774449629Z",
+      "created": "2025-10-18T17:58:42.017381168Z",
       "history": [
         {
-          "created": "2025-02-14T03:28:36Z",
-          "created_by": "ADD alpine-minirootfs-3.21.3-x86_64.tar.gz / # buildkit",
+          "created": "2025-10-01T07:05:07Z",
+          "created_by": "/bin/sh -c #(nop)  ARG RELEASE",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-01T07:05:07Z",
+          "created_by": "/bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-01T07:05:07Z",
+          "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.ref.name=ubuntu",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-01T07:05:07Z",
+          "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.version=22.04",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-01T07:05:09Z",
+          "created_by": "/bin/sh -c #(nop) ADD file:32d41b6329e8f89fa4ac92ef97c04b7cfd5e90fb74e1509c3e27d7c91195b7c7 in / "
+        },
+        {
+          "created": "2025-10-01T07:05:10Z",
+          "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/bash\"]",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tgroupadd --gid 999 --system mongodb; \tuseradd --uid 999 --system --gid mongodb --home-dir /data/db mongodb; \tmkdir -p /data/db /data/configdb; \tchown -R mongodb:mongodb /data/db /data/configdb # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-02-14T03:28:36Z",
-          "created_by": "CMD [\"/bin/sh\"]",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tjq \t\tnumactl \t\tprocps \t; \trm -rf /var/lib/apt/lists/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV GOSU_VERSION=1.19",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-03-27T14:23:08Z",
-          "created_by": "ENV NODE_VERSION=18.20.8",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV JSYAML_VERSION=3.13.1",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-03-27T14:23:08Z",
-          "created_by": "RUN /bin/sh -c addgroup -g 1000 node     \u0026\u0026 adduser -u 1000 -G node -s /bin/sh -D node     \u0026\u0026 apk add --no-cache         libstdc++     \u0026\u0026 apk add --no-cache --virtual .build-deps         curl     \u0026\u0026 ARCH= OPENSSL_ARCH='linux*' \u0026\u0026 alpineArch=\"$(apk --print-arch)\"       \u0026\u0026 case \"${alpineArch##*-}\" in         x86_64) ARCH='x64' CHECKSUM=\"2c75d5d562d3ffc049ca1bbea65b68ae6bd0ec50ed04b1f606e065eaf35e8599\" OPENSSL_ARCH=linux-x86_64;;         x86) OPENSSL_ARCH=linux-elf;;         aarch64) OPENSSL_ARCH=linux-aarch64;;         arm*) OPENSSL_ARCH=linux-armv4;;         ppc64le) OPENSSL_ARCH=linux-ppc64le;;         s390x) OPENSSL_ARCH=linux-s390x;;         *) ;;       esac   \u0026\u0026 if [ -n \"${CHECKSUM}\" ]; then     set -eu;     curl -fsSLO --compressed \"https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\";     echo \"$CHECKSUM  node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" | sha256sum -c -       \u0026\u0026 tar -xJf \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner       \u0026\u0026 ln -s /usr/local/bin/node /usr/local/bin/nodejs;   else     echo \"Building from source\"     \u0026\u0026 apk add --no-cache --virtual .build-deps-full         binutils-gold         g++         gcc         gnupg         libgcc         linux-headers         make         python3         py-setuptools     \u0026\u0026 export GNUPGHOME=\"$(mktemp -d)\"     \u0026\u0026 for key in       C0D6248439F1D5604AAFFB4021D900FFDB233756       DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7       CC68F5A3106FF448322E48ED27F5E38D5B0A215F       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4       C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C       108F52B48DB57BB0CC439B2997B01419BD92F80A       A363A499291CBBC940DD62E41F10027AF002F8B0     ; do       gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||       gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;     done     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\"     \u0026\u0026 gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc     \u0026\u0026 gpgconf --kill all     \u0026\u0026 rm -rf \"$GNUPGHOME\"     \u0026\u0026 grep \" node-v$NODE_VERSION.tar.xz\\$\" SHASUMS256.txt | sha256sum -c -     \u0026\u0026 tar -xf \"node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 cd \"node-v$NODE_VERSION\"     \u0026\u0026 ./configure     \u0026\u0026 make -j$(getconf _NPROCESSORS_ONLN) V=     \u0026\u0026 make install     \u0026\u0026 apk del .build-deps-full     \u0026\u0026 cd ..     \u0026\u0026 rm -Rf \"node-v$NODE_VERSION\"     \u0026\u0026 rm \"node-v$NODE_VERSION.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt;   fi   \u0026\u0026 rm -f \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\"   \u0026\u0026 find /usr/local/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name \"$OPENSSL_ARCH\" -exec rm -rf {} \\;   \u0026\u0026 apk del .build-deps   \u0026\u0026 node --version   \u0026\u0026 npm --version # buildkit",
-          "comment": "buildkit.dockerfile.v0"
-        },
-        {
-          "created": "2025-03-27T14:23:08Z",
-          "created_by": "ENV YARN_VERSION=1.22.22",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV JSYAML_CHECKSUM=662e32319bdd378e91f67578e56a34954b0a2e33aca11d70ab9f4826af24b941",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-03-27T14:23:08Z",
-          "created_by": "RUN /bin/sh -c apk add --no-cache --virtual .build-deps-yarn curl gnupg tar   \u0026\u0026 export GNUPGHOME=\"$(mktemp -d)\"   \u0026\u0026 for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;   done   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\"   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\"   \u0026\u0026 gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 gpgconf --kill all   \u0026\u0026 rm -rf \"$GNUPGHOME\"   \u0026\u0026 mkdir -p /opt   \u0026\u0026 tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg   \u0026\u0026 rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 apk del .build-deps-yarn   \u0026\u0026 yarn --version   \u0026\u0026 rm -rf /tmp/* # buildkit",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tgnupg \t\twget \t; \trm -rf /var/lib/apt/lists/*; \t\tdpkgArch=\"$(dpkg --print-architecture | awk -F- '{ print $NF }')\"; \twget -O /usr/local/bin/gosu \"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch\"; \twget -O /usr/local/bin/gosu.asc \"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc\"; \texport GNUPGHOME=\"$(mktemp -d)\"; \tgpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \tgpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" /usr/local/bin/gosu.asc; \t\tmkdir -p /opt/js-yaml/; \twget -O /opt/js-yaml/js-yaml.tgz https://registry.npmjs.org/js-yaml/-/js-yaml-${JSYAML_VERSION}.tgz; \techo \"$JSYAML_CHECKSUM */opt/js-yaml/js-yaml.tgz\" | sha256sum -c -; \ttar -xz --strip-components=1 -f /opt/js-yaml/js-yaml.tgz -C /opt/js-yaml package/dist/js-yaml.js package/package.json; \trm /opt/js-yaml/js-yaml.tgz; \tln -s /opt/js-yaml/dist/js-yaml.js /js-yaml.js; \t\texport GNUPGHOME=\"$(mktemp -d)\"; \twget -O KEYS 'https://pgp.mongodb.com/server-7.0.asc'; \tgpg --batch --import KEYS; \tmkdir -p /etc/apt/keyrings; \tgpg --batch --export --armor 'E58830201F7DD82CD808AA84160D26BB1785BA38' \u003e /etc/apt/keyrings/mongodb.asc; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" KEYS; \t\tapt-mark auto '.*' \u003e /dev/null; \tapt-mark manual $savedAptMark \u003e /dev/null; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \t\tchmod +x /usr/local/bin/gosu; \tgosu --version; \tgosu nobody true # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-03-27T14:23:08Z",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "RUN /bin/sh -c mkdir /docker-entrypoint-initdb.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ARG MONGO_PACKAGE=mongodb-org",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ARG MONGO_REPO=repo.mongodb.org",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV MONGO_PACKAGE=mongodb-org MONGO_REPO=repo.mongodb.org",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV MONGO_MAJOR=7.0",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "RUN |2 MONGO_PACKAGE=mongodb-org MONGO_REPO=repo.mongodb.org /bin/sh -c echo \"deb [ signed-by=/etc/apt/keyrings/mongodb.asc ] http://$MONGO_REPO/apt/ubuntu jammy/${MONGO_PACKAGE%-unstable}/$MONGO_MAJOR multiverse\" | tee \"/etc/apt/sources.list.d/${MONGO_PACKAGE%-unstable}.list\" # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV MONGO_VERSION=7.0.25",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "RUN |2 MONGO_PACKAGE=mongodb-org MONGO_REPO=repo.mongodb.org /bin/sh -c set -x \t\u0026\u0026 export DEBIAN_FRONTEND=noninteractive \t\u0026\u0026 apt-get update \t\u0026\u0026 apt-get install -y \t\t${MONGO_PACKAGE}=$MONGO_VERSION \t\t${MONGO_PACKAGE}-server=$MONGO_VERSION \t\t${MONGO_PACKAGE}-shell=$MONGO_VERSION \t\t${MONGO_PACKAGE}-mongos=$MONGO_VERSION \t\t${MONGO_PACKAGE}-tools=$MONGO_VERSION \t\t${MONGO_PACKAGE}-database=$MONGO_VERSION \t\t${MONGO_PACKAGE}-database-tools-extra=$MONGO_VERSION \t\u0026\u0026 rm -rf /var/lib/apt/lists/* \t\u0026\u0026 rm -rf /var/lib/mongodb \t\u0026\u0026 mv /etc/mongod.conf /etc/mongod.conf.orig # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "VOLUME [/data/db /data/configdb]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "ENV HOME=/data/db",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-06T23:08:34Z",
           "created_by": "COPY docker-entrypoint.sh /usr/local/bin/ # buildkit",
           "comment": "buildkit.dockerfile.v0"
         },
         {
-          "created": "2025-03-27T14:23:08Z",
+          "created": "2025-10-06T23:08:34Z",
           "created_by": "ENTRYPOINT [\"docker-entrypoint.sh\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-03-27T14:23:08Z",
-          "created_by": "CMD [\"node\"]",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "EXPOSE map[27017/tcp:{}]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-10-18T17:58:25Z",
-          "created_by": "WORKDIR /app",
-          "comment": "buildkit.dockerfile.v0"
-        },
-        {
-          "created": "2025-10-18T17:58:31Z",
-          "created_by": "COPY package*.json . # buildkit",
-          "comment": "buildkit.dockerfile.v0"
-        },
-        {
-          "created": "2025-10-18T17:58:33Z",
-          "created_by": "RUN /bin/sh -c npm install # buildkit",
-          "comment": "buildkit.dockerfile.v0"
-        },
-        {
-          "created": "2025-10-18T17:58:33Z",
-          "created_by": "COPY . . # buildkit",
-          "comment": "buildkit.dockerfile.v0"
-        },
-        {
-          "created": "2025-10-18T17:58:33Z",
-          "created_by": "EXPOSE map[8000/tcp:{}]",
+          "created": "2025-10-06T23:08:34Z",
+          "created_by": "CMD [\"mongod\"]",
           "comment": "buildkit.dockerfile.v0",
           "empty_layer": true
         },
         {
-          "created": "2025-10-18T17:58:33Z",
-          "created_by": "CMD [\"npm\" \"start\"]",
-          "comment": "buildkit.dockerfile.v0",
-          "empty_layer": true
+          "created": "2025-10-18T17:58:42Z",
+          "created_by": "COPY init.js /docker-entrypoint-initdb.d/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
         }
       ],
       "os": "linux",
       "rootfs": {
         "type": "layers",
         "diff_ids": [
-          "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350",
-          "sha256:0b1f26057bd0491a50f56fd7f2983bd3ad478511f12fff2b361a97c50cb5828b",
-          "sha256:f3b40b0cdb1caad1db11b8589c814f85b3e69f3ed33f64a686e465e74a47c9f0",
-          "sha256:82140d9a70a706b719632fec8e4d083419fc62159f94afec80dcabc52e0ed0d2",
-          "sha256:2b4be71cbedf4ec5413b356db932cfa03a4ef0693ee54f618bf09b8b1cc77df3",
-          "sha256:a673fc2f023f631ed137cb5e5e5b98ed2f1e91f303ad9dd7b3bd9fe6f378f3d7",
-          "sha256:5d4c14cde7ce1e3b701072f5402af90424044164ccd6967babe641dd119a0008",
-          "sha256:078245d44493b3e151408f72cb06ff0fd7c40a6a74f7f43f6c56d38cf3270f2d"
+          "sha256:767e56ba346ae714b6e6b816baa839051145ed78cfa0e4524a86cc287b0c4b00",
+          "sha256:33ca6a9fdf4e3176af6f0803ea331e56cd6aa6492bcb3d4e4f4af624aecd1fef",
+          "sha256:a1e9551b2fc2927bbddaa74512731e1e64460f846556312d4eb945f2fce62883",
+          "sha256:97cbfaf08c3f8aaef10480098b774012efa046889533d89bceb76a358bbffe20",
+          "sha256:2523b4639fc77551e4e0ebefb1bec2e2aefcc2913fa225b49f8eb62a9736c4e9",
+          "sha256:6c4af99ba4a0da02a1fd627c82be3ee1daa0e13856534425db70a5540eb76f42",
+          "sha256:09d8f321963bdfdf89631965ef6c09166346faca44aeebae72e789040a389fa9",
+          "sha256:d458a856cfc1a9be87ff8b6310e48022b2365b3fc740cfb2b20ea8c189307ac5",
+          "sha256:f54fb878671f6e4e997ba24916f26bf788ba0364170d8314ec3ad906ca633a62"
         ]
       },
       "config": {
         "Cmd": [
-          "npm",
-          "start"
+          "mongod"
         ],
         "Entrypoint": [
           "docker-entrypoint.sh"
         ],
         "Env": [
           "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-          "NODE_VERSION=18.20.8",
-          "YARN_VERSION=1.22.22"
+          "GOSU_VERSION=1.19",
+          "JSYAML_VERSION=3.13.1",
+          "JSYAML_CHECKSUM=662e32319bdd378e91f67578e56a34954b0a2e33aca11d70ab9f4826af24b941",
+          "MONGO_PACKAGE=mongodb-org",
+          "MONGO_REPO=repo.mongodb.org",
+          "MONGO_MAJOR=7.0",
+          "MONGO_VERSION=7.0.25",
+          "HOME=/data/db"
         ],
-        "WorkingDir": "/app",
-        "ArgsEscaped": true
+        "Labels": {
+          "org.opencontainers.image.ref.name": "ubuntu",
+          "org.opencontainers.image.version": "22.04"
+        },
+        "Volumes": {
+          "/data/configdb": {},
+          "/data/db": {}
+        }
       }
     }
   },
   "Results": [
     {
-      "Target": "dev126712/dockerized-three-tier-app-frontend:latest (alpine 3.21.3)",
+      "Target": "dev126712/dockerized-three-tier-app-database:latest (ubuntu 22.04)",
       "Class": "os-pkgs",
-      "Type": "alpine",
-      "Vulnerabilities": [
-        {
-          "VulnerabilityID": "CVE-2025-9230",
-          "PkgID": "libcrypto3@3.3.3-r0",
-          "PkgName": "libcrypto3",
-          "PkgIdentifier": {
-            "PURL": "pkg:apk/alpine/libcrypto3@3.3.3-r0?arch=x86_64\u0026distro=3.21.3",
-            "UID": "52ae248d1407b3d9"
-          },
-          "InstalledVersion": "3.3.3-r0",
-          "FixedVersion": "3.3.5-r0",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9230",
-          "DataSource": {
-            "ID": "alpine",
-            "Name": "Alpine Secdb",
-            "URL": "https://secdb.alpinelinux.org/"
-          },
-          "Title": "openssl: Out-of-bounds read \u0026 write in RFC 3211 KEK Unwrap",
-          "Description": "Issue summary: An application trying to decrypt CMS messages encrypted using\npassword based encryption can trigger an out-of-bounds read and write.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application. The out-of-bounds write can cause\na memory corruption which can have various consequences including\na Denial of Service or Execution of attacker-supplied code.\n\nAlthough the consequences of a successful exploit of this vulnerability\ncould be severe, the probability that the attacker would be able to\nperform it is low. Besides, password based (PWRI) encryption support in CMS\nmessages is very rarely used. For that reason the issue was assessed as\nModerate severity according to our Security Policy.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-125",
-            "CWE-787"
-          ],
-          "VendorSeverity": {
-            "amazon": 2,
-            "azure": 3,
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
-              "V3Score": 5.6
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9230",
-            "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45",
-            "https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280",
-            "https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def",
-            "https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd",
-            "https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482",
-            "https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3",
-            "https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9230"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.05Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9231",
-          "PkgID": "libcrypto3@3.3.3-r0",
-          "PkgName": "libcrypto3",
-          "PkgIdentifier": {
-            "PURL": "pkg:apk/alpine/libcrypto3@3.3.3-r0?arch=x86_64\u0026distro=3.21.3",
-            "UID": "52ae248d1407b3d9"
-          },
-          "InstalledVersion": "3.3.3-r0",
-          "FixedVersion": "3.3.5-r0",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9231",
-          "DataSource": {
-            "ID": "alpine",
-            "Name": "Alpine Secdb",
-            "URL": "https://secdb.alpinelinux.org/"
-          },
-          "Title": "openssl: Timing side-channel in SM2 algorithm on 64 bit ARM",
-          "Description": "Issue summary: A timing side-channel which could potentially allow remote\nrecovery of the private key exists in the SM2 algorithm implementation on 64 bit\nARM platforms.\n\nImpact summary: A timing side-channel in SM2 signature computations on 64 bit\nARM platforms could allow recovering the private key by an attacker..\n\nWhile remote key recovery over a network was not attempted by the reporter,\ntiming measurements revealed a timing signal which may allow such an attack.\n\nOpenSSL does not directly support certificates with SM2 keys in TLS, and so\nthis CVE is not relevant in most TLS contexts.  However, given that it is\npossible to add support for such certificates via a custom provider, coupled\nwith the fact that in such a custom provider context the private key may be\nrecoverable via remote timing measurements, we consider this to be a Moderate\nseverity issue.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as SM2 is not an approved algorithm.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-385"
-          ],
-          "VendorSeverity": {
-            "amazon": 2,
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 5.9
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9231",
-            "https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe",
-            "https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698",
-            "https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4",
-            "https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9231",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9231"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.19Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9230",
-          "PkgID": "libssl3@3.3.3-r0",
-          "PkgName": "libssl3",
-          "PkgIdentifier": {
-            "PURL": "pkg:apk/alpine/libssl3@3.3.3-r0?arch=x86_64\u0026distro=3.21.3",
-            "UID": "8f0da6147674984e"
-          },
-          "InstalledVersion": "3.3.3-r0",
-          "FixedVersion": "3.3.5-r0",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9230",
-          "DataSource": {
-            "ID": "alpine",
-            "Name": "Alpine Secdb",
-            "URL": "https://secdb.alpinelinux.org/"
-          },
-          "Title": "openssl: Out-of-bounds read \u0026 write in RFC 3211 KEK Unwrap",
-          "Description": "Issue summary: An application trying to decrypt CMS messages encrypted using\npassword based encryption can trigger an out-of-bounds read and write.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application. The out-of-bounds write can cause\na memory corruption which can have various consequences including\na Denial of Service or Execution of attacker-supplied code.\n\nAlthough the consequences of a successful exploit of this vulnerability\ncould be severe, the probability that the attacker would be able to\nperform it is low. Besides, password based (PWRI) encryption support in CMS\nmessages is very rarely used. For that reason the issue was assessed as\nModerate severity according to our Security Policy.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-125",
-            "CWE-787"
-          ],
-          "VendorSeverity": {
-            "amazon": 2,
-            "azure": 3,
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
-              "V3Score": 5.6
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9230",
-            "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45",
-            "https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280",
-            "https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def",
-            "https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd",
-            "https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482",
-            "https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3",
-            "https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9230"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.05Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        },
-        {
-          "VulnerabilityID": "CVE-2025-9231",
-          "PkgID": "libssl3@3.3.3-r0",
-          "PkgName": "libssl3",
-          "PkgIdentifier": {
-            "PURL": "pkg:apk/alpine/libssl3@3.3.3-r0?arch=x86_64\u0026distro=3.21.3",
-            "UID": "8f0da6147674984e"
-          },
-          "InstalledVersion": "3.3.3-r0",
-          "FixedVersion": "3.3.5-r0",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:08000c18d16dadf9553d747a58cf44023423a9ab010aab96cf263d2216b8b350"
-          },
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-9231",
-          "DataSource": {
-            "ID": "alpine",
-            "Name": "Alpine Secdb",
-            "URL": "https://secdb.alpinelinux.org/"
-          },
-          "Title": "openssl: Timing side-channel in SM2 algorithm on 64 bit ARM",
-          "Description": "Issue summary: A timing side-channel which could potentially allow remote\nrecovery of the private key exists in the SM2 algorithm implementation on 64 bit\nARM platforms.\n\nImpact summary: A timing side-channel in SM2 signature computations on 64 bit\nARM platforms could allow recovering the private key by an attacker..\n\nWhile remote key recovery over a network was not attempted by the reporter,\ntiming measurements revealed a timing signal which may allow such an attack.\n\nOpenSSL does not directly support certificates with SM2 keys in TLS, and so\nthis CVE is not relevant in most TLS contexts.  However, given that it is\npossible to add support for such certificates via a custom provider, coupled\nwith the fact that in such a custom provider context the private key may be\nrecoverable via remote timing measurements, we consider this to be a Moderate\nseverity issue.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as SM2 is not an approved algorithm.",
-          "Severity": "MEDIUM",
-          "CweIDs": [
-            "CWE-385"
-          ],
-          "VendorSeverity": {
-            "amazon": 2,
-            "redhat": 2,
-            "ubuntu": 2
-          },
-          "CVSS": {
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
-              "V3Score": 5.9
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2025-9231",
-            "https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe",
-            "https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698",
-            "https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4",
-            "https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2",
-            "https://nvd.nist.gov/vuln/detail/CVE-2025-9231",
-            "https://openssl-library.org/news/secadv/20250930.txt",
-            "https://ubuntu.com/security/notices/USN-7786-1",
-            "https://www.cve.org/CVERecord?id=CVE-2025-9231"
-          ],
-          "PublishedDate": "2025-09-30T14:15:41.19Z",
-          "LastModifiedDate": "2025-10-02T19:12:17.16Z"
-        }
-      ]
+      "Type": "ubuntu"
     },
     {
       "Target": "Node.js",
       "Class": "lang-pkgs",
-      "Type": "node-pkg",
-      "Vulnerabilities": [
-        {
-          "VulnerabilityID": "CVE-2024-21538",
-          "PkgID": "cross-spawn@7.0.3",
-          "PkgName": "cross-spawn",
-          "PkgPath": "usr/local/lib/node_modules/npm/node_modules/cross-spawn/package.json",
-          "PkgIdentifier": {
-            "PURL": "pkg:npm/cross-spawn@7.0.3",
-            "UID": "480da04347e2e299"
-          },
-          "InstalledVersion": "7.0.3",
-          "FixedVersion": "7.0.5, 6.0.6",
-          "Status": "fixed",
-          "Layer": {
-            "DiffID": "sha256:0b1f26057bd0491a50f56fd7f2983bd3ad478511f12fff2b361a97c50cb5828b"
-          },
-          "SeveritySource": "ghsa",
-          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21538",
-          "DataSource": {
-            "ID": "ghsa",
-            "Name": "GitHub Security Advisory npm",
-            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
-          },
-          "Title": "cross-spawn: regular expression denial of service",
-          "Description": "Versions of the package cross-spawn before 6.0.6, from 7.0.0 and before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
-          "Severity": "HIGH",
-          "CweIDs": [
-            "CWE-1333"
-          ],
-          "VendorSeverity": {
-            "amazon": 2,
-            "azure": 3,
-            "cbl-mariner": 3,
-            "ghsa": 3,
-            "redhat": 1
-          },
-          "CVSS": {
-            "ghsa": {
-              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
-              "V3Score": 7.5
-            },
-            "redhat": {
-              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:N/I:N/A:H",
-              "V3Score": 4.4
-            }
-          },
-          "References": [
-            "https://access.redhat.com/security/cve/CVE-2024-21538",
-            "https://github.com/moxystudio/node-cross-spawn",
-            "https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff",
-            "https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f",
-            "https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd",
-            "https://github.com/moxystudio/node-cross-spawn/issues/165",
-            "https://github.com/moxystudio/node-cross-spawn/pull/160",
-            "https://nvd.nist.gov/vuln/detail/CVE-2024-21538",
-            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349",
-            "https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230",
-            "https://www.cve.org/CVERecord?id=CVE-2024-21538"
-          ],
-          "PublishedDate": "2024-11-08T05:15:06.453Z",
-          "LastModifiedDate": "2025-05-20T15:16:03.53Z"
-        }
-      ]
+      "Type": "node-pkg"
+    },
+    {
+      "Target": "usr/local/bin/gosu",
+      "Class": "lang-pkgs",
+      "Type": "gobinary"
     }
   ]
 }
