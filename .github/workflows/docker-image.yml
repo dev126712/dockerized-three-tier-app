@@ -48,7 +48,7 @@ jobs:
         TIMESTAMP=$(date +%Y%m%d-%H%M%S)
         echo "$TIMESTAMP"
 
-    - name: Run Trivy vulnerability scanner
+    - name: Run Trivy vulnerability scanner && push it to Docker Hub
       run: |
 
         docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
