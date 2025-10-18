@@ -63,15 +63,16 @@ jobs:
           "dev126712/dockerized-three-tier-app-database:latest"
           "dev126712/dockerized-three-tier-app-proxy:latest"
         )
-        
-        for IMAGE in "${IMAGES[@]}"; do
-          echo "Scanning $IMAGE"
        
           mkdir -p "Github Actions/Trivy Automation"
             
           echo "ceate output file"
           OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
           echo "output file created"
+          
+        
+        for IMAGE in "${IMAGES[@]}"; do
+        echo "Scanning $IMAGE"
           
           trivy image \
             --exit-code 0 \
