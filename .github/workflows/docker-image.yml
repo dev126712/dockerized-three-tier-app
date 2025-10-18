@@ -63,9 +63,17 @@ jobs:
           "dev126712/dockerized-three-tier-app-database:latest"
           "dev126712/dockerized-three-tier-app-proxy:latest"
         )
-        mkdir -p "Github Actions/Trivy Automation"
+        
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
+          
+          count=0
+          
+          if [ count == 0 ]; then 
+            mkdir -p "Github Actions/Trivy Automation"
+            ((count++))
+          fi
+            
           
           OUTPUT_FILE="Github Actions/Trivy Automation/scan-results-$IMAGE.json"
           
