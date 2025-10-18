@@ -71,10 +71,8 @@ jobs:
             --severity CRITICAL,HIGH,MEDIUM \
             "$IMAGE"
 
-            TRIVY_STATUS= $?
-            echo $TRIVU_STATUS
-
-            echo "|||||||"""""" scan result: $TRIVU_STATUS |||||||||||||||"
+            TRIVY_STATUS=$?
+            echo "||||||||||||||||||||||||||||||||||||||||||||||||||||||||| scan result Trivy status: $TRIVY_STATUS |||||||||||||||||||||||||||||||||||||||||||||||"
         done
         
 
