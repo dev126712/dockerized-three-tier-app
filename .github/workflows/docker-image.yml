@@ -50,10 +50,10 @@ jobs:
 
         docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
         IMAGES=(
-          "dev126712/dockerized-three-tier-app-backend:latest"
-          "dev126712/dockerized-three-tier-app-frontend:latest"
-          "dev126712/dockerized-three-tier-app-database:latest"
-          "dev126712/dockerized-three-tier-app-proxy:latest"
+          "dev126712/dockerized-three-tier-app-backend:latest-(date +'%Y-%m-%d %H:%M:%S')"
+          "dev126712/dockerized-three-tier-app-frontend:latest-(date +'%Y-%m-%d %H:%M:%S')"
+          "dev126712/dockerized-three-tier-app-database:latest-(date +'%Y-%m-%d %H:%M:%S')"
+          "dev126712/dockerized-three-tier-app-proxy:latest-(date +'%Y-%m-%d %H:%M:%S')"
         )
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
@@ -69,7 +69,7 @@ jobs:
           TRIVY_STATUS=$?
           
           if [ $TRIVY_STATUS == 0 ]; then
-            docker push $IMAGE-(date +'%Y-%m-%d %H:%M:%S')
+            docker push $IMAGE
             echo "$IMAGE pushed to Docke Hub"
           else 
             echo "Image not push Vulnerability found"
