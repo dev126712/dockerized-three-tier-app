@@ -1,6 +1,6 @@
 {
   "SchemaVersion": 2,
-  "CreatedAt": "2025-10-18T18:56:33.521435261Z",
+  "CreatedAt": "2025-10-18T20:13:13.937112143Z",
   "ArtifactName": "dev126712/dockerized-three-tier-app-proxy:latest",
   "ArtifactType": "container_image",
   "Metadata": {
