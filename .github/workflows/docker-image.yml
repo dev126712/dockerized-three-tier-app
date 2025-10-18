@@ -63,11 +63,14 @@ jobs:
           "dev126712/dockerized-three-tier-app-database:latest"
           "dev126712/dockerized-three-tier-app-proxy:latest"
         )
+
+        count=0
+        gitCount=0
         
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
           
-          count=0
+          
           
           if [ count == 0 ]; then 
             mkdir -p "Github Actions/Trivy Automation"
@@ -89,7 +92,7 @@ jobs:
 
             ls -l "Github Actions/Trivy Automation"
 
-            gitCount=0
+            
             if [ gitCount == 3 ]; then
               git config --global user.email "solonoobhacker6767@gmail.com"
               git config --global user.name "dev126712"
