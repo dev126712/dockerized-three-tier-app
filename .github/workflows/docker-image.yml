@@ -72,7 +72,7 @@ jobs:
             --pkg-types os,library \
             --severity CRITICAL,HIGH,MEDIUM \
             -o "$OUTPUT_FILE" \
-            "$IMAGE"
+            "$IMAGE" 
 
             ls -l "Github Actions/Trivy Automation $IMAGE"
 
