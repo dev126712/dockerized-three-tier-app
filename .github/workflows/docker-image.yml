@@ -79,7 +79,7 @@ jobs:
             --ignore-unfixed \
             --pkg-types os,library \
             --severity CRITICAL,HIGH,MEDIUM \
-            >>  "$OUTPUT_FILE $(date +'%Y-%m-%d %H:%M:%S')" \
+            >>  "$OUTPUT_FILE" \
             "$IMAGE" 
 
           ls -l "Github Actions/Trivy Automation"
