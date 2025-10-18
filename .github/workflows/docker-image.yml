@@ -73,7 +73,7 @@ jobs:
           
           if [ $TRIVY_STATUS == 0 ]; then
             docker push $IMAGE
-            docke tag $IMAGE $IMAGE-$TIMESTAMP
+            docker tag $IMAGE $IMAGE-$TIMESTAMP
             echo "$IMAGE pushed to Docke Hub"
           else 
             echo "Image not push Vulnerability found"
