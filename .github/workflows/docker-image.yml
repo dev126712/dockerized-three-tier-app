@@ -73,7 +73,9 @@ jobs:
           
           
           if [ "$count" -eq 0 ]; then 
+            echo "making the diractory first loop"
             mkdir -p "Github Actions/Trivy Automation"
+            echo "first loop done"
             ((count++))
           fi
             
