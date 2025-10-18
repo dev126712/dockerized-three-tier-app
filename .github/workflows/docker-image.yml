@@ -67,6 +67,7 @@ jobs:
         for IMAGE in "${IMAGES[@]}"; do
           echo "Scanning $IMAGE"
           
+          OUTPUT_FILE="Github Actions/Trivy Automation/scan-results-$IMAGE.json"
           mkdir -p "Github Actions/Trivy Automation"
           
           trivy image \
@@ -82,7 +83,7 @@ jobs:
 
             git config --global user.email "solonoobhacker6767@gmail.com"
             git config --global user.name "dev126712"
-            git add "Github Actions/Trivy Automation/scan-results.json"
+            git add "Github Actions/Trivy Automation/scan-results-$IMAGE.json"
             git commit -m "Add trivy results (${DATE})"
             git push
             
