@@ -3,7 +3,7 @@ services:
     build:
       context: ./proxy
       dockerfile: Dockerfile
-    environment: # Explicitly pass the ports Nginx needs for proxy_pass
+    environment: 
       - FRONTEND_SERVER_ADDR=$FRONTEN_CONTAINER_NAME:$FRONTEND_PORT
       - API_SERVER_PORT=${API_SERVER_PORT}
     volumes:
