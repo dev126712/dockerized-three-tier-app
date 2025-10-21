@@ -15,7 +15,7 @@ services:
     depends_on:
       - api-server
     networks: 
-    - ${DOCKER_NETWORK}
+    - frontend
 
   api-server:
     build:
@@ -28,7 +28,8 @@ services:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
     restart: always
     networks: 
-    - ${DOCKER_NETWORK}
+    - backend
+    - db
     depends_on:
       mongo:
         condition: service_healthy
@@ -44,7 +45,8 @@ services:
       dockerfile: Dockerfile
     container_name: ${FRONTEN_CONTAINER_NAME}
     networks:
-    - ${DOCKER_NETWORK} 
+    - frontend
+    - backend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     depends_on:
@@ -60,7 +62,7 @@ services:
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     networks:
-    - ${DOCKER_NETWORK} 
+    - db
     restart: unless-stopped
     volumes:
       - database-v:/data/db
@@ -85,13 +87,19 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_EXPRESS_PASSWORD}
       ME_CONFIG_MONGODB_AUTH_DATABASE: ${MONGODB_EXPRESS_USERNAME}
     networks:
-    - ${DOCKER_NETWORK}
+    - db
     depends_on:
       mongo:
         condition: service_healthy
 
 networks:
   mynetwork:
+    driver: bridge
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+  db:
     driver: bridge
 
 volumes:
