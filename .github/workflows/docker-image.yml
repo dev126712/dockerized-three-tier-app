@@ -9,6 +9,7 @@ on:
       - 'database/Dockerfile'
       - 'proxy/Dockerfile'
       - '.github/workflows/*.yml'
+
       
 jobs:
   build-and-publish:
