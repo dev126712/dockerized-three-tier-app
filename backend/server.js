@@ -60,3 +60,5 @@ async function main() {
 main()
   .then(() => console.log('server started'))
   .catch(err => console.error('Something went wrong', err));
+
+module.exports = app;
