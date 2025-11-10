@@ -2,7 +2,7 @@
 
 ### This repository utilizes GitHub Actions to automate the build, security scanning(Trivy), publishing the Image to Docker Hub only if the scanning have not find a bug or vulnerability then create a repository "Github Actions/Trivy Automations" and put the scanning result to a file"scan-results.json". This ensures that every time code is merged into the main branch, the deployed images are up-to-date and secure.
 
-## Workflow: Scan, Build, & Publish to Docker Hub
+## Workflow: Build, Scan & Publish to Docker Hub
 
 |Component | Image Name |
 | --- | --- |
