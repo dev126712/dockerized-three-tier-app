@@ -4,10 +4,10 @@ on:
     branches:
       - main
     paths:
-      - 'backend/Dockerfile'
-      - 'frontend/Dockerfile'
-      - 'database/Dockerfile'
-      - 'proxy/Dockerfile'
+      - 'backend/**'
+      - 'frontend/**'
+      - 'database/**'
+      - 'proxy/**'
       - '.github/workflows/*.yml'
       
 jobs:
