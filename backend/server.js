@@ -11,14 +11,17 @@ const mongoDbUrl = process.env.DATABASE_URI;
 const dbName = "mydatabase";
 
 app.use(cors());
-
 app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.status(200).json({ status: "API Status: OK" });
+});
 
 async function main() {
   // Ensure the MongoDB URL is available
   if (!mongoDbUrl) {
       console.error('DATABASE_URI environment variable is not set.');
-      process.exit(1);
+      return;
   }
 
   const client = new MongoClient(mongoDbUrl);
@@ -42,23 +45,29 @@ async function main() {
             
             console.log(`Fetched ${products.length} products from collection: ${collection.collectionName}`);
         } catch (error) {
-            console.error('Error fetching products from database:', error);
-            res.status(500).json({message: err.message});
+            console.error('Error fetching products from database:', error);res.status(500).json({ message: "Internal server error during data fetch" });
         }
     });
 
-    app.listen(port, () => {
-      console.log(`Application Tier API server running on port ${port}`);
-      console.log(`Access the API directly at http://localhost:${port}/api/products`);
-    });
+    if (process.env.NODE_ENV !== 'test') {
+      app.listen(port, () => {
+        console.log(`Application Tier API server running on port ${port}`);
+        console.log(`Access the API directly at http://localhost:${port}/api/products`);
+      });
+    }
   } catch (error) {
     console.error('Failed to connect to MongoDB', error);
-    process.exit(1);
+    if (process.env.NODE_ENV !== 'test') {
+             process.exit(1);
+    }
   }
 }
-
-main()
-  .then(() => console.log('server started'))
-  .catch(err => console.error('Something went wrong', err));
-
 module.exports = app;
+
+
+if (require.main === module) {
+    main()
+        .then(() => console.log('Server module initialized.'))
+        .catch(err => console.error('Initialization failed', err));
+}
+
