@@ -3,7 +3,7 @@
 // 1. Import dependencies (like your server, and an assertion library)
 const request = require('supertest'); // Used to make HTTP requests to the server
 const { expect } = require('chai');
-const app = require('../app/backend/server'); // Assuming your server exports the Express app
+const app = require('/app/backend/server'); // Assuming your server exports the Express app
 
 // 2. Define the Test Suite using describe()
 describe('API Server Health Check', function() {
