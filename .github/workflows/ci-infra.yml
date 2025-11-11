@@ -3,7 +3,7 @@ on:
   push:
     paths: 
       - '**.tf'
-      - '.github/workflows/ci-terraform.yml'
+      - '.github/workflows/ci-infra.yml'
 permissions:
   contents: read
   packages: read
