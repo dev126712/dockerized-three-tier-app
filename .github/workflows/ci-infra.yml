@@ -15,6 +15,9 @@ jobs:
         AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Infrastructure/
     steps:
       - name: Code Checkout
         uses: actions/checkout@v3
@@ -23,9 +26,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform init
-        run: |
-          cd Infrastructure/
-          terraform init
+        run: terraform init
 
       - name: Terraform fmt
         run: terraform fmt
@@ -45,7 +46,5 @@ jobs:
           quiet: true
 
       - name: Terraform Plan
-        run: |
-          cd Infrastructure/
-          terraform plan 
+        run: terraform plan 
         
