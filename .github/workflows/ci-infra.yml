@@ -49,11 +49,18 @@ jobs:
       steps:
       - name: Code Checkout
         uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9  
   
       - name: Run Checkov Security Scan
+        id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
           directory: Infrastructure/
+          framework: terraform
           output_format: cli
           soft_fail: true
           quiet: true
