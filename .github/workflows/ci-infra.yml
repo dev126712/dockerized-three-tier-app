@@ -40,7 +40,7 @@ jobs:
       - name: Run Checkov Security Scan
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .
+          directory: Infrastructure/
           output_format: cli
           soft_fail: true
           quiet: true
