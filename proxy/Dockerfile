@@ -1,6 +1,6 @@
 FROM nginx:latest
-RUN useradd -ms /bin/bash appuser
-RUN chown -R appuser:appuser /app
+RUN adduser -D alexandre
+USER alexandre
 USER appuser
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl --fail http://localhost/ || exit 1
