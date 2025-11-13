@@ -303,7 +303,7 @@ resource "aws_s3_bucket_versioning" "vpc_flow_logs_dest_bucket_versioning" {
 }
 
 
-resource "aws_s3_bucket_replication_configuration" "access_logs_replication" {
+resource "aws_s3_bucket_replication_configuration" "vpc_flow_logs_dest_bucket_replication" {
   bucket = aws_s3_bucket.vpc_flow_logs_dest_bucket.id
   role   = aws_iam_role.replication_role.arn
 
@@ -332,7 +332,7 @@ resource "aws_s3_bucket" "vpc_flow_logs_replica_dest_bucket" {
   bucket = "tf-project-vpc-flow-logs-replica-dest-12345"
 }
 
-resource "aws_s3_bucket_versioning" "vpc_flow_logs_dest_bucket_versioning" {
+resource "aws_s3_bucket_versioning" "vpc_flow_logs_replica_dest_bucket_versioning" {
   bucket = aws_s3_bucket.vpc_flow_logs_replica_dest_bucket.id
   versioning_configuration {
     status = "Enabled"
