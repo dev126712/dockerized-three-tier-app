@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
   
 jobs:
-  validate-plan:
+  validate-terraform-plan:
     env:
         AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
@@ -37,7 +37,11 @@ jobs:
       - name: Terraform fmt check
         run: terraform fmt -check -recursive  
         
+      - name: Terraform Plan
+        run: terraform plan 
+        
   pre_deploy_security_checks:
+      needs: validate-terraform-plan
       runs-on: ubuntu-latest
       defaults:
         run:
@@ -54,6 +58,4 @@ jobs:
           soft_fail: true
           quiet: true
 
-      - name: Terraform Plan
-        run: terraform plan 
         
