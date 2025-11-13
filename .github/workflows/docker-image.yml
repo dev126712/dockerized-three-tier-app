@@ -23,7 +23,7 @@ jobs:
     - name: Run Checkov Security Scan
       uses: bridgecrewio/checkov-action@master
       with:
-        directory: frontend/,backend/,proxy/ ,database/
+        directory: frontend/,backend/,proxy/,database/
         output_format: cli
         soft_fail: true
         quiet: true  
