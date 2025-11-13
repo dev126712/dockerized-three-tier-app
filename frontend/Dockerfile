@@ -11,5 +11,8 @@ ENV NODE_ENV production
 COPY --from=test /app/package.json ./
 RUN npm install --omit=dev
 COPY --from=test /app .
+RUN useradd -ms /bin/bash appuser
+RUN chown -R appuser:appuser /app
+USER appuser
 EXPOSE 8000
 CMD [ "node", "start" ]
