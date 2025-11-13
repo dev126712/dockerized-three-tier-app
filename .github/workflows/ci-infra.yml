@@ -23,7 +23,8 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform init
-        run: terraform init
+        run: |
+          terraform init
 
       - name: Terraform fmt
         run: terraform fmt
@@ -43,4 +44,7 @@ jobs:
           quiet: true
 
       - name: Terraform Plan
-        run: terraform plan  
+        run: |
+          cd Infrastructure/
+          terraform plan 
+        
