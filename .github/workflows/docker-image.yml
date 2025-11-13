@@ -20,13 +20,38 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - name: Run Checkov Security Scan
+    - name: Run Checkov Security Scan on frontend
       uses: bridgecrewio/checkov-action@master
       with:
-        directory: frontend/ backend/ proxy/ database/
+        directory: frontend/ 
         output_format: cli
         soft_fail: true
         quiet: true  
+    
+    - name: Run Checkov Security Scan on backend
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: backend/
+        output_format: cli
+        soft_fail: true
+        quiet: true  
+     
+        
+    - name: Run Checkov Security Scan on proxy
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: proxy/
+        output_format: cli
+        soft_fail: true
+        quiet: true   
+        
+    - name: Run Checkov Security Scan on database
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: database/
+        output_format: cli
+        soft_fail: true
+        quiet: true     
 
     - name: Build the Docker images
       run: |
