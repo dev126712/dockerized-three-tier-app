@@ -9,9 +9,12 @@ FROM node:20-alpine AS production
 WORKDIR /app
 ENV NODE_ENV production
 COPY --from=test /app/package.json ./
+RUN apk add --no-cache curl
 RUN npm install --omit=dev
 COPY --from=test /app .
 RUN adduser -D alexandre
 USER alexandre
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl --fail http://localhost:8000/ || exit 1
 EXPOSE 8000
 CMD [ "node", "start" ]
