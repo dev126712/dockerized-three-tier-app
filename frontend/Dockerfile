@@ -11,8 +11,7 @@ ENV NODE_ENV production
 COPY --from=test /app/package.json ./
 RUN npm install --omit=dev
 COPY --from=test /app .
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup \
-    && chown -R appuser:appuser /app
-USER appuser
+RUN adduser -D alexandre
+USER alexandre
 EXPOSE 8000
 CMD [ "node", "start" ]

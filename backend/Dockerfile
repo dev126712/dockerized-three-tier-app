@@ -13,9 +13,8 @@ COPY --from=test /app/package.json ./
 RUN apk add --no-cache curl
 RUN npm install --omit=dev
 COPY --from=test /app .
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup \
-    && chown -R appuser:appuser /app
-USER appuser
+RUN adduser -D alexandre
+USER alexandre
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl --fail http://localhost:8080/ || exit 1
 EXPOSE 8080
