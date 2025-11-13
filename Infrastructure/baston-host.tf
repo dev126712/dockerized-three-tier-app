@@ -1,5 +1,5 @@
 resource "aws_security_group" "baston-host-alb-security-group" {
-  name        = "Public Baston Host Security Group"
+  name        = "Public Baston Host Security Group" 
   description = "Enable ssh to the Baston Host"
   vpc_id      = aws_vpc.vpc_project.id
 
