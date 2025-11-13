@@ -377,6 +377,14 @@ resource "aws_s3_bucket_notification" "vpc_flow_logs_replica_dest_bucket_notific
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "vpc_flow_logs_replica_dest_bucket_pab" {
+  bucket                  = aws_s3_bucket.vpc_flow_logs_replica_dest_bucket.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 # ------------------------------KMS and IAM Resources-------------------------------------
 # --- KMS and IAM Resources ---
 
