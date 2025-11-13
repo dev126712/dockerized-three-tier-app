@@ -53,8 +53,8 @@ jobs:
         soft_fail: true
         quiet: true  
         
-  build-scan-push:    
-  
+  build-scan-push:     
+    needs: secirity-scan-Checkov
     runs-on: ubuntu-latest
     permissions:
       contents: write 
