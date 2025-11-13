@@ -46,5 +46,6 @@ jobs:
 
       - name: Terraform Plan
         run: |
+          cd Infrastructure/
           terraform plan 
         
