@@ -11,7 +11,7 @@ on:
       - '.github/workflows/*.yml'
       
 jobs:
-  build-scan-and-publish:
+  secirity-scan-Checkov:
   
     runs-on: ubuntu-latest
     permissions:
@@ -51,7 +51,16 @@ jobs:
         directory: database/
         output_format: cli
         soft_fail: true
-        quiet: true     
+        quiet: true  
+        
+  build-scan-push:    
+  
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
 
     - name: Build the Docker images
       run: |
