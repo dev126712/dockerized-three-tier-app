@@ -20,6 +20,14 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
+    - name: Run Checkov Security Scan
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: .
+        output_format: cli
+        soft_fail: true
+        quiet: true  
+
     - name: Build the Docker images
       run: |
         docker build ./backend/ -t dev126712/dockerized-three-tier-app-backend:latest

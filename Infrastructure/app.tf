@@ -17,7 +17,6 @@ resource "aws_security_group" "apptier-sg" {
     protocol    = "443"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = {
     Name = "Apptier-SG"
   }
