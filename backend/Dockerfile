@@ -13,7 +13,7 @@ COPY --from=test /app/package.json ./
 RUN apk add --no-cache curl
 RUN npm install --omit=dev
 COPY --from=test /app .
-RUN useradd -ms /bin/bash appuser
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN chown -R appuser:appuser /app
 USER appuser
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
