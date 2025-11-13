@@ -48,7 +48,7 @@ jobs:
           working-directory: Infrastructure/
       steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
@@ -57,7 +57,7 @@ jobs:
   
       - name: Run Checkov Security Scan
         id: checkov
-        uses: bridgecrewio/checkov-action@v4
+        uses: bridgecrewio/checkov-action@master
         with:
           directory: Infrastructure/
           framework: terraform
