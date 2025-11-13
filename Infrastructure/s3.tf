@@ -385,6 +385,12 @@ resource "aws_s3_bucket_public_access_block" "vpc_flow_logs_replica_dest_bucket_
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_logging" "vpc_flow_logs_replica_dest_bucket_logging" {
+  bucket        = aws_s3_bucket.vpc_flow_logs_replica_dest_bucket.id
+  target_bucket = aws_s3_bucket.access_logs_bucket.id
+  target_prefix = "vpc-flow-logs-replica-access-logs/"
+}
+
 # ------------------------------KMS and IAM Resources-------------------------------------
 # --- KMS and IAM Resources ---
 
