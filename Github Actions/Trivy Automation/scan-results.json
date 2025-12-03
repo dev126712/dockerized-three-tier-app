@@ -1880,3 +1880,1884 @@
     }
   ]
 }
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2025-12-03T21:12:24.677263144Z",
+  "ArtifactName": "dev126712/dockerized-three-tier-app-backend:latest",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.22.2"
+    },
+    "ImageID": "sha256:c78489aa4c64524b25c92c4d971eab05e8dd17ac4552fcb3da4a582f52acc21a",
+    "DiffIDs": [
+      "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1",
+      "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0",
+      "sha256:fbeab92e8a423ef9f6fda2d734ab84f827819f6be520f83663edd307695178b2",
+      "sha256:b0643b6f650546c1ab69842a0dc9c9d03d53c25c7394018892ab9d3d3154184f",
+      "sha256:f0baa80248f4af3785ffb591ab03433d12bbec4491d2861a4dd8884894292cb6",
+      "sha256:4667fc7391d2cd9222d9d6b7fff75ec54ad67b2ef0f81b8a4113cd4ca4f3b4ac",
+      "sha256:d375c1c574078e1f06fdd7ce24c45358bc4174673cb11f89a593e27505ca97f2",
+      "sha256:1b346da5bdca5eeb28b470c9a798852cf6831684ab4df07e58195f665e2832df",
+      "sha256:0da10ee1357a712d29d04f270dac8495165b29e52cc5d9c59ddd0e7518c02721",
+      "sha256:99ff34d7595e8a493eaa6240f793956cdbc7104f20f0e4b1c5b5f18bacb744ec"
+    ],
+    "RepoTags": [
+      "dev126712/dockerized-three-tier-app-backend:latest"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2025-12-03T21:11:27.191965859Z",
+      "history": [
+        {
+          "created": "2025-10-08T11:04:56Z",
+          "created_by": "ADD alpine-minirootfs-3.22.2-x86_64.tar.gz / # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-10-08T11:04:56Z",
+          "created_by": "CMD [\"/bin/sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:01Z",
+          "created_by": "ENV NODE_VERSION=20.19.6",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:01Z",
+          "created_by": "RUN /bin/sh -c addgroup -g 1000 node     \u0026\u0026 adduser -u 1000 -G node -s /bin/sh -D node     \u0026\u0026 apk add --no-cache         libstdc++     \u0026\u0026 apk add --no-cache --virtual .build-deps         curl     \u0026\u0026 ARCH= OPENSSL_ARCH='linux*' \u0026\u0026 alpineArch=\"$(apk --print-arch)\"       \u0026\u0026 case \"${alpineArch##*-}\" in         x86_64) ARCH='x64' CHECKSUM=\"a371d92fafee1b20ede35c3df747ca1c8b25fcb2e14d3a4c36b41166faae707f\" OPENSSL_ARCH=linux-x86_64;;         x86) OPENSSL_ARCH=linux-elf;;         aarch64) OPENSSL_ARCH=linux-aarch64;;         arm*) OPENSSL_ARCH=linux-armv4;;         ppc64le) OPENSSL_ARCH=linux-ppc64le;;         s390x) OPENSSL_ARCH=linux-s390x;;         *) ;;       esac   \u0026\u0026 if [ -n \"${CHECKSUM}\" ]; then     set -eu;     curl -fsSLO --compressed \"https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\";     echo \"$CHECKSUM  node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" | sha256sum -c -       \u0026\u0026 tar -xJf \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner       \u0026\u0026 ln -s /usr/local/bin/node /usr/local/bin/nodejs;   else     echo \"Building from source\"     \u0026\u0026 apk add --no-cache --virtual .build-deps-full         binutils-gold         g++         gcc         gnupg         libgcc         linux-headers         make         python3         py-setuptools     \u0026\u0026 export GNUPGHOME=\"$(mktemp -d)\"     \u0026\u0026 for key in       5BE8A3F6C8A5C01D106C0AD820B1A390B168D356       DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7       CC68F5A3106FF448322E48ED27F5E38D5B0A215F       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4       C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C       108F52B48DB57BB0CC439B2997B01419BD92F80A       A363A499291CBBC940DD62E41F10027AF002F8B0     ; do       { gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ||       { gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ;     done     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\"     \u0026\u0026 gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc     \u0026\u0026 gpgconf --kill all     \u0026\u0026 rm -rf \"$GNUPGHOME\"     \u0026\u0026 grep \" node-v$NODE_VERSION.tar.xz\\$\" SHASUMS256.txt | sha256sum -c -     \u0026\u0026 tar -xf \"node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 cd \"node-v$NODE_VERSION\"     \u0026\u0026 ./configure     \u0026\u0026 make -j$(getconf _NPROCESSORS_ONLN) V=     \u0026\u0026 make install     \u0026\u0026 apk del .build-deps-full     \u0026\u0026 cd ..     \u0026\u0026 rm -Rf \"node-v$NODE_VERSION\"     \u0026\u0026 rm \"node-v$NODE_VERSION.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt;   fi   \u0026\u0026 rm -f \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\"   \u0026\u0026 find /usr/local/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name \"$OPENSSL_ARCH\" -exec rm -rf {} \\;   \u0026\u0026 apk del .build-deps   \u0026\u0026 node --version   \u0026\u0026 npm --version   \u0026\u0026 rm -rf /tmp/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-25T16:52:01Z",
+          "created_by": "ENV YARN_VERSION=1.22.22",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "RUN /bin/sh -c apk add --no-cache --virtual .build-deps-yarn curl gnupg tar   \u0026\u0026 export GNUPGHOME=\"$(mktemp -d)\"   \u0026\u0026 for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     { gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ||     { gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ;   done   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\"   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\"   \u0026\u0026 gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 gpgconf --kill all   \u0026\u0026 rm -rf \"$GNUPGHOME\"   \u0026\u0026 mkdir -p /opt   \u0026\u0026 tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg   \u0026\u0026 rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 apk del .build-deps-yarn   \u0026\u0026 yarn --version   \u0026\u0026 rm -rf /tmp/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "COPY docker-entrypoint.sh /usr/local/bin/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "ENTRYPOINT [\"docker-entrypoint.sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "CMD [\"node\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:12Z",
+          "created_by": "WORKDIR /app",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:20Z",
+          "created_by": "ENV NODE_ENV=production",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:20Z",
+          "created_by": "COPY /app/package.json ./ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:20Z",
+          "created_by": "RUN /bin/sh -c apk add --no-cache curl # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:26Z",
+          "created_by": "RUN /bin/sh -c npm install --omit=dev # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:27Z",
+          "created_by": "COPY /app . # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:27Z",
+          "created_by": "RUN /bin/sh -c adduser -D alexandre # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:27Z",
+          "created_by": "USER alexandre",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:27Z",
+          "created_by": "HEALTHCHECK \u0026{[\"CMD-SHELL\" \"curl --fail http://localhost:8080/ || exit 1\"] \"30s\" \"5s\" \"10s\" \"0s\" '\\x03'}",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:27Z",
+          "created_by": "EXPOSE map[8080/tcp:{}]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:27Z",
+          "created_by": "CMD [\"node\" \"backend/server.js\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1",
+          "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0",
+          "sha256:fbeab92e8a423ef9f6fda2d734ab84f827819f6be520f83663edd307695178b2",
+          "sha256:b0643b6f650546c1ab69842a0dc9c9d03d53c25c7394018892ab9d3d3154184f",
+          "sha256:f0baa80248f4af3785ffb591ab03433d12bbec4491d2861a4dd8884894292cb6",
+          "sha256:4667fc7391d2cd9222d9d6b7fff75ec54ad67b2ef0f81b8a4113cd4ca4f3b4ac",
+          "sha256:d375c1c574078e1f06fdd7ce24c45358bc4174673cb11f89a593e27505ca97f2",
+          "sha256:1b346da5bdca5eeb28b470c9a798852cf6831684ab4df07e58195f665e2832df",
+          "sha256:0da10ee1357a712d29d04f270dac8495165b29e52cc5d9c59ddd0e7518c02721",
+          "sha256:99ff34d7595e8a493eaa6240f793956cdbc7104f20f0e4b1c5b5f18bacb744ec"
+        ]
+      },
+      "config": {
+        "Cmd": [
+          "node",
+          "backend/server.js"
+        ],
+        "Healthcheck": {
+          "Test": [
+            "CMD-SHELL",
+            "curl --fail http://localhost:8080/ || exit 1"
+          ],
+          "Interval": 30000000000,
+          "Timeout": 5000000000,
+          "StartPeriod": 10000000000,
+          "Retries": 3
+        },
+        "Entrypoint": [
+          "docker-entrypoint.sh"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "NODE_VERSION=20.19.6",
+          "YARN_VERSION=1.22.22",
+          "NODE_ENV=production"
+        ],
+        "User": "alexandre",
+        "WorkingDir": "/app",
+        "ArgsEscaped": true
+      }
+    }
+  },
+  "Results": [
+    {
+      "Target": "dev126712/dockerized-three-tier-app-backend:latest (alpine 3.22.2)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-58251",
+          "PkgID": "busybox@1.37.0-r19",
+          "PkgName": "busybox",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/busybox@1.37.0-r19?arch=x86_64\u0026distro=3.22.2",
+            "UID": "7f4a51911339ea0c"
+          },
+          "InstalledVersion": "1.37.0-r19",
+          "FixedVersion": "1.37.0-r20",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-58251",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "In netstat in BusyBox through 1.37.0, local users can launch of networ ...",
+          "Description": "In netstat in BusyBox through 1.37.0, local users can launch of network application with an argv[0] containing an ANSI terminal escape sequence, leading to a denial of service (terminal locked up) when netstat is used by a victim.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-150"
+          ],
+          "VendorSeverity": {
+            "ubuntu": 2
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/04/23/6",
+            "https://bugs.busybox.net/show_bug.cgi?id=15922",
+            "https://www.busybox.net",
+            "https://www.busybox.net/downloads/",
+            "https://www.cve.org/CVERecord?id=CVE-2024-58251"
+          ],
+          "PublishedDate": "2025-04-23T18:16:03.057Z",
+          "LastModifiedDate": "2025-04-29T13:52:47.47Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-58251",
+          "PkgID": "busybox-binsh@1.37.0-r19",
+          "PkgName": "busybox-binsh",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/busybox-binsh@1.37.0-r19?arch=x86_64\u0026distro=3.22.2",
+            "UID": "8bdd8cec3a033e40"
+          },
+          "InstalledVersion": "1.37.0-r19",
+          "FixedVersion": "1.37.0-r20",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-58251",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "In netstat in BusyBox through 1.37.0, local users can launch of networ ...",
+          "Description": "In netstat in BusyBox through 1.37.0, local users can launch of network application with an argv[0] containing an ANSI terminal escape sequence, leading to a denial of service (terminal locked up) when netstat is used by a victim.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-150"
+          ],
+          "VendorSeverity": {
+            "ubuntu": 2
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/04/23/6",
+            "https://bugs.busybox.net/show_bug.cgi?id=15922",
+            "https://www.busybox.net",
+            "https://www.busybox.net/downloads/",
+            "https://www.cve.org/CVERecord?id=CVE-2024-58251"
+          ],
+          "PublishedDate": "2025-04-23T18:16:03.057Z",
+          "LastModifiedDate": "2025-04-29T13:52:47.47Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-58251",
+          "PkgID": "ssl_client@1.37.0-r19",
+          "PkgName": "ssl_client",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/ssl_client@1.37.0-r19?arch=x86_64\u0026distro=3.22.2",
+            "UID": "fcf839f60091c390"
+          },
+          "InstalledVersion": "1.37.0-r19",
+          "FixedVersion": "1.37.0-r20",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-58251",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "In netstat in BusyBox through 1.37.0, local users can launch of networ ...",
+          "Description": "In netstat in BusyBox through 1.37.0, local users can launch of network application with an argv[0] containing an ANSI terminal escape sequence, leading to a denial of service (terminal locked up) when netstat is used by a victim.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-150"
+          ],
+          "VendorSeverity": {
+            "ubuntu": 2
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/04/23/6",
+            "https://bugs.busybox.net/show_bug.cgi?id=15922",
+            "https://www.busybox.net",
+            "https://www.busybox.net/downloads/",
+            "https://www.cve.org/CVERecord?id=CVE-2024-58251"
+          ],
+          "PublishedDate": "2025-04-23T18:16:03.057Z",
+          "LastModifiedDate": "2025-04-29T13:52:47.47Z"
+        }
+      ]
+    },
+    {
+      "Target": "Node.js",
+      "Class": "lang-pkgs",
+      "Type": "node-pkg",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-21538",
+          "PkgID": "cross-spawn@7.0.3",
+          "PkgName": "cross-spawn",
+          "PkgPath": "usr/local/lib/node_modules/npm/node_modules/cross-spawn/package.json",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/cross-spawn@7.0.3",
+            "UID": "480da04347e2e299"
+          },
+          "InstalledVersion": "7.0.3",
+          "FixedVersion": "7.0.5, 6.0.6",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21538",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "cross-spawn: regular expression denial of service",
+          "Description": "Versions of the package cross-spawn before 6.0.6, from 7.0.0 and before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "amazon": 2,
+            "azure": 3,
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 1
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:N/I:N/A:H",
+              "V3Score": 4.4
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21538",
+            "https://github.com/moxystudio/node-cross-spawn",
+            "https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff",
+            "https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f",
+            "https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd",
+            "https://github.com/moxystudio/node-cross-spawn/issues/165",
+            "https://github.com/moxystudio/node-cross-spawn/pull/160",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21538",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349",
+            "https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21538"
+          ],
+          "PublishedDate": "2024-11-08T05:15:06.453Z",
+          "LastModifiedDate": "2025-05-20T15:16:03.53Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-64756",
+          "PkgID": "glob@10.4.2",
+          "PkgName": "glob",
+          "PkgPath": "usr/local/lib/node_modules/npm/node_modules/glob/package.json",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/glob@10.4.2",
+            "UID": "ceceb363d6e80bd3"
+          },
+          "InstalledVersion": "10.4.2",
+          "FixedVersion": "11.1.0, 10.5.0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-64756",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+          "Description": "Glob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-78"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://github.com/isaacs/node-glob",
+            "https://github.com/isaacs/node-glob/commit/1e4e297342a09f2aa0ced87fcd4a70ddc325d75f",
+            "https://github.com/isaacs/node-glob/commit/47473c046b91c67269df7a66eab782a6c2716146",
+            "https://github.com/isaacs/node-glob/security/advisories/GHSA-5j98-mcp5-4vw2",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-64756"
+          ],
+          "PublishedDate": "2025-11-17T18:15:58.27Z",
+          "LastModifiedDate": "2025-12-02T19:34:43.27Z"
+        }
+      ]
+    }
+  ]
+}
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2025-12-03T21:12:31.747922449Z",
+  "ArtifactName": "dev126712/dockerized-three-tier-app-frontend:latest",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.22.2"
+    },
+    "ImageID": "sha256:d57d9bfdbcf61608c324554490c56fd45b969084c7da3924dbb92480e4c393c3",
+    "DiffIDs": [
+      "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1",
+      "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0",
+      "sha256:fbeab92e8a423ef9f6fda2d734ab84f827819f6be520f83663edd307695178b2",
+      "sha256:b0643b6f650546c1ab69842a0dc9c9d03d53c25c7394018892ab9d3d3154184f",
+      "sha256:f0baa80248f4af3785ffb591ab03433d12bbec4491d2861a4dd8884894292cb6",
+      "sha256:61f815d23ed1c86298d054648063d55c20b8c4d624038b031b5a03c43f419e1f",
+      "sha256:a6d3a664fdc116bc52cd3b44f1f2ebbe5c56130a5fba0c0747c24e92e9ba0e9a",
+      "sha256:b8741de51b22126c6dfff0a5b677da4496d85e4a970e0d17d46de98994ab3f25",
+      "sha256:1382fba63de5f7293e05b14f4b480e7d42c9c0112f0b3dbc39cd55744d1bbefa",
+      "sha256:b836309ad638bc83bd9b5ca5b48c88aa1e7fd6414b99f418da9be1c8086cbb0a"
+    ],
+    "RepoTags": [
+      "dev126712/dockerized-three-tier-app-frontend:latest"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2025-12-03T21:11:34.376324957Z",
+      "history": [
+        {
+          "created": "2025-10-08T11:04:56Z",
+          "created_by": "ADD alpine-minirootfs-3.22.2-x86_64.tar.gz / # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-10-08T11:04:56Z",
+          "created_by": "CMD [\"/bin/sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:01Z",
+          "created_by": "ENV NODE_VERSION=20.19.6",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:01Z",
+          "created_by": "RUN /bin/sh -c addgroup -g 1000 node     \u0026\u0026 adduser -u 1000 -G node -s /bin/sh -D node     \u0026\u0026 apk add --no-cache         libstdc++     \u0026\u0026 apk add --no-cache --virtual .build-deps         curl     \u0026\u0026 ARCH= OPENSSL_ARCH='linux*' \u0026\u0026 alpineArch=\"$(apk --print-arch)\"       \u0026\u0026 case \"${alpineArch##*-}\" in         x86_64) ARCH='x64' CHECKSUM=\"a371d92fafee1b20ede35c3df747ca1c8b25fcb2e14d3a4c36b41166faae707f\" OPENSSL_ARCH=linux-x86_64;;         x86) OPENSSL_ARCH=linux-elf;;         aarch64) OPENSSL_ARCH=linux-aarch64;;         arm*) OPENSSL_ARCH=linux-armv4;;         ppc64le) OPENSSL_ARCH=linux-ppc64le;;         s390x) OPENSSL_ARCH=linux-s390x;;         *) ;;       esac   \u0026\u0026 if [ -n \"${CHECKSUM}\" ]; then     set -eu;     curl -fsSLO --compressed \"https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\";     echo \"$CHECKSUM  node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" | sha256sum -c -       \u0026\u0026 tar -xJf \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner       \u0026\u0026 ln -s /usr/local/bin/node /usr/local/bin/nodejs;   else     echo \"Building from source\"     \u0026\u0026 apk add --no-cache --virtual .build-deps-full         binutils-gold         g++         gcc         gnupg         libgcc         linux-headers         make         python3         py-setuptools     \u0026\u0026 export GNUPGHOME=\"$(mktemp -d)\"     \u0026\u0026 for key in       5BE8A3F6C8A5C01D106C0AD820B1A390B168D356       DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7       CC68F5A3106FF448322E48ED27F5E38D5B0A215F       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4       C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C       108F52B48DB57BB0CC439B2997B01419BD92F80A       A363A499291CBBC940DD62E41F10027AF002F8B0     ; do       { gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ||       { gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ;     done     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\"     \u0026\u0026 gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc     \u0026\u0026 gpgconf --kill all     \u0026\u0026 rm -rf \"$GNUPGHOME\"     \u0026\u0026 grep \" node-v$NODE_VERSION.tar.xz\\$\" SHASUMS256.txt | sha256sum -c -     \u0026\u0026 tar -xf \"node-v$NODE_VERSION.tar.xz\"     \u0026\u0026 cd \"node-v$NODE_VERSION\"     \u0026\u0026 ./configure     \u0026\u0026 make -j$(getconf _NPROCESSORS_ONLN) V=     \u0026\u0026 make install     \u0026\u0026 apk del .build-deps-full     \u0026\u0026 cd ..     \u0026\u0026 rm -Rf \"node-v$NODE_VERSION\"     \u0026\u0026 rm \"node-v$NODE_VERSION.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt;   fi   \u0026\u0026 rm -f \"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\"   \u0026\u0026 find /usr/local/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name \"$OPENSSL_ARCH\" -exec rm -rf {} \\;   \u0026\u0026 apk del .build-deps   \u0026\u0026 node --version   \u0026\u0026 npm --version   \u0026\u0026 rm -rf /tmp/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-25T16:52:01Z",
+          "created_by": "ENV YARN_VERSION=1.22.22",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "RUN /bin/sh -c apk add --no-cache --virtual .build-deps-yarn curl gnupg tar   \u0026\u0026 export GNUPGHOME=\"$(mktemp -d)\"   \u0026\u0026 for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     { gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ||     { gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" \u0026\u0026 gpg --batch --fingerprint \"$key\"; } ;   done   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\"   \u0026\u0026 curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\"   \u0026\u0026 gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 gpgconf --kill all   \u0026\u0026 rm -rf \"$GNUPGHOME\"   \u0026\u0026 mkdir -p /opt   \u0026\u0026 tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn   \u0026\u0026 ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg   \u0026\u0026 rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   \u0026\u0026 apk del .build-deps-yarn   \u0026\u0026 yarn --version   \u0026\u0026 rm -rf /tmp/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "COPY docker-entrypoint.sh /usr/local/bin/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "ENTRYPOINT [\"docker-entrypoint.sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-25T16:52:05Z",
+          "created_by": "CMD [\"node\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:12Z",
+          "created_by": "WORKDIR /app",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:30Z",
+          "created_by": "ENV NODE_ENV=production",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:30Z",
+          "created_by": "COPY /app/package.json ./ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:31Z",
+          "created_by": "RUN /bin/sh -c apk add --no-cache curl # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "RUN /bin/sh -c npm install --omit=dev # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "COPY /app . # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "RUN /bin/sh -c adduser -D alexandre # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "USER alexandre",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "HEALTHCHECK \u0026{[\"CMD-SHELL\" \"curl --fail http://localhost:8000/ || exit 1\"] \"30s\" \"5s\" \"10s\" \"0s\" '\\x03'}",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "EXPOSE map[8000/tcp:{}]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:34Z",
+          "created_by": "CMD [\"node\" \"start\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1",
+          "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0",
+          "sha256:fbeab92e8a423ef9f6fda2d734ab84f827819f6be520f83663edd307695178b2",
+          "sha256:b0643b6f650546c1ab69842a0dc9c9d03d53c25c7394018892ab9d3d3154184f",
+          "sha256:f0baa80248f4af3785ffb591ab03433d12bbec4491d2861a4dd8884894292cb6",
+          "sha256:61f815d23ed1c86298d054648063d55c20b8c4d624038b031b5a03c43f419e1f",
+          "sha256:a6d3a664fdc116bc52cd3b44f1f2ebbe5c56130a5fba0c0747c24e92e9ba0e9a",
+          "sha256:b8741de51b22126c6dfff0a5b677da4496d85e4a970e0d17d46de98994ab3f25",
+          "sha256:1382fba63de5f7293e05b14f4b480e7d42c9c0112f0b3dbc39cd55744d1bbefa",
+          "sha256:b836309ad638bc83bd9b5ca5b48c88aa1e7fd6414b99f418da9be1c8086cbb0a"
+        ]
+      },
+      "config": {
+        "Cmd": [
+          "node",
+          "start"
+        ],
+        "Healthcheck": {
+          "Test": [
+            "CMD-SHELL",
+            "curl --fail http://localhost:8000/ || exit 1"
+          ],
+          "Interval": 30000000000,
+          "Timeout": 5000000000,
+          "StartPeriod": 10000000000,
+          "Retries": 3
+        },
+        "Entrypoint": [
+          "docker-entrypoint.sh"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "NODE_VERSION=20.19.6",
+          "YARN_VERSION=1.22.22",
+          "NODE_ENV=production"
+        ],
+        "User": "alexandre",
+        "WorkingDir": "/app",
+        "ArgsEscaped": true
+      }
+    }
+  },
+  "Results": [
+    {
+      "Target": "dev126712/dockerized-three-tier-app-frontend:latest (alpine 3.22.2)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-58251",
+          "PkgID": "busybox@1.37.0-r19",
+          "PkgName": "busybox",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/busybox@1.37.0-r19?arch=x86_64\u0026distro=3.22.2",
+            "UID": "7f4a51911339ea0c"
+          },
+          "InstalledVersion": "1.37.0-r19",
+          "FixedVersion": "1.37.0-r20",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-58251",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "In netstat in BusyBox through 1.37.0, local users can launch of networ ...",
+          "Description": "In netstat in BusyBox through 1.37.0, local users can launch of network application with an argv[0] containing an ANSI terminal escape sequence, leading to a denial of service (terminal locked up) when netstat is used by a victim.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-150"
+          ],
+          "VendorSeverity": {
+            "ubuntu": 2
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/04/23/6",
+            "https://bugs.busybox.net/show_bug.cgi?id=15922",
+            "https://www.busybox.net",
+            "https://www.busybox.net/downloads/",
+            "https://www.cve.org/CVERecord?id=CVE-2024-58251"
+          ],
+          "PublishedDate": "2025-04-23T18:16:03.057Z",
+          "LastModifiedDate": "2025-04-29T13:52:47.47Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-58251",
+          "PkgID": "busybox-binsh@1.37.0-r19",
+          "PkgName": "busybox-binsh",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/busybox-binsh@1.37.0-r19?arch=x86_64\u0026distro=3.22.2",
+            "UID": "8bdd8cec3a033e40"
+          },
+          "InstalledVersion": "1.37.0-r19",
+          "FixedVersion": "1.37.0-r20",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-58251",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "In netstat in BusyBox through 1.37.0, local users can launch of networ ...",
+          "Description": "In netstat in BusyBox through 1.37.0, local users can launch of network application with an argv[0] containing an ANSI terminal escape sequence, leading to a denial of service (terminal locked up) when netstat is used by a victim.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-150"
+          ],
+          "VendorSeverity": {
+            "ubuntu": 2
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/04/23/6",
+            "https://bugs.busybox.net/show_bug.cgi?id=15922",
+            "https://www.busybox.net",
+            "https://www.busybox.net/downloads/",
+            "https://www.cve.org/CVERecord?id=CVE-2024-58251"
+          ],
+          "PublishedDate": "2025-04-23T18:16:03.057Z",
+          "LastModifiedDate": "2025-04-29T13:52:47.47Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-58251",
+          "PkgID": "ssl_client@1.37.0-r19",
+          "PkgName": "ssl_client",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/ssl_client@1.37.0-r19?arch=x86_64\u0026distro=3.22.2",
+            "UID": "fcf839f60091c390"
+          },
+          "InstalledVersion": "1.37.0-r19",
+          "FixedVersion": "1.37.0-r20",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:256f393e029fa2063d8c93720da36a74a032bed3355a2bc3e313ad12f8bde9d1"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-58251",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "In netstat in BusyBox through 1.37.0, local users can launch of networ ...",
+          "Description": "In netstat in BusyBox through 1.37.0, local users can launch of network application with an argv[0] containing an ANSI terminal escape sequence, leading to a denial of service (terminal locked up) when netstat is used by a victim.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-150"
+          ],
+          "VendorSeverity": {
+            "ubuntu": 2
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/04/23/6",
+            "https://bugs.busybox.net/show_bug.cgi?id=15922",
+            "https://www.busybox.net",
+            "https://www.busybox.net/downloads/",
+            "https://www.cve.org/CVERecord?id=CVE-2024-58251"
+          ],
+          "PublishedDate": "2025-04-23T18:16:03.057Z",
+          "LastModifiedDate": "2025-04-29T13:52:47.47Z"
+        }
+      ]
+    },
+    {
+      "Target": "Node.js",
+      "Class": "lang-pkgs",
+      "Type": "node-pkg",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-21538",
+          "PkgID": "cross-spawn@7.0.3",
+          "PkgName": "cross-spawn",
+          "PkgPath": "usr/local/lib/node_modules/npm/node_modules/cross-spawn/package.json",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/cross-spawn@7.0.3",
+            "UID": "480da04347e2e299"
+          },
+          "InstalledVersion": "7.0.3",
+          "FixedVersion": "7.0.5, 6.0.6",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-21538",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "cross-spawn: regular expression denial of service",
+          "Description": "Versions of the package cross-spawn before 6.0.6, from 7.0.0 and before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "amazon": 2,
+            "azure": 3,
+            "cbl-mariner": 3,
+            "ghsa": 3,
+            "redhat": 1
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:N/I:N/A:H",
+              "V3Score": 4.4
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2024-21538",
+            "https://github.com/moxystudio/node-cross-spawn",
+            "https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff",
+            "https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f",
+            "https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd",
+            "https://github.com/moxystudio/node-cross-spawn/issues/165",
+            "https://github.com/moxystudio/node-cross-spawn/pull/160",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-21538",
+            "https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349",
+            "https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230",
+            "https://www.cve.org/CVERecord?id=CVE-2024-21538"
+          ],
+          "PublishedDate": "2024-11-08T05:15:06.453Z",
+          "LastModifiedDate": "2025-05-20T15:16:03.53Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-64756",
+          "PkgID": "glob@10.4.2",
+          "PkgName": "glob",
+          "PkgPath": "usr/local/lib/node_modules/npm/node_modules/glob/package.json",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/glob@10.4.2",
+            "UID": "ceceb363d6e80bd3"
+          },
+          "InstalledVersion": "10.4.2",
+          "FixedVersion": "11.1.0, 10.5.0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:6acabb04a1c3ff958fcfe7d43264fcfbffbfa7ecd2b9e73748e353d6ab9911b0"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-64756",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+          "Description": "Glob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-78"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://github.com/isaacs/node-glob",
+            "https://github.com/isaacs/node-glob/commit/1e4e297342a09f2aa0ced87fcd4a70ddc325d75f",
+            "https://github.com/isaacs/node-glob/commit/47473c046b91c67269df7a66eab782a6c2716146",
+            "https://github.com/isaacs/node-glob/security/advisories/GHSA-5j98-mcp5-4vw2",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-64756"
+          ],
+          "PublishedDate": "2025-11-17T18:15:58.27Z",
+          "LastModifiedDate": "2025-12-02T19:34:43.27Z"
+        }
+      ]
+    }
+  ]
+}
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2025-12-03T21:12:42.10975594Z",
+  "ArtifactName": "dev126712/dockerized-three-tier-app-database:latest",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "ubuntu",
+      "Name": "22.04"
+    },
+    "ImageID": "sha256:514f16fef84b391bdca2f63f23d218c6a45d210f75609818c36cdbebafee1d86",
+    "DiffIDs": [
+      "sha256:73974f74b436f39a2fdb6461b1e3f7c3e41c73325776fa71d16b942a5b4a365b",
+      "sha256:53598f88c30a84ecdaacdd2921eddae535e57cf0d70bc02b23a93e8f252be05c",
+      "sha256:d113279b9c68f244a180039b06291835708476975f65743c29840c4230f956d7",
+      "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5",
+      "sha256:50a911e1f00582232e05560e7961e57f921ca09dfcaaaaeef5da45a71c65fdc0",
+      "sha256:766607f8c14937f440ca45b7585a0f8e47e4b74c3bf4402228027b043506f096",
+      "sha256:c3d9ef6867267ea86a14c82c731cbd50638dfe00c8205fc1a1547f939c0e33d3",
+      "sha256:fa86dd42022d619f9296f0d2231648c36f1dcc6221831df10e0034674c901f42",
+      "sha256:7574f7550ade6deda90a91caf9502faacc49fb64d6c9749e2ca1651f076b9249"
+    ],
+    "RepoTags": [
+      "dev126712/dockerized-three-tier-app-database:latest"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2025-12-03T21:11:45.232329196Z",
+      "history": [
+        {
+          "created": "2025-10-13T17:23:18Z",
+          "created_by": "/bin/sh -c #(nop)  ARG RELEASE",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-13T17:23:18Z",
+          "created_by": "/bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-13T17:23:18Z",
+          "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.ref.name=ubuntu",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-13T17:23:18Z",
+          "created_by": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.version=22.04",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-10-13T17:23:20Z",
+          "created_by": "/bin/sh -c #(nop) ADD file:d025507456f1d7d19195885b1c02a346454d60c9348cbd3be92431f2d7e2666e in / "
+        },
+        {
+          "created": "2025-10-13T17:23:20Z",
+          "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/bash\"]",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:35Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tgroupadd --gid 999 --system mongodb; \tuseradd --uid 999 --system --gid mongodb --home-dir /data/db mongodb; \tmkdir -p /data/db /data/configdb; \tchown -R mongodb:mongodb /data/db /data/configdb # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:53:43Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tjq \t\tnumactl \t\tprocps \t; \trm -rf /var/lib/apt/lists/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ENV GOSU_VERSION=1.19",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ENV JSYAML_VERSION=3.13.1",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ENV JSYAML_CHECKSUM=662e32319bdd378e91f67578e56a34954b0a2e33aca11d70ab9f4826af24b941",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tgnupg \t\twget \t; \trm -rf /var/lib/apt/lists/*; \t\tdpkgArch=\"$(dpkg --print-architecture | awk -F- '{ print $NF }')\"; \twget -O /usr/local/bin/gosu \"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch\"; \twget -O /usr/local/bin/gosu.asc \"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc\"; \texport GNUPGHOME=\"$(mktemp -d)\"; \tgpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \tgpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" /usr/local/bin/gosu.asc; \t\tmkdir -p /opt/js-yaml/; \twget -O /opt/js-yaml/js-yaml.tgz https://registry.npmjs.org/js-yaml/-/js-yaml-${JSYAML_VERSION}.tgz; \techo \"$JSYAML_CHECKSUM */opt/js-yaml/js-yaml.tgz\" | sha256sum -c -; \ttar -xz --strip-components=1 -f /opt/js-yaml/js-yaml.tgz -C /opt/js-yaml package/dist/js-yaml.js package/package.json; \trm /opt/js-yaml/js-yaml.tgz; \tln -s /opt/js-yaml/dist/js-yaml.js /js-yaml.js; \t\texport GNUPGHOME=\"$(mktemp -d)\"; \twget -O KEYS 'https://pgp.mongodb.com/server-7.0.asc'; \tgpg --batch --import KEYS; \tmkdir -p /etc/apt/keyrings; \tgpg --batch --export --armor 'E58830201F7DD82CD808AA84160D26BB1785BA38' \u003e /etc/apt/keyrings/mongodb.asc; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" KEYS; \t\tapt-mark auto '.*' \u003e /dev/null; \tapt-mark manual $savedAptMark \u003e /dev/null; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \t\tchmod +x /usr/local/bin/gosu; \tgosu --version; \tgosu nobody true # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "RUN /bin/sh -c mkdir /docker-entrypoint-initdb.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ARG MONGO_PACKAGE=mongodb-org",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ARG MONGO_REPO=repo.mongodb.org",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ENV MONGO_PACKAGE=mongodb-org MONGO_REPO=repo.mongodb.org",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ENV MONGO_MAJOR=7.0",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "RUN |2 MONGO_PACKAGE=mongodb-org MONGO_REPO=repo.mongodb.org /bin/sh -c echo \"deb [ signed-by=/etc/apt/keyrings/mongodb.asc ] http://$MONGO_REPO/apt/ubuntu jammy/${MONGO_PACKAGE%-unstable}/$MONGO_MAJOR multiverse\" | tee \"/etc/apt/sources.list.d/${MONGO_PACKAGE%-unstable}.list\" # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:53:54Z",
+          "created_by": "ENV MONGO_VERSION=7.0.26",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "RUN |2 MONGO_PACKAGE=mongodb-org MONGO_REPO=repo.mongodb.org /bin/sh -c set -x \t\u0026\u0026 export DEBIAN_FRONTEND=noninteractive \t\u0026\u0026 apt-get update \t\u0026\u0026 apt-get install -y \t\t${MONGO_PACKAGE}=$MONGO_VERSION \t\t${MONGO_PACKAGE}-server=$MONGO_VERSION \t\t${MONGO_PACKAGE}-shell=$MONGO_VERSION \t\t${MONGO_PACKAGE}-mongos=$MONGO_VERSION \t\t${MONGO_PACKAGE}-tools=$MONGO_VERSION \t\t${MONGO_PACKAGE}-database=$MONGO_VERSION \t\t${MONGO_PACKAGE}-database-tools-extra=$MONGO_VERSION \t\u0026\u0026 rm -rf /var/lib/apt/lists/* \t\u0026\u0026 rm -rf /var/lib/mongodb \t\u0026\u0026 mv /etc/mongod.conf /etc/mongod.conf.orig # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "VOLUME [/data/db /data/configdb]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "ENV HOME=/data/db",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "COPY docker-entrypoint.sh /usr/local/bin/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "ENTRYPOINT [\"docker-entrypoint.sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "EXPOSE map[27017/tcp:{}]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-19T23:54:13Z",
+          "created_by": "CMD [\"mongod\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:45Z",
+          "created_by": "HEALTHCHECK \u0026{[\"CMD-SHELL\" \"mongosh --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'\"] \"30s\" \"5s\" \"10s\" \"0s\" '\\x05'}",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:45Z",
+          "created_by": "COPY init.js /docker-entrypoint-initdb.d/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:45Z",
+          "created_by": "USER mongodb",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:73974f74b436f39a2fdb6461b1e3f7c3e41c73325776fa71d16b942a5b4a365b",
+          "sha256:53598f88c30a84ecdaacdd2921eddae535e57cf0d70bc02b23a93e8f252be05c",
+          "sha256:d113279b9c68f244a180039b06291835708476975f65743c29840c4230f956d7",
+          "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5",
+          "sha256:50a911e1f00582232e05560e7961e57f921ca09dfcaaaaeef5da45a71c65fdc0",
+          "sha256:766607f8c14937f440ca45b7585a0f8e47e4b74c3bf4402228027b043506f096",
+          "sha256:c3d9ef6867267ea86a14c82c731cbd50638dfe00c8205fc1a1547f939c0e33d3",
+          "sha256:fa86dd42022d619f9296f0d2231648c36f1dcc6221831df10e0034674c901f42",
+          "sha256:7574f7550ade6deda90a91caf9502faacc49fb64d6c9749e2ca1651f076b9249"
+        ]
+      },
+      "config": {
+        "Cmd": [
+          "mongod"
+        ],
+        "Healthcheck": {
+          "Test": [
+            "CMD-SHELL",
+            "mongosh --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
+          ],
+          "Interval": 30000000000,
+          "Timeout": 5000000000,
+          "StartPeriod": 10000000000,
+          "Retries": 5
+        },
+        "Entrypoint": [
+          "docker-entrypoint.sh"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "GOSU_VERSION=1.19",
+          "JSYAML_VERSION=3.13.1",
+          "JSYAML_CHECKSUM=662e32319bdd378e91f67578e56a34954b0a2e33aca11d70ab9f4826af24b941",
+          "MONGO_PACKAGE=mongodb-org",
+          "MONGO_REPO=repo.mongodb.org",
+          "MONGO_MAJOR=7.0",
+          "MONGO_VERSION=7.0.26",
+          "HOME=/data/db"
+        ],
+        "Labels": {
+          "org.opencontainers.image.ref.name": "ubuntu",
+          "org.opencontainers.image.version": "22.04"
+        },
+        "User": "mongodb",
+        "Volumes": {
+          "/data/configdb": {},
+          "/data/db": {}
+        }
+      }
+    }
+  },
+  "Results": [
+    {
+      "Target": "dev126712/dockerized-three-tier-app-database:latest (ubuntu 22.04)",
+      "Class": "os-pkgs",
+      "Type": "ubuntu"
+    },
+    {
+      "Target": "Node.js",
+      "Class": "lang-pkgs",
+      "Type": "node-pkg",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2025-64718",
+          "PkgID": "js-yaml@3.13.1",
+          "PkgName": "js-yaml",
+          "PkgPath": "opt/js-yaml/package.json",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/js-yaml@3.13.1",
+            "UID": "825a7e83b82f730b"
+          },
+          "InstalledVersion": "3.13.1",
+          "FixedVersion": "4.1.1, 3.14.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-64718",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "js-yaml is a JavaScript YAML parser and dumper. In js-yaml 4.1.0 and b ...",
+          "Description": "js-yaml is a JavaScript YAML parser and dumper. In js-yaml 4.1.0 and below, it's possible for an attacker to modify the prototype of the result of a parsed yaml document via prototype pollution (`__proto__`). All users who parse untrusted yaml documents may be impacted. The problem is patched in js-yaml 4.1.1. Users can protect against this kind of attack on the server by using `node --disable-proto=delete` or `deno` (in Deno, pollution protection is on by default).",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1321"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://github.com/nodeca/js-yaml",
+            "https://github.com/nodeca/js-yaml/commit/383665ff4248ec2192d1274e934462bb30426879",
+            "https://github.com/nodeca/js-yaml/commit/5278870a17454fe8621dbd8c445c412529525266",
+            "https://github.com/nodeca/js-yaml/security/advisories/GHSA-mh29-5h37-fv8m",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-64718"
+          ],
+          "PublishedDate": "2025-11-13T16:15:57.153Z",
+          "LastModifiedDate": "2025-12-02T19:33:03.31Z"
+        }
+      ]
+    },
+    {
+      "Target": "usr/local/bin/gosu",
+      "Class": "lang-pkgs",
+      "Type": "gobinary",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2025-58183",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58183",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "golang: archive/tar: Unbounded allocation when parsing GNU sparse map",
+          "Description": "tar.Reader does not set a maximum size on the number of sparse region data blocks in GNU tar pax 1.0 sparse files. A maliciously-crafted archive containing a large number of sparse regions can cause a Reader to read an unbounded amount of data from the archive into memory. When reading from a compressed source, a small compressed input can result in large allocations.",
+          "Severity": "HIGH",
+          "VendorSeverity": {
+            "alma": 2,
+            "amazon": 3,
+            "bitnami": 2,
+            "oracle-oval": 3,
+            "redhat": 2,
+            "rocky": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+              "V3Score": 4.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/errata/RHSA-2025:21816",
+            "https://access.redhat.com/security/cve/CVE-2025-58183",
+            "https://bugzilla.redhat.com/2407258",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2404715",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2407258",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-52881",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-58183",
+            "https://errata.almalinux.org/10/ALSA-2025-21816.html",
+            "https://errata.rockylinux.org/RLSA-2025:22011",
+            "https://go.dev/cl/709861",
+            "https://go.dev/issue/75677",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://linux.oracle.com/cve/CVE-2025-58183.html",
+            "https://linux.oracle.com/errata/ELSA-2025-22011.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-58183",
+            "https://pkg.go.dev/vuln/GO-2025-4014",
+            "https://www.cve.org/CVERecord?id=CVE-2025-58183"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.357Z",
+          "LastModifiedDate": "2025-11-04T22:16:33.2Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-58186",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58186",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "Despite HTTP headers having a default limit of 1MB, the number of cook ...",
+          "Description": "Despite HTTP headers having a default limit of 1MB, the number of cookies that can be parsed does not have a limit. By sending a lot of very small cookies such as \"a=;\", an attacker can make an HTTP server allocate a large amount of structs, causing large memory consumption.",
+          "Severity": "HIGH",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://go.dev/cl/709855",
+            "https://go.dev/issue/75672",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-58186",
+            "https://pkg.go.dev/vuln/GO-2025-4012"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.547Z",
+          "LastModifiedDate": "2025-11-04T22:16:33.45Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-58187",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.9, 1.25.3",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58187",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "Due to the design of the name constraint checking algorithm, the proce ...",
+          "Description": "Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate. This affects programs which validate arbitrary certificate chains.",
+          "Severity": "HIGH",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://go.dev/cl/709854",
+            "https://go.dev/issue/75681",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-58187",
+            "https://pkg.go.dev/vuln/GO-2025-4007"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.643Z",
+          "LastModifiedDate": "2025-11-20T23:15:52.007Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-47912",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-47912",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "net/url: Insufficient validation of bracketed IPv6 hostnames in net/url",
+          "Description": "The Parse function permits values other than IPv6 addresses to be included in square brackets within the host component of a URL. RFC 3986 permits IPv6 addresses to be included within the host component, enclosed within square brackets. For example: \"http://[::1]/\". IPv4 addresses and hostnames must not appear within square brackets. Parse did not enforce this requirement.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-47912",
+            "https://go.dev/cl/709857",
+            "https://go.dev/issue/75678",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-47912",
+            "https://pkg.go.dev/vuln/GO-2025-4010",
+            "https://www.cve.org/CVERecord?id=CVE-2025-47912"
+          ],
+          "PublishedDate": "2025-10-29T23:16:18.187Z",
+          "LastModifiedDate": "2025-11-04T22:16:16.497Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-58185",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58185",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "encoding/asn1: Parsing DER payload can cause memory exhaustion in encoding/asn1",
+          "Description": "Parsing a maliciously crafted DER payload could allocate large amounts of memory, causing memory exhaustion.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-58185",
+            "https://github.com/golang/go/commit/8709a41d5ef7321f486a1857f189c3fee20e8edd",
+            "https://go.dev/cl/709856",
+            "https://go.dev/issue/75671",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-58185",
+            "https://pkg.go.dev/vuln/GO-2025-4011",
+            "https://www.cve.org/CVERecord?id=CVE-2025-58185"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.45Z",
+          "LastModifiedDate": "2025-11-04T22:16:33.327Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-58188",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58188",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "crypto/x509: golang: Panic when validating certificates with DSA public keys in crypto/x509",
+          "Description": "Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method. This affects programs which validate arbitrary certificate chains.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-58188",
+            "https://github.com/golang/go/commit/6e4007e8cffbb870e6b606307ab7308236ecefb9",
+            "https://go.dev/cl/709853",
+            "https://go.dev/issue/75675",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-58188",
+            "https://pkg.go.dev/vuln/GO-2025-4013",
+            "https://www.cve.org/CVERecord?id=CVE-2025-58188"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.74Z",
+          "LastModifiedDate": "2025-11-04T22:16:33.74Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-58189",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-58189",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "crypto/tls: go crypto/tls ALPN negotiation error contains attacker controlled information",
+          "Description": "When Conn.Handshake fails during ALPN negotiation the error contains attacker controlled information (the ALPN protocols sent by the client) which is not escaped.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-58189",
+            "https://go.dev/cl/707776",
+            "https://go.dev/issue/75652",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-58189",
+            "https://pkg.go.dev/vuln/GO-2025-4008",
+            "https://www.cve.org/CVERecord?id=CVE-2025-58189"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.833Z",
+          "LastModifiedDate": "2025-11-04T22:16:33.877Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-61723",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-61723",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "encoding/pem: Quadratic complexity when parsing some invalid inputs in encoding/pem",
+          "Description": "The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input. This affects programs which parse untrusted PEM inputs.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-61723",
+            "https://github.com/golang/go/commit/5ce8cd16f3859ec5ac4106ad8ec15d6236f4501b",
+            "https://go.dev/cl/709858",
+            "https://go.dev/issue/75676",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-61723",
+            "https://pkg.go.dev/vuln/GO-2025-4009",
+            "https://www.cve.org/CVERecord?id=CVE-2025-61723"
+          ],
+          "PublishedDate": "2025-10-29T23:16:19.927Z",
+          "LastModifiedDate": "2025-11-04T22:16:36.42Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-61724",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-61724",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "net/textproto: Excessive CPU consumption in Reader.ReadResponse in net/textproto",
+          "Description": "The Reader.ReadResponse function constructs a response string through repeated string concatenation of lines. When the number of lines in a response is large, this can cause excessive CPU consumption.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-61724",
+            "https://go.dev/cl/709859",
+            "https://go.dev/issue/75716",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-61724",
+            "https://pkg.go.dev/vuln/GO-2025-4015",
+            "https://www.cve.org/CVERecord?id=CVE-2025-61724"
+          ],
+          "PublishedDate": "2025-10-29T23:16:20.02Z",
+          "LastModifiedDate": "2025-11-04T22:16:36.567Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-61725",
+          "PkgName": "stdlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:golang/stdlib@v1.24.6",
+            "UID": "92700ad390af15bf"
+          },
+          "InstalledVersion": "v1.24.6",
+          "FixedVersion": "1.24.8, 1.25.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:cbe4e44f4e968f469699439a01071bde01c6b9eda5ae97de656e401ec5965ef5"
+          },
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-61725",
+          "DataSource": {
+            "ID": "govulndb",
+            "Name": "The Go Vulnerability Database",
+            "URL": "https://pkg.go.dev/vuln/"
+          },
+          "Title": "net/mail: Excessive CPU consumption in ParseAddress in net/mail",
+          "Description": "The ParseAddress function constructeds domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 3,
+            "bitnami": 3,
+            "redhat": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://www.openwall.com/lists/oss-security/2025/10/08/1",
+            "https://access.redhat.com/security/cve/CVE-2025-61725",
+            "https://go.dev/cl/709860",
+            "https://go.dev/issue/75680",
+            "https://groups.google.com/g/golang-announce/c/4Emdl2iQ_bI",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-61725",
+            "https://pkg.go.dev/vuln/GO-2025-4006",
+            "https://www.cve.org/CVERecord?id=CVE-2025-61725"
+          ],
+          "PublishedDate": "2025-10-29T23:16:20.113Z",
+          "LastModifiedDate": "2025-11-04T22:16:36.693Z"
+        }
+      ]
+    }
+  ]
+}
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2025-12-03T21:13:00.42231163Z",
+  "ArtifactName": "dev126712/dockerized-three-tier-app-proxy:latest",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "debian",
+      "Name": "13.2"
+    },
+    "ImageID": "sha256:05b9af45204cff342078f37e6273c847f5b9c9915b00dca1b29fef8a6c2c30a0",
+    "DiffIDs": [
+      "sha256:70a290c5e58b68f39496ab93a62f21b8b2ca0502e97905131838de1b39a37cbb",
+      "sha256:008ba900efa19180f53a0ed13fc6feb7d2d34bad25a839702024f87c5122568a",
+      "sha256:1e79db1a7c1e2dc46e0cb975b22d67695877d42318a3598d01f322df3078c43d",
+      "sha256:fe0771a36433cf0ef9f598e1f0b526520fa60c732d969e67bc6dd38f01bebf40",
+      "sha256:5f0d4d15245b8979efd5be5e1726e44dd6461c32c2fa193b15228e591f1d2442",
+      "sha256:388bb4cadb9eb18529d3f466855a783f38c821571bc180fec9d0663fef1d0322",
+      "sha256:38d44e06fd0163071bcf2eeff92083e9420f4fb17c32fb5c4af71b75e0e91eaa",
+      "sha256:99bf7a509fcb84ded39e4e82c2d566dd4870d7de2e2d38d8d1dc7e3f76ff6d15",
+      "sha256:75b7c778e2315836b70ba95ff1420c93247a032d6f3ee629e0994746a016247c"
+    ],
+    "RepoTags": [
+      "dev126712/dockerized-three-tier-app-proxy:latest"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2025-12-03T21:11:51.948973504Z",
+      "history": [
+        {
+          "created": "2025-11-17T00:00:00Z",
+          "created_by": "# debian.sh --arch 'amd64' out/ 'trixie' '@1763337600'",
+          "comment": "debuerreotype 0.16"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "LABEL maintainer=NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "ENV NGINX_VERSION=1.29.3",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "ENV NJS_VERSION=0.9.4",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "ENV NJS_RELEASE=1~trixie",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "ENV PKG_RELEASE=1~trixie",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "ENV DYNPKG_RELEASE=1~trixie",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "RUN /bin/sh -c set -x     \u0026\u0026 groupadd --system --gid 101 nginx     \u0026\u0026 useradd --system --gid nginx --no-create-home --home /nonexistent --comment \"nginx user\" --shell /bin/false --uid 101 nginx     \u0026\u0026 apt-get update     \u0026\u0026 apt-get install --no-install-recommends --no-install-suggests -y gnupg1 ca-certificates     \u0026\u0026     NGINX_GPGKEYS=\"573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 8540A6F18833A80E9C1653A42FD21310B49F6B46 9E9BE90EACBCDE69FE9B204CBCDCD8A38D88A2B3\";     NGINX_GPGKEY_PATH=/etc/apt/keyrings/nginx-archive-keyring.gpg;     export GNUPGHOME=\"$(mktemp -d)\";     found='';     for NGINX_GPGKEY in $NGINX_GPGKEYS; do     for server in         hkp://keyserver.ubuntu.com:80         pgp.mit.edu     ; do         echo \"Fetching GPG key $NGINX_GPGKEY from $server\";         gpg1 --batch --keyserver \"$server\" --keyserver-options timeout=10 --recv-keys \"$NGINX_GPGKEY\" \u0026\u0026 found=yes \u0026\u0026 break;     done;     test -z \"$found\" \u0026\u0026 echo \u003e\u00262 \"error: failed to fetch GPG key $NGINX_GPGKEY\" \u0026\u0026 exit 1;     done;     gpg1 --batch --export $NGINX_GPGKEYS \u003e \"$NGINX_GPGKEY_PATH\" ;     rm -rf \"$GNUPGHOME\";     apt-get remove --purge --auto-remove -y gnupg1 \u0026\u0026 rm -rf /var/lib/apt/lists/*     \u0026\u0026 dpkgArch=\"$(dpkg --print-architecture)\"     \u0026\u0026 nginxPackages=\"         nginx=${NGINX_VERSION}-${PKG_RELEASE}         nginx-module-xslt=${NGINX_VERSION}-${DYNPKG_RELEASE}         nginx-module-geoip=${NGINX_VERSION}-${DYNPKG_RELEASE}         nginx-module-image-filter=${NGINX_VERSION}-${DYNPKG_RELEASE}         nginx-module-njs=${NGINX_VERSION}+${NJS_VERSION}-${NJS_RELEASE}     \"     \u0026\u0026 case \"$dpkgArch\" in         amd64|arm64)             echo \"deb [signed-by=$NGINX_GPGKEY_PATH] https://nginx.org/packages/mainline/debian/ trixie nginx\" \u003e\u003e /etc/apt/sources.list.d/nginx.list             \u0026\u0026 apt-get update             ;;         *)             tempDir=\"$(mktemp -d)\"             \u0026\u0026 chmod 777 \"$tempDir\"                         \u0026\u0026 savedAptMark=\"$(apt-mark showmanual)\"                         \u0026\u0026 apt-get update             \u0026\u0026 apt-get install --no-install-recommends --no-install-suggests -y                 curl                 devscripts                 equivs                 git                 libxml2-utils                 lsb-release                 xsltproc             \u0026\u0026 (                 cd \"$tempDir\"                 \u0026\u0026 REVISION=\"${NGINX_VERSION}-${PKG_RELEASE}\"                 \u0026\u0026 REVISION=${REVISION%~*}                 \u0026\u0026 curl -f -L -O https://github.com/nginx/pkg-oss/archive/${REVISION}.tar.gz                 \u0026\u0026 PKGOSSCHECKSUM=\"249858446828ace0c81ea3e057135aa368f3dab83430cf867bb9fc32598948f29c4bd50908491da704536af1106aa87553f6a76cc126c6833dc9b14dd00564b8 *${REVISION}.tar.gz\"                 \u0026\u0026 if [ \"$(openssl sha512 -r ${REVISION}.tar.gz)\" = \"$PKGOSSCHECKSUM\" ]; then                     echo \"pkg-oss tarball checksum verification succeeded!\";                 else                     echo \"pkg-oss tarball checksum verification failed!\";                     exit 1;                 fi                 \u0026\u0026 tar xzvf ${REVISION}.tar.gz                 \u0026\u0026 cd pkg-oss-${REVISION}                 \u0026\u0026 cd debian                 \u0026\u0026 for target in base module-geoip module-image-filter module-njs module-xslt; do                     make rules-$target;                     mk-build-deps --install --tool=\"apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes\"                         debuild-$target/nginx-$NGINX_VERSION/debian/control;                 done                 \u0026\u0026 make base module-geoip module-image-filter module-njs module-xslt             )                         \u0026\u0026 apt-mark showmanual | xargs apt-mark auto \u003e /dev/null             \u0026\u0026 { [ -z \"$savedAptMark\" ] || apt-mark manual $savedAptMark; }                         \u0026\u0026 ls -lAFh \"$tempDir\"             \u0026\u0026 ( cd \"$tempDir\" \u0026\u0026 dpkg-scanpackages . \u003e Packages )             \u0026\u0026 grep '^Package: ' \"$tempDir/Packages\"             \u0026\u0026 echo \"deb [ trusted=yes ] file://$tempDir ./\" \u003e /etc/apt/sources.list.d/temp.list             \u0026\u0026 apt-get -o Acquire::GzipIndexes=false update             ;;     esac         \u0026\u0026 apt-get install --no-install-recommends --no-install-suggests -y                         $nginxPackages                         gettext-base                         curl     \u0026\u0026 apt-get remove --purge --auto-remove -y \u0026\u0026 rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/nginx.list         \u0026\u0026 if [ -n \"$tempDir\" ]; then         apt-get purge -y --auto-remove         \u0026\u0026 rm -rf \"$tempDir\" /etc/apt/sources.list.d/temp.list;     fi     \u0026\u0026 ln -sf /dev/stdout /var/log/nginx/access.log     \u0026\u0026 ln -sf /dev/stderr /var/log/nginx/error.log     \u0026\u0026 mkdir /docker-entrypoint.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "COPY docker-entrypoint.sh / # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "COPY 15-local-resolvers.envsh /docker-entrypoint.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "COPY 20-envsubst-on-templates.sh /docker-entrypoint.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "COPY 30-tune-worker-processes.sh /docker-entrypoint.d # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "ENTRYPOINT [\"/docker-entrypoint.sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "EXPOSE map[80/tcp:{}]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "STOPSIGNAL SIGQUIT",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-11-18T04:24:11Z",
+          "created_by": "CMD [\"nginx\" \"-g\" \"daemon off;\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:51Z",
+          "created_by": "RUN /bin/sh -c apt update     \u0026\u0026 apt install -y curl gettext     \u0026\u0026 rm -rf /var/lib/apt/lists/* # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:51Z",
+          "created_by": "RUN /bin/sh -c useradd -ms /bin/bash nginxuser     \u0026\u0026 chown -R nginxuser:nginxuser /var/cache/nginx /var/run /var/log/nginx # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2025-12-03T21:11:51Z",
+          "created_by": "USER nginxuser",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:51Z",
+          "created_by": "HEALTHCHECK \u0026{[\"CMD-SHELL\" \"curl --fail http://localhost/ || exit 1\"] \"30s\" \"5s\" \"5s\" \"0s\" '\\x03'}",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2025-12-03T21:11:51Z",
+          "created_by": "ENTRYPOINT [\"/bin/bash\" \"-c\" \"envsubst \u003c /tmp/nginx.conf \u003e /etc/nginx/nginx.conf \u0026\u0026 nginx -g 'daemon off;'\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:70a290c5e58b68f39496ab93a62f21b8b2ca0502e97905131838de1b39a37cbb",
+          "sha256:008ba900efa19180f53a0ed13fc6feb7d2d34bad25a839702024f87c5122568a",
+          "sha256:1e79db1a7c1e2dc46e0cb975b22d67695877d42318a3598d01f322df3078c43d",
+          "sha256:fe0771a36433cf0ef9f598e1f0b526520fa60c732d969e67bc6dd38f01bebf40",
+          "sha256:5f0d4d15245b8979efd5be5e1726e44dd6461c32c2fa193b15228e591f1d2442",
+          "sha256:388bb4cadb9eb18529d3f466855a783f38c821571bc180fec9d0663fef1d0322",
+          "sha256:38d44e06fd0163071bcf2eeff92083e9420f4fb17c32fb5c4af71b75e0e91eaa",
+          "sha256:99bf7a509fcb84ded39e4e82c2d566dd4870d7de2e2d38d8d1dc7e3f76ff6d15",
+          "sha256:75b7c778e2315836b70ba95ff1420c93247a032d6f3ee629e0994746a016247c"
+        ]
+      },
+      "config": {
+        "Healthcheck": {
+          "Test": [
+            "CMD-SHELL",
+            "curl --fail http://localhost/ || exit 1"
+          ],
+          "Interval": 30000000000,
+          "Timeout": 5000000000,
+          "StartPeriod": 5000000000,
+          "Retries": 3
+        },
+        "Entrypoint": [
+          "/bin/bash",
+          "-c",
+          "envsubst \u003c /tmp/nginx.conf \u003e /etc/nginx/nginx.conf \u0026\u0026 nginx -g 'daemon off;'"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "NGINX_VERSION=1.29.3",
+          "NJS_VERSION=0.9.4",
+          "NJS_RELEASE=1~trixie",
+          "PKG_RELEASE=1~trixie",
+          "DYNPKG_RELEASE=1~trixie"
+        ],
+        "Labels": {
+          "maintainer": "NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e"
+        },
+        "User": "nginxuser",
+        "StopSignal": "SIGQUIT"
+      }
+    }
+  },
+  "Results": [
+    {
+      "Target": "dev126712/dockerized-three-tier-app-proxy:latest (debian 13.2)",
+      "Class": "os-pkgs",
+      "Type": "debian"
+    }
+  ]
+}
