@@ -64,10 +64,10 @@ jobs:
 
     - name: Build the Docker images
       run: |
-        docker build ./backend/ -t dev126712/dockerized-three-tier-app-backend:latest
-        docker build ./frontend/ -t dev126712/dockerized-three-tier-app-frontend:latest
-        docker build ./database/ -t dev126712/dockerized-three-tier-app-database:latest
-        docker build ./proxy/ -t dev126712/dockerized-three-tier-app-proxy:latest
+        docker build ./backend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
+        docker build ./frontend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
+        docker build ./database/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
+        docker build ./proxy/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
 
     - name: set up docker
       uses: docker/setup-buildx-action@v2
@@ -99,10 +99,10 @@ jobs:
 
         docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
         IMAGES=(
-          "dev126712/dockerized-three-tier-app-backend:latest"
-          "dev126712/dockerized-three-tier-app-frontend:latest"
-          "dev126712/dockerized-three-tier-app-database:latest"
-          "dev126712/dockerized-three-tier-app-proxy:latest"
+          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest"
+          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest"
+          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest"
+          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest"
         )
        
           mkdir -p "Github Actions/Trivy Automation"
