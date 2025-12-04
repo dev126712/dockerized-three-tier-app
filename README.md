@@ -185,61 +185,6 @@ This pipeline manages the project's cloud infrastructure using Terraform, focusi
 
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/03a21924fc9081f7141dd11238437ae44c90a984/Screenshot%202025-12-04%204.03.11%20PM.png)
 
-# Dockerized Three-Tier Architecture
-
-## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, Nginx(reverse proxy) and Docker Compose.
-
-## Project Goal (Architectural Focus)
-
- The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
-
-
-### This setup demonstrates critical skills required for modern, production-ready systems, including:
-
-****Microservices Orchestration****: Managing independent services using Docker Compose
-
-****Environment Parity****: Ensuring the development and production environment behave identically.
-
-****Network Segmentation****: Utilizing a dedicated Docker network for secure inter-service communication.
-  
-## Prerequisites
-#### You must have the following tools installed on your machine:
-
-#### -Docker Desktop (or Docker Engine)
-
-#### -Docker Compose 
-
-## Local Setup and Run
-
-### 1. Build and Start the Containers
-
-#### The following command will build both the frontend and api-server images using their respective Dockerfiles, start the containers, and run them in detached mode (-d).
-
-``` bash
-sudo docker compose --env-file .env up --build
-```
-
-### 2. Access the Application
-
-
-#### Frontend (Browser): http://localhost:8000
-
-#### API (Direct Access): http://localhost:8080/api/products (useful for testing)
-
-#### Database UI (Mongo Express): http://localhost:8081 (Use default credentials: admin:pass)
-
-### 3. View Logs and Stop
-
-#### To view the live logs from both services 
-
-``` bash
-sudo docker compose logs -f
-```
-### To stop and remove the running containers:
-
-``` bash
-sudo docker compose down
-```
 
 
 ```
