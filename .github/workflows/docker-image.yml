@@ -348,8 +348,6 @@ jobs:
         TRIVY_STATUS=$?
         
         if [ $TRIVY_STATUS == 0 ]; then
-          docker push ${{ env.IMAGE_NAME_FRONTEND }}
-          echo "${{ env.IMAGE_NAME_FRONTEND }} pushed to Docke Hub"
         else 
           echo "Image not push Vulnerability found"
         fi
@@ -438,8 +436,6 @@ jobs:
         TRIVY_STATUS=$?
         
         if [ $TRIVY_STATUS == 0 ]; then
-          docker push ${{ env.IMAGE_NAME_PROXY }}
-          echo "${{ env.IMAGE_NAME_PROXY }} pushed to Docke Hub"
         else 
           echo "Image not push Vulnerability found"
         fi
@@ -527,8 +523,6 @@ jobs:
         TRIVY_STATUS=$?
         
         if [ $TRIVY_STATUS == 0 ]; then
-          docker push ${{ env.IMAGE_NAME_DATABASE }}
-          echo "${{ env.IMAGE_NAME_DATABASE }} pushed to Docke Hub"
         else 
           echo "Image not push Vulnerability found"
         fi
