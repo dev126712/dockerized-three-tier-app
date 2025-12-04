@@ -23,7 +23,7 @@ permissions:
 jobs:
 ```
 
-1. SAST Scan (Checkov)
+# 1. SAST Scan (Checkov)
 
 ````
   secirity-scan-Checkov-backend:
@@ -41,11 +41,11 @@ jobs:
         output_format: cli
         soft_fail: true
         quiet: true
-```
+````
 
-2. Build & Artifacts: Build Docker images for all four services.
+# 2. Build & Artifacts: Build Docker images for all four services.
 
-```
+````
   build-image-backend:     
     needs: secirity-scan-Checkov-backend
     runs-on: ubuntu-latest
@@ -79,11 +79,11 @@ jobs:
       with:
         name: ${{ env.IMAGE_NAME_BACKEND }}
         path: /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
-```
+````
 
-3. Security Scan (Trivy)
+# 3. Security Scan (Trivy)
 
-```
+````
   scan-backend-with-trivy:
     name: Trivy Security Scan Image Backend
     runs-on: ubuntu-latest
@@ -122,10 +122,10 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_BACKEND }}:latest
-```
-4. Publish: Push all secure and scanned images to Docker Hub.
+````
+# 4. Publish: Push all secure and scanned images to Docker Hub.
 
-```
+````
 push-backend-image-to-dockerhub:
     name: Push Backend Image to Docker Hub
     runs-on: ubuntu-latest
@@ -172,7 +172,7 @@ push-backend-image-to-dockerhub:
       run: docker logout
 
   
-```
+````
 
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
