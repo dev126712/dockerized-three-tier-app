@@ -108,7 +108,7 @@ jobs:
         docker build ./frontend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
 
   build-image-proxy:     
-    needs :secirity-scan-Checkov-proxy
+    needs: secirity-scan-Checkov-proxy
     runs-on: ubuntu-latest
     permissions:
       contents: write 
