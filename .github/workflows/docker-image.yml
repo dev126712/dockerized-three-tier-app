@@ -84,7 +84,8 @@ jobs:
       contents: write 
     env:
       IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend
+      IMAGE_LATEST_TAG_BACKEND: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
+      TAGS: dockerized-three-tier-app-backend:latest, dockerized-three-tier-app-backend:${{ github.sha }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -100,7 +101,7 @@ jobs:
       with:
         context: ./backend
         push: false
-        tags: ${{ env.IMAGE_LATEST_TAG }}
+        tags: ${{ env.IMAGE_LATEST_TAG_BACKEND }}
         load: true
         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
 
@@ -118,7 +119,8 @@ jobs:
       contents: write 
     env:
       IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend
+      IMAGE_LATEST_TAG_FRONTEND: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
+      TAGS: dockerized-three-tier-app-frontend:latest, dockerized-three-tier-app-frontend:${{ github.sha }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -134,7 +136,7 @@ jobs:
       with:
         context: ./frontend
         push: false
-        tags: ${{ env.IMAGE_LATEST_TAG }}
+        tags: ${{ env.IMAGE_LATEST_TAG_FRONTEND }}
         load: true
         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
 
@@ -153,7 +155,8 @@ jobs:
 
     env:
       IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy
+      IMAGE_LATEST_TAG_PROXY: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
+      TAGS: dockerized-three-tier-app-proxy:latest, dockerized-three-tier-app-proxy:${{ github.sha }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -169,7 +172,7 @@ jobs:
       with:
         context: ./proxy
         push: false
-        tags: ${{ env.IMAGE_LATEST_TAG }}
+        tags: ${{ env.IMAGE_LATEST_TAG_PROXY }}
         load: true
         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_PROXY }}.tar
 
@@ -186,7 +189,8 @@ jobs:
       contents: write 
     env:
       IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database
+      IMAGE_LATEST_TAG_DATABASE: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
+      TAGS: dockerized-three-tier-app-database:latest, dockerized-three-tier-app-database:${{ github.sha }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -199,7 +203,7 @@ jobs:
       with:
         context: ./database
         push: false
-        tags: ${{ env.IMAGE_LATEST_TAG }}
+        tags: ${{ env.IMAGE_LATEST_TAG_DATABASE }}
         load: true
         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
 
