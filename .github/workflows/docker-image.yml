@@ -98,7 +98,7 @@ jobs:
     - name: Build the Docker images
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./backend
         push: false
         tags: ${{ env.IMAGE_LATEST_TAG }}
         load: true
@@ -132,7 +132,7 @@ jobs:
     - name: Build the Docker images
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./frontend
         push: false
         tags: ${{ env.IMAGE_LATEST_TAG }}
         load: true
@@ -163,7 +163,7 @@ jobs:
     - name: Build the Docker images
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./proxy
         push: false
         tags: ${{ env.IMAGE_LATEST_TAG }}
         load: true
@@ -190,7 +190,7 @@ jobs:
     - name: Build the Docker images
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./database
         push: false
         tags: ${{ env.IMAGE_LATEST_TAG }}
         load: true
