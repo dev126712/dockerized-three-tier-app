@@ -170,4 +170,6 @@ This pipeline requires the following secrets to be configured in your GitHub rep
 | DOCKERHUB_USERNAME | Your Docker Hub username, used to prefix the repository names (e.g., username/app-backend). |
 | DOCKER_HUB_TOKEN | A Docker Hub Access Token with Read, Write, and Delete permissions, used to log in and push the final images. |
 
+![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
+
 This documentation provides a comprehensive overview of your CI/CD workflow! Let me know if you would like to integrate any of the advanced security features we discussed earlier (like hard security gates or SBOM generation) into this new multi-tier pipeline, or if you want to detail the contents of your service-specific Dockerfiles.
