@@ -248,6 +248,11 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
+        mkdir -p "Github Actions/Trivy Automation"   
+        echo "ceate output file"
+        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
+        echo "output file created"
+
         trivy image \
           --exit-code 0 \
           --format table \
@@ -319,6 +324,11 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
+        mkdir -p "Github Actions/Trivy Automation"
+        echo "ceate output file"
+        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
+        echo "output file created"
+
         trivy image \
           --exit-code 0 \
           --format table \
@@ -391,6 +401,13 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
+
+        mkdir -p "Github Actions/Trivy Automation"
+              
+        echo "ceate output file"
+        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
+        echo "output file created"
+
         trivy image \
           --exit-code 0 \
           --format table \
@@ -464,6 +481,11 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
+        mkdir -p "Github Actions/Trivy Automation"
+        echo "ceate output file"
+        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
+        echo "output file created"
+
         trivy image \
           --exit-code 0 \
           --format table \
@@ -540,8 +562,8 @@ jobs:
           
         
         for IMAGE in "${IMAGES[@]}"; do
-        echo "Scanning $IMAGE"
-          
+          echo "Scanning $IMAGE"
+            
           trivy image \
             --exit-code 0 \
             --format json \
@@ -551,16 +573,16 @@ jobs:
             >>  "$OUTPUT_FILE" \
             "$IMAGE" 
 
-        ls -l "Github Actions/Trivy Automation"
-        
-        TRIVY_STATUS=$?
-        
-        if [ $TRIVY_STATUS == 0 ]; then
-          docker push $IMAGE
-          echo "$IMAGE pushed to Docke Hub"
-        else 
-          echo "Image not push Vulnerability found"
-        fi
+          ls -l "Github Actions/Trivy Automation"
+          
+          TRIVY_STATUS=$?
+          
+          if [ $TRIVY_STATUS == 0 ]; then
+            docker push $IMAGE
+            echo "$IMAGE pushed to Docke Hub"
+          else 
+            echo "Image not push Vulnerability found"
+          fi
         done
 
         git config --global user.email "${{ secrets.GIT_EMAIL }}"
