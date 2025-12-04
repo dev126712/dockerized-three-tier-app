@@ -150,6 +150,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write 
+
+    env:
+      IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -180,6 +184,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write 
+    env:
+      IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
