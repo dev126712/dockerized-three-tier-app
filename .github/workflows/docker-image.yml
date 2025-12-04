@@ -8,9 +8,7 @@ on:
       - 'frontend/**'
       - 'database/**'
       - 'proxy/**'
-      - '.github/workflows/*.yml'
-
-    
+      - '.github/workflows/*.yml'   
       
 jobs:
   secirity-scan-Checkov-frontend:
@@ -111,7 +109,6 @@ jobs:
         name: ${{ env.IMAGE_NAME_BACKEND }}
         path: /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
 
-
   build-image-frontend:     
     needs: secirity-scan-Checkov-frontend
     runs-on: ubuntu-latest
@@ -145,7 +142,6 @@ jobs:
       with:
         name: ${{ env.IMAGE_NAME_FRONTEND }}
         path: /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
-
 
   build-image-proxy:     
     needs: secirity-scan-Checkov-proxy
@@ -213,8 +209,6 @@ jobs:
         name: ${{ env.IMAGE_NAME_DATABASE }}
         path: /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
     
-  
-
   scan-backend-with-trivy:
     name: Trivy Security Scan Image Backend
     runs-on: ubuntu-latest
@@ -243,7 +237,6 @@ jobs:
         
         docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:${{ github.sha }}
 
-
     - name: Install Trivy
       run: |
         sudo apt-get update
@@ -252,7 +245,6 @@ jobs:
   
     - name: Download Trivy vulnerability database
       run: trivy image --download-db-only
-      
       
     - name: Run Trivy vulnerability scan
       run: |
@@ -288,8 +280,6 @@ jobs:
     - name: Docker - Logout
       run: docker logout
       
-         
-
   scan-frontend-with-trivy:
     name: Trivy Security Scan Image Frontend
     runs-on: ubuntu-latest
@@ -327,7 +317,6 @@ jobs:
     - name: Download Trivy vulnerability database
       run: trivy image --download-db-only
       
-      
     - name: Run Trivy vulnerability scan
       run: |
         trivy image \
@@ -338,35 +327,29 @@ jobs:
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_FRONTEND }}:latest
 
-          ls -l "Github Actions/Trivy Automation"
-          
-          TRIVY_STATUS=$?
-          
-          if [ $TRIVY_STATUS == 0 ]; then
-            docker push $IMAGE
-            echo "$IMAGE pushed to Docke Hub"
-          else 
-            echo "Image not push Vulnerability found"
-          fi
-         done
+        ls -l "Github Actions/Trivy Automation"
+        
+        TRIVY_STATUS=$?
+        
+        if [ $TRIVY_STATUS == 0 ]; then
+          docker push $IMAGE
+          echo "$IMAGE pushed to Docke Hub"
+        else 
+          echo "Image not push Vulnerability found"
+        fi
+        done
 
-         git config --global user.email "${{ secrets.GIT_EMAIL }}"
-         git config --global user.name "${{ secrets.GIT_USERNAME }}"
-         git add "Github Actions/Trivy Automation/scan-results.json"
-         git commit -m "Add trivy results (${DATE})"
-         git push
-
+        git config --global user.email "${{ secrets.GIT_EMAIL }}"
+        git config --global user.name "${{ secrets.GIT_USERNAME }}"
+        git add "Github Actions/Trivy Automation/scan-results.json"
+        git commit -m "Add trivy results (${DATE})"
+        git push
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
 
     - name: Docker - Logout
       run: docker logout
-      
-         
-
-
-
 
   scan-proxy-with-trivy:
     name: Trivy Security Scan Image Proxy
@@ -416,23 +399,23 @@ jobs:
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_PROXY }}:latest
 
-          ls -l "Github Actions/Trivy Automation"
-          
-          TRIVY_STATUS=$?
-          
-          if [ $TRIVY_STATUS == 0 ]; then
-            docker push $IMAGE
-            echo "$IMAGE pushed to Docke Hub"
-          else 
-            echo "Image not push Vulnerability found"
-          fi
-         done
+        ls -l "Github Actions/Trivy Automation"
+        
+        TRIVY_STATUS=$?
+        
+        if [ $TRIVY_STATUS == 0 ]; then
+          docker push $IMAGE
+          echo "$IMAGE pushed to Docke Hub"
+        else 
+          echo "Image not push Vulnerability found"
+        fi
+        done
 
-         git config --global user.email "${{ secrets.GIT_EMAIL }}"
-         git config --global user.name "${{ secrets.GIT_USERNAME }}"
-         git add "Github Actions/Trivy Automation/scan-results.json"
-         git commit -m "Add trivy results (${DATE})"
-         git push
+        git config --global user.email "${{ secrets.GIT_EMAIL }}"
+        git config --global user.name "${{ secrets.GIT_USERNAME }}"
+        git add "Github Actions/Trivy Automation/scan-results.json"
+        git commit -m "Add trivy results (${DATE})"
+        git push
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
@@ -479,7 +462,6 @@ jobs:
     - name: Download Trivy vulnerability database
       run: trivy image --download-db-only
       
-      
     - name: Run Trivy vulnerability scan
       run: |
         trivy image \
@@ -490,32 +472,29 @@ jobs:
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_DATABASE }}:latest
 
-          ls -l "Github Actions/Trivy Automation"
-          
-          TRIVY_STATUS=$?
-          
-          if [ $TRIVY_STATUS == 0 ]; then
-            docker push $IMAGE
-            echo "$IMAGE pushed to Docke Hub"
-          else 
-            echo "Image not push Vulnerability found"
-          fi
-         done
+        ls -l "Github Actions/Trivy Automation"
+        
+        TRIVY_STATUS=$?
+        
+        if [ $TRIVY_STATUS == 0 ]; then
+          docker push $IMAGE
+          echo "$IMAGE pushed to Docke Hub"
+        else 
+          echo "Image not push Vulnerability found"
+        fi
+        done
 
-         git config --global user.email "${{ secrets.GIT_EMAIL }}"
-         git config --global user.name "${{ secrets.GIT_USERNAME }}"
-         git add "Github Actions/Trivy Automation/scan-results.json"
-         git commit -m "Add trivy results (${DATE})"
-         git push
+        git config --global user.email "${{ secrets.GIT_EMAIL }}"
+        git config --global user.name "${{ secrets.GIT_USERNAME }}"
+        git add "Github Actions/Trivy Automation/scan-results.json"
+        git commit -m "Add trivy results (${DATE})"
+        git push
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
 
     - name: Docker - Logout
       run: docker logout
-      
-         
-
       
   Trivy-scan-and-push:
     needs: ["build-image-frontend", "build-image-backend", "build-image-proxy", "build-image-database"]
@@ -531,9 +510,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y curl
         curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
-
-    #- name: Login to GitHub Container Registery
-    #  run: echo "{{ secrets.GHCR_PAT }}" | docker login ghcr.io -u {{ github.actor }} --password-stdin
   
     - name: Download Trivy vulnerability database
       run: trivy image --download-db-only
@@ -575,23 +551,23 @@ jobs:
             >>  "$OUTPUT_FILE" \
             "$IMAGE" 
 
-          ls -l "Github Actions/Trivy Automation"
-          
-          TRIVY_STATUS=$?
-          
-          if [ $TRIVY_STATUS == 0 ]; then
-            docker push $IMAGE
-            echo "$IMAGE pushed to Docke Hub"
-          else 
-            echo "Image not push Vulnerability found"
-          fi
-         done
+        ls -l "Github Actions/Trivy Automation"
+        
+        TRIVY_STATUS=$?
+        
+        if [ $TRIVY_STATUS == 0 ]; then
+          docker push $IMAGE
+          echo "$IMAGE pushed to Docke Hub"
+        else 
+          echo "Image not push Vulnerability found"
+        fi
+        done
 
-         git config --global user.email "${{ secrets.GIT_EMAIL }}"
-         git config --global user.name "${{ secrets.GIT_USERNAME }}"
-         git add "Github Actions/Trivy Automation/scan-results.json"
-         git commit -m "Add trivy results (${DATE})"
-         git push
+        git config --global user.email "${{ secrets.GIT_EMAIL }}"
+        git config --global user.name "${{ secrets.GIT_USERNAME }}"
+        git add "Github Actions/Trivy Automation/scan-results.json"
+        git commit -m "Add trivy results (${DATE})"
+        git push
          
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
