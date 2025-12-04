@@ -232,14 +232,6 @@ jobs:
         docker load --input /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
         docker image ls -a
 
-    - name: Tag Image with Docker Hub Username Prefix
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
-        
-        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:latest
-        
-        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:${{ github.sha }}
-
     - name: Install Trivy
       run: |
         sudo apt-get update
@@ -278,14 +270,6 @@ jobs:
       run: |
         docker load --input /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
         docker image ls -a
-
-    - name: Tag Image with Docker Hub Username Prefix
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
-        
-        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:latest
-        
-        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:${{ github.sha }}
 
     - name: Install Trivy
       run: |
@@ -326,14 +310,6 @@ jobs:
         docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
         docker image ls -a
 
-    - name: Tag Image with Docker Hub Username Prefix
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
-        
-        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:latest
-        
-        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:${{ github.sha }}
-
     - name: Install Trivy
       run: |
         sudo apt-get update
@@ -372,14 +348,6 @@ jobs:
       run: |
         docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
         docker image ls -a
-
-    - name: Tag Image with Docker Hub Username Prefix
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
-        
-        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:latest
-        
-        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:${{ github.sha }}
 
     - name: Install Trivy
       run: |
@@ -428,12 +396,18 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Push Image to Docker Hub
+    - name: Tag Image with Docker Hub Username Prefix
       run: |
-        # Use the fully qualified name defined in the tag step
         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
         
-        # Push the correctly tagged image
+        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:${{ github.sha }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
+        
         docker push $DOCKER_REPO:latest
         docker push $DOCKER_REPO:${{ github.sha }}
 
@@ -467,12 +441,18 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Push Image to Docker Hub
+    - name: Tag Image with Docker Hub Username Prefix
       run: |
-        # Use the fully qualified name defined in the tag step
         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
         
-        # Push the correctly tagged image
+        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:${{ github.sha }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
+        
         docker push $DOCKER_REPO:latest
         docker push $DOCKER_REPO:${{ github.sha }}
 
@@ -506,12 +486,18 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Push Image to Docker Hub
+    - name: Tag Image with Docker Hub Username Prefix
       run: |
-        # Use the fully qualified name defined in the tag step
         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
         
-        # Push the correctly tagged image
+        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:${{ github.sha }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
+        
         docker push $DOCKER_REPO:latest
         docker push $DOCKER_REPO:${{ github.sha }}
 
@@ -545,12 +531,19 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
+        
+        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:${{ github.sha }}
+
     - name: Push Image to Docker Hub
       run: |
         # Use the fully qualified name defined in the tag step
         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
         
-        # Push the correctly tagged image
         docker push $DOCKER_REPO:latest
         docker push $DOCKER_REPO:${{ github.sha }}
 
