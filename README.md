@@ -166,9 +166,7 @@ These final jobs run only if the corresponding build and Trivy scan jobs pass. T
 This pipeline requires the following secrets to be configured in your GitHub repository settings (Settings -> Security -> Secrets and variables -> Actions):
 
 | Secret Name | Purpose |
-
 | ------------- | ------------- |
-
 | DOCKERHUB_USERNAME | Your Docker Hub username, used to prefix the repository names (e.g., username/app-backend). |
 | DOCKER_HUB_TOKEN | A Docker Hub Access Token with Read, Write, and Delete permissions, used to log in and push the final images. |
 
