@@ -8,7 +8,10 @@ on:
       - 'frontend/**'
       - 'database/**'
       - 'proxy/**'
-      - '.github/workflows/*.yml'   
+      - '.github/workflows/*.yml' 
+permissions:
+  contents: read
+  security-events: write
       
 jobs:
   secirity-scan-Checkov-frontend:
