@@ -107,7 +107,7 @@ jobs:
     - name: Upload Image Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.IMAGE_NAME_BACKEND }}-image
+        name: ${{ env.IMAGE_NAME_BACKEND }}
         path: /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
 
 
@@ -141,7 +141,7 @@ jobs:
     - name: Upload Image Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.IMAGE_NAME_FRONTEND }}-image
+        name: ${{ env.IMAGE_NAME_FRONTEND }}
         path: /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
 
 
@@ -172,7 +172,7 @@ jobs:
     - name: Upload Image Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.IMAGE_NAME_PROXY }}-image
+        name: ${{ env.IMAGE_NAME_PROXY }}
         path: /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
 
   build-image-database:     
@@ -199,7 +199,7 @@ jobs:
     - name: Upload Image Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.IMAGE_NAME_DATABASE }}-image
+        name: ${{ env.IMAGE_NAME_DATABASE }}
         path: /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
     
   
@@ -223,6 +223,15 @@ jobs:
       run: |
         docker load --input /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
         docker image ls -a
+
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
+        
+        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:${{ github.sha }}
+
 
     - name: Install Trivy
       run: |
@@ -289,6 +298,14 @@ jobs:
       run: |
         docker load --input /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
         docker image ls -a
+
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
+        
+        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:${{ github.sha }}
 
     - name: Install Trivy
       run: |
@@ -360,6 +377,14 @@ jobs:
         docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
         docker image ls -a
 
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
+        
+        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:${{ github.sha }}
+
     - name: Install Trivy
       run: |
         sudo apt-get update
@@ -425,6 +450,14 @@ jobs:
       run: |
         docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
         docker image ls -a
+
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
+        
+        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:${{ github.sha }}
 
     - name: Install Trivy
       run: |
