@@ -177,30 +177,11 @@ push-backend-image-to-dockerhub:
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
 
-![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
 ## 2. Infrastructure CI/CD Pipeline
 
 This pipeline manages the project's cloud infrastructure using Terraform, focusing on validation, quality, and security before deployment.
 
-### Trigger and Permissions
-| Setting | Value | Description |
-| ------------- | ------------- | ------------- |
-| Trigger | ``` push ``` | Runs automatically on changes. |
-| Path Filtering | ``` **.tf, .github/workflows/ci-infra.yml ``` | Only triggers if Terraform files or the workflow file itself are changed. |
-| Required Secrets | ``` AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY ``` | Credentials for authenticating with AWS during init and plan. |
-
-### Pipeline Stages
-
-The workflow executes in two sequential stages:
-# Job 1: validate-terraform-plan (Validation and Planning)
-This job ensures code quality and correctness.
-
-| Step Name | Purpose |
-| ------------- | ------------- |
-|  Terraform init |  Initializes the working directory and authenticates with AWS. |
-| Terraform fmt & validate  |  Enforces code formatting standards and checks for syntax errors. |
-|  Terraform Plan | Generates a plan showing all proposed changes, essential for manual review before application.  |
 
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/03a21924fc9081f7141dd11238437ae44c90a984/Screenshot%202025-12-04%204.03.11%20PM.png)
 
