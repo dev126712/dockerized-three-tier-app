@@ -12,7 +12,6 @@ on:
       
 jobs:
   secirity-scan-Checkov:
-  
     runs-on: ubuntu-latest
     permissions:
       contents: write 
@@ -53,7 +52,7 @@ jobs:
         soft_fail: true
         quiet: true  
         
-  build-scan-push:     
+  build:     
     needs: secirity-scan-Checkov
     runs-on: ubuntu-latest
     permissions:
@@ -71,7 +70,12 @@ jobs:
 
     - name: set up docker
       uses: docker/setup-buildx-action@v2
-
+      
+  Trivy-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
     - name: Create output directory
       run: mkdir -p "Github Actions/Trivy Automation"
 
