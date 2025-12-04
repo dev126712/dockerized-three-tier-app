@@ -1,16 +1,15 @@
-### Three-Tier Application CI/CD Pipeline
+### Comprehensive DevOps CI/CD Documentation
 
-This document describes the automated Continuous Integration and Continuous Delivery (CI/CD) workflow for the dockerize-three-tier-application project, powered by GitHub Actions.
+This document outlines the two core Continuous Integration/Continuous Delivery (CI/CD) pipelines used to manage the project:
 
-This pipeline is designed for a multi-service application (Frontend, Backend, Database, and Proxy) and ensures that all components pass configuration and vulnerability scans before being built and published to Docker Hub.
+1. Application Pipeline: Builds, Scans, and Publishes the three-tier application (Frontend, Backend, Proxy, Database).
+2. Infrastructure Pipeline: Validates, Secures, and Plans changes to the underlying cloud infrastructure (Terraform).
 
-## 1. Workflow Overview
 
-The entire process is designed to run in parallel where possible, maximizing efficiency while maintaining a strict sequence of security checks and builds.
 
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/64105d4d0de1f6b2286aa6f47ae82d9ba965c086/licensed-image.jpeg)
 
-# High-Level Flow:
+# 1. Application CI/CD Pipeline
 
 1. Security Scan (Shift Left): Run Checkov on configuration files for all four services.
 
@@ -31,10 +30,6 @@ The entire process is designed to run in parallel where possible, maximizing eff
 | Trigger | push to main branch |The workflow is triggered automatically upon pushing code to the main branch. | 
 | Path Filtering | backend/, frontend/, database/, proxy/, .github/workflows/*.yml|Only triggers if files in the service directories or the workflow file itself are modified. | 
 | Permissions |contents: read, security-events: write|Required for checkout and writing security scanning results (e.g., Checkov reports) back to GitHub Security.|
-
-## 3. Workflow Jobs Structure
-
-The workflow is divided into three main stages, utilizing the needs keyword for dependency management.
 
 # Stage A: Configuration Security Scans (Checkov)
 
@@ -72,19 +67,30 @@ These final jobs run only if the corresponding build and Trivy scan jobs pass. T
 | push-proxy-image-to-dockerhub | scan-proxy-with-trivy | Tags and pushes the secure Proxy image. |
 | push-database-image-to-dockerhub | scan-database-with-trivy | Tags and pushes the secure Database image. |
 
-## 4. Required GitHub Secrets
-
-This pipeline requires the following secrets to be configured in your GitHub repository settings (Settings -> Security -> Secrets and variables -> Actions):
-
-| Secret Name | Purpose |
-| ------------- | ------------- |
-| DOCKERHUB_USERNAME | Your Docker Hub username, used to prefix the repository names (e.g., username/app-backend). |
-| DOCKER_HUB_TOKEN | A Docker Hub Access Token with Read, Write, and Delete permissions, used to log in and push the final images. |
-
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
-This documentation provides a comprehensive overview of your CI/CD workflow! Let me know if you would like to integrate any of the advanced security features we discussed earlier (like hard security gates or SBOM generation) into this new multi-tier pipeline, or if you want to detail the contents of your service-specific Dockerfiles.
+## 2. Infrastructure CI/CD Pipeline
 
+This pipeline manages the project's cloud infrastructure using Terraform, focusing on validation, quality, and security before deployment.
+
+### Trigger and Permissions
+| Setting | Value | Description |
+| ------------- | ------------- | ------------- |
+| Trigger | ``` push ``` | Runs automatically on changes. |
+| Path Filtering | ``` **.tf, .github/workflows/ci-infra.yml ``` | Only triggers if Terraform files or the workflow file itself are changed. |
+| Required Secrets | ``` AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY ``` | Credentials for authenticating with AWS during init and plan. |
+
+### Pipeline Stages
+
+The workflow executes in two sequential stages:
+# Job 1: validate-terraform-plan (Validation and Planning)
+This job ensures code quality and correctness.
+
+| Step Name | Purpose |
+| ------------- | ------------- |
+|  Terraform init |  Initializes the working directory and authenticates with AWS. |
+| Terraform fmt & validate  |  Enforces code formatting standards and checks for syntax errors. |
+|  Terraform Plan | Generates a plan showing all proposed changes, essential for manual review before application.  |
 
 # Dockerized Three-Tier Architecture
 
