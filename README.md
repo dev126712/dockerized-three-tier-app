@@ -4,16 +4,16 @@
 
 ## Project Goal (Architectural Focus)
 
-#### The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
+ The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
 
 
 ### This setup demonstrates critical skills required for modern, production-ready systems, including:
 
-####  ****Microservices Orchestration****: Managing independent services using Docker Compose
+****Microservices Orchestration****: Managing independent services using Docker Compose
 
-####  ****Environment Parity****: Ensuring the development and production environment behave identically.
+****Environment Parity****: Ensuring the development and production environment behave identically.
 
-####  ****Network Segmentation****: Utilizing a dedicated Docker network for secure inter-service communication.
+****Network Segmentation****: Utilizing a dedicated Docker network for secure inter-service communication.
   
 ## Prerequisites
 #### You must have the following tools installed on your machine:
