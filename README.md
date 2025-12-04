@@ -1,92 +1,3 @@
-# Dockerized Three-Tier Architecture
-
-## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, Nginx(reverse proxy) and Docker Compose.
-
-## Project Goal (Architectural Focus)
-
- The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
-
-
-### This setup demonstrates critical skills required for modern, production-ready systems, including:
-
-****Microservices Orchestration****: Managing independent services using Docker Compose
-
-****Environment Parity****: Ensuring the development and production environment behave identically.
-
-****Network Segmentation****: Utilizing a dedicated Docker network for secure inter-service communication.
-  
-## Prerequisites
-#### You must have the following tools installed on your machine:
-
-#### -Docker Desktop (or Docker Engine)
-
-#### -Docker Compose 
-
-## Local Setup and Run
-
-### 1. Build and Start the Containers
-
-#### The following command will build both the frontend and api-server images using their respective Dockerfiles, start the containers, and run them in detached mode (-d).
-
-``` bash
-sudo docker compose --env-file .env up --build
-```
-
-### 2. Access the Application
-
-
-#### Frontend (Browser): http://localhost:8000
-
-#### API (Direct Access): http://localhost:8080/api/products (useful for testing)
-
-#### Database UI (Mongo Express): http://localhost:8081 (Use default credentials: admin:pass)
-
-### 3. View Logs and Stop
-
-#### To view the live logs from both services 
-
-``` bash
-sudo docker compose logs -f
-```
-### To stop and remove the running containers:
-
-``` bash
-sudo docker compose down
-```
-
-
-```
-
-dockerized-three-tier-app/
-├── backend/
-│   ├── Dockerfile
-│   ├── .dockerignore
-│   ├── package.json
-│   └── server.js
-|
-├── frontend/
-│   ├── Dockerfile
-│   ├── package.json       
-│   ├── server.js          
-│   └── public/
-│      └──index.html
-|
-├── database/
-│   ├── Dockerfile
-│   └── init.js
-|
-├── proxy/
-│   ├── Dockerfile
-│   └── nginx.conf.template
-|
-├── docker-compose.yml
-├── README.md
-└── .env
-```
-
-
-
-
 ### Three-Tier Application CI/CD Pipeline
 
 This document describes the automated Continuous Integration and Continuous Delivery (CI/CD) workflow for the dockerize-three-tier-application project, powered by GitHub Actions.
@@ -173,3 +84,90 @@ This pipeline requires the following secrets to be configured in your GitHub rep
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
 This documentation provides a comprehensive overview of your CI/CD workflow! Let me know if you would like to integrate any of the advanced security features we discussed earlier (like hard security gates or SBOM generation) into this new multi-tier pipeline, or if you want to detail the contents of your service-specific Dockerfiles.
+
+
+# Dockerized Three-Tier Architecture
+
+## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, Nginx(reverse proxy) and Docker Compose.
+
+## Project Goal (Architectural Focus)
+
+ The primary goal of this project is to showcase how to split a web application into separate, independent containers that communicate over an isolated Docker network. This adheres to the three-tier architecture pattern, even though the Data Tier is currently simulated for simplicity.
+
+
+### This setup demonstrates critical skills required for modern, production-ready systems, including:
+
+****Microservices Orchestration****: Managing independent services using Docker Compose
+
+****Environment Parity****: Ensuring the development and production environment behave identically.
+
+****Network Segmentation****: Utilizing a dedicated Docker network for secure inter-service communication.
+  
+## Prerequisites
+#### You must have the following tools installed on your machine:
+
+#### -Docker Desktop (or Docker Engine)
+
+#### -Docker Compose 
+
+## Local Setup and Run
+
+### 1. Build and Start the Containers
+
+#### The following command will build both the frontend and api-server images using their respective Dockerfiles, start the containers, and run them in detached mode (-d).
+
+``` bash
+sudo docker compose --env-file .env up --build
+```
+
+### 2. Access the Application
+
+
+#### Frontend (Browser): http://localhost:8000
+
+#### API (Direct Access): http://localhost:8080/api/products (useful for testing)
+
+#### Database UI (Mongo Express): http://localhost:8081 (Use default credentials: admin:pass)
+
+### 3. View Logs and Stop
+
+#### To view the live logs from both services 
+
+``` bash
+sudo docker compose logs -f
+```
+### To stop and remove the running containers:
+
+``` bash
+sudo docker compose down
+```
+
+
+```
+
+dockerized-three-tier-app/
+├── backend/
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── package.json
+│   └── server.js
+|
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json       
+│   ├── server.js          
+│   └── public/
+│      └──index.html
+|
+├── database/
+│   ├── Dockerfile
+│   └── init.js
+|
+├── proxy/
+│   ├── Dockerfile
+│   └── nginx.conf.template
+|
+├── docker-compose.yml
+├── README.md
+└── .env
+```
