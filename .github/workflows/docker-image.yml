@@ -9,6 +9,8 @@ on:
       - 'database/**'
       - 'proxy/**'
       - '.github/workflows/*.yml'
+
+    
       
 jobs:
   secirity-scan-Checkov-frontend:
@@ -80,32 +82,68 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write 
+    env:
+      IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
+
+    - name: Set up QEMU 
+      uses: docker/setup-qemu-action@v3 
 
     - name: set up docker
       uses: docker/setup-buildx-action@v2
 
     - name: Build the Docker images
-      run: |
-        docker build ./backend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false
+        tags: ${{ env.IMAGE_LATEST_TAG }}
+        load: true
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_BACKEND }}-image
+        path: /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+
 
   build-image-frontend:     
     needs: secirity-scan-Checkov-frontend
     runs-on: ubuntu-latest
     permissions:
       contents: write 
+    env:
+      IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
+
+    - name: Set up QEMU 
+      uses: docker/setup-qemu-action@v3 
 
     - name: set up docker
       uses: docker/setup-buildx-action@v2
 
     - name: Build the Docker images
-      run: |
-        docker build ./frontend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false
+        tags: ${{ env.IMAGE_LATEST_TAG }}
+        load: true
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_FRONTEND }}-image
+        path: /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+
 
   build-image-proxy:     
     needs: secirity-scan-Checkov-proxy
@@ -116,12 +154,26 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
+    - name: Set up QEMU 
+      uses: docker/setup-qemu-action@v3 
+
     - name: set up docker
       uses: docker/setup-buildx-action@v2
 
     - name: Build the Docker images
-      run: |
-        docker build ./proxy/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false
+        tags: ${{ env.IMAGE_LATEST_TAG }}
+        load: true
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_PROXY }}-image
+        path: /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
 
   build-image-database:     
     needs: secirity-scan-Checkov-database
@@ -136,9 +188,19 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build the Docker images
-      run: |
-        docker build ./database/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false
+        tags: ${{ env.IMAGE_LATEST_TAG }}
+        load: true
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
 
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_DATABASE }}-image
+        path: /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
     
 
       
