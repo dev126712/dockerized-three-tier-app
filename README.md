@@ -92,6 +92,8 @@ This job ensures code quality and correctness.
 | Terraform fmt & validate  |  Enforces code formatting standards and checks for syntax errors. |
 |  Terraform Plan | Generates a plan showing all proposed changes, essential for manual review before application.  |
 
+![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/03a21924fc9081f7141dd11238437ae44c90a984/Screenshot%202025-12-04%204.03.11%20PM.png)
+
 # Dockerized Three-Tier Architecture
 
 ## A demonstration of robust containerization, microservices orchestration, and environment parity using Node.js, MongoDB, Nginx(reverse proxy) and Docker Compose.
