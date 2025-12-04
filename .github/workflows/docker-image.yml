@@ -202,6 +202,275 @@ jobs:
         name: ${{ env.IMAGE_NAME_DATABASE }}-image
         path: /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
     
+  
+
+  scan-backend-with-trivy:
+    name: Trivy Security Scan Image Backend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: build-image-backend
+    env:
+      IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_BACKEND }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+        docker image ls -a
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+      
+      
+    - name: Run Trivy vulnerability scan
+      run: |
+        trivy image \
+          --exit-code 0 \
+          --format table \
+          --ignore-unfixed \
+          --pkg-types os,library \
+          --severity CRITICAL,HIGH,MEDIUM \
+          ${{ env.IMAGE_NAME_BACKEND }}:latest
+
+          ls -l "Github Actions/Trivy Automation"
+          
+          TRIVY_STATUS=$?
+          
+          if [ $TRIVY_STATUS == 0 ]; then
+            docker push $IMAGE
+            echo "$IMAGE pushed to Docke Hub"
+          else 
+            echo "Image not push Vulnerability found"
+          fi
+         done
+
+         git config --global user.email "${{ secrets.GIT_EMAIL }}"
+         git config --global user.name "${{ secrets.GIT_USERNAME }}"
+         git add "Github Actions/Trivy Automation/scan-results.json"
+         git commit -m "Add trivy results (${DATE})"
+         git push
+
+    - name: Verify scan results exist
+      run: ls -l "Github Actions/Trivy Automation"
+
+    - name: Docker - Logout
+      run: docker logout
+      
+         
+
+  scan-frontend-with-trivy:
+    name: Trivy Security Scan Image Frontend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: build-image-frontend
+    env:
+      IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_FRONTEND }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+        docker image ls -a
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+      
+      
+    - name: Run Trivy vulnerability scan
+      run: |
+        trivy image \
+          --exit-code 0 \
+          --format table \
+          --ignore-unfixed \
+          --pkg-types os,library \
+          --severity CRITICAL,HIGH,MEDIUM \
+          ${{ env.IMAGE_NAME_FRONTEND }}:latest
+
+          ls -l "Github Actions/Trivy Automation"
+          
+          TRIVY_STATUS=$?
+          
+          if [ $TRIVY_STATUS == 0 ]; then
+            docker push $IMAGE
+            echo "$IMAGE pushed to Docke Hub"
+          else 
+            echo "Image not push Vulnerability found"
+          fi
+         done
+
+         git config --global user.email "${{ secrets.GIT_EMAIL }}"
+         git config --global user.name "${{ secrets.GIT_USERNAME }}"
+         git add "Github Actions/Trivy Automation/scan-results.json"
+         git commit -m "Add trivy results (${DATE})"
+         git push
+
+
+    - name: Verify scan results exist
+      run: ls -l "Github Actions/Trivy Automation"
+
+    - name: Docker - Logout
+      run: docker logout
+      
+         
+
+
+
+
+  scan-proxy-with-trivy:
+    name: Trivy Security Scan Image Proxy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: build-image-proxy
+    env:
+      IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy 
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_PROXY }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+        docker image ls -a
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+      
+      
+    - name: Run Trivy vulnerability scan
+      run: |
+        trivy image \
+          --exit-code 0 \
+          --format table \
+          --ignore-unfixed \
+          --pkg-types os,library \
+          --severity CRITICAL,HIGH,MEDIUM \
+          ${{ env.IMAGE_NAME_PROXY }}:latest
+
+          ls -l "Github Actions/Trivy Automation"
+          
+          TRIVY_STATUS=$?
+          
+          if [ $TRIVY_STATUS == 0 ]; then
+            docker push $IMAGE
+            echo "$IMAGE pushed to Docke Hub"
+          else 
+            echo "Image not push Vulnerability found"
+          fi
+         done
+
+         git config --global user.email "${{ secrets.GIT_EMAIL }}"
+         git config --global user.name "${{ secrets.GIT_USERNAME }}"
+         git add "Github Actions/Trivy Automation/scan-results.json"
+         git commit -m "Add trivy results (${DATE})"
+         git push
+
+    - name: Verify scan results exist
+      run: ls -l "Github Actions/Trivy Automation"
+
+    - name: Docker - Logout
+      run: docker logout
+      
+         
+
+  scan-database-with-trivy:
+    name: Trivy Security Scan Image Database
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: build-image-database
+    env:
+      IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_DATABASE }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
+        docker image ls -a
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+      
+      
+    - name: Run Trivy vulnerability scan
+      run: |
+        trivy image \
+          --exit-code 0 \
+          --format table \
+          --ignore-unfixed \
+          --pkg-types os,library \
+          --severity CRITICAL,HIGH,MEDIUM \
+          ${{ env.IMAGE_NAME_DATABASE }}:latest
+
+          ls -l "Github Actions/Trivy Automation"
+          
+          TRIVY_STATUS=$?
+          
+          if [ $TRIVY_STATUS == 0 ]; then
+            docker push $IMAGE
+            echo "$IMAGE pushed to Docke Hub"
+          else 
+            echo "Image not push Vulnerability found"
+          fi
+         done
+
+         git config --global user.email "${{ secrets.GIT_EMAIL }}"
+         git config --global user.name "${{ secrets.GIT_USERNAME }}"
+         git add "Github Actions/Trivy Automation/scan-results.json"
+         git commit -m "Add trivy results (${DATE})"
+         git push
+
+    - name: Verify scan results exist
+      run: ls -l "Github Actions/Trivy Automation"
+
+    - name: Docker - Logout
+      run: docker logout
+      
+         
 
       
   Trivy-scan-and-push:
