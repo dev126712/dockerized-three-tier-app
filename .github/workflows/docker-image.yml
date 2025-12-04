@@ -251,11 +251,6 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
-        mkdir -p "Github Actions/Trivy Automation"   
-        echo "ceate output file"
-        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
-        echo "output file created"
-
         trivy image \
           --exit-code 0 \
           --format table \
@@ -263,12 +258,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_BACKEND }}:latest
-
-          ls -l "Github Actions/Trivy Automation"
-          
-          TRIVY_STATUS=$?
-          
-          
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -330,11 +319,6 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
-        mkdir -p "Github Actions/Trivy Automation"
-        echo "ceate output file"
-        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
-        echo "output file created"
-
         trivy image \
           --exit-code 0 \
           --format table \
@@ -342,18 +326,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_FRONTEND }}:latest
-
-        ls -l "Github Actions/Trivy Automation"
-        
-        TRIVY_STATUS=$?
-        
-        if [ $TRIVY_STATUS == 0 ]; then
-        else 
-          echo "Image not push Vulnerability found"
-        fi
-        done
-
-       
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
@@ -413,16 +385,8 @@ jobs:
     - name: Download Trivy vulnerability database
       run: trivy image --download-db-only
       
-      
     - name: Run Trivy vulnerability scan
       run: |
-
-        mkdir -p "Github Actions/Trivy Automation"
-              
-        echo "ceate output file"
-        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
-        echo "output file created"
-
         trivy image \
           --exit-code 0 \
           --format table \
@@ -430,18 +394,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_PROXY }}:latest
-
-        ls -l "Github Actions/Trivy Automation"
-        
-        TRIVY_STATUS=$?
-        
-        if [ $TRIVY_STATUS == 0 ]; then
-        else 
-          echo "Image not push Vulnerability found"
-        fi
-        done
-
-        
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
@@ -505,10 +457,6 @@ jobs:
       
     - name: Run Trivy vulnerability scan
       run: |
-        mkdir -p "Github Actions/Trivy Automation"
-        echo "ceate output file"
-        OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
-        echo "output file created"
 
         trivy image \
           --exit-code 0 \
@@ -517,16 +465,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_DATABASE }}:latest
-
-        ls -l "Github Actions/Trivy Automation"
-        
-        TRIVY_STATUS=$?
-        
-        if [ $TRIVY_STATUS == 0 ]; then
-        else 
-          echo "Image not push Vulnerability found"
-        fi
-        done
 
     - name: Verify scan results exist
       run: ls -l "Github Actions/Trivy Automation"
