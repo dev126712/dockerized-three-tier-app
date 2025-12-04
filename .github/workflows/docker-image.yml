@@ -258,24 +258,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_BACKEND }}:latest
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-    - name: Push Image to Docker Hub
-      run: |
-        # Use the fully qualified name defined in the tag step
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
-        
-        # Push the correctly tagged image
-        docker push $DOCKER_REPO:latest
-        docker push $DOCKER_REPO:${{ github.sha }}
-
-    - name: Docker - Logout
-      run: docker logout
       
   scan-frontend-with-trivy:
     name: Trivy Security Scan Image Frontend
@@ -324,24 +306,6 @@ jobs:
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_FRONTEND }}:latest
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-    - name: Push Image to Docker Hub
-      run: |
-        # Use the fully qualified name defined in the tag step
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
-        
-        # Push the correctly tagged image
-        docker push $DOCKER_REPO:latest
-        docker push $DOCKER_REPO:${{ github.sha }}
-
-    - name: Docker - Logout
-      run: docker logout
-
   scan-proxy-with-trivy:
     name: Trivy Security Scan Image Proxy
     runs-on: ubuntu-latest
@@ -388,26 +352,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_PROXY }}:latest
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-    - name: Push Image to Docker Hub
-      run: |
-        # Use the fully qualified name defined in the tag step
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY}}"
-        
-        # Push the correctly tagged image
-        docker push $DOCKER_REPO:latest
-        docker push $DOCKER_REPO:${{ github.sha }}
-
-    - name: Docker - Logout
-      run: docker logout
-      
-         
 
   scan-database-with-trivy:
     name: Trivy Security Scan Image Database
@@ -457,6 +401,27 @@ jobs:
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_DATABASE }}:latest
 
+  push-database-image-to-dockerhub:
+    name: Push Database Image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: scan-database-with-trivy
+    env:
+      IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
+
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_DATABASE }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
+        docker image ls -a
+
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
@@ -474,83 +439,122 @@ jobs:
 
     - name: Docker - Logout
       run: docker logout
-      
-  Trivy-scan-and-push:
-    needs: ["build-image-frontend", "build-image-backend", "build-image-proxy", "build-image-database"]
+
+  push-frontend-image-to-dockerhub:
+    name: Push Frontend Image to Docker Hub
     runs-on: ubuntu-latest
     permissions:
       contents: write 
+    needs: scan-frontend-with-trivy
+    env:
+      IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
+      
     steps:
-    - name: Create output directory
-      run: mkdir -p "Github Actions/Trivy Automation"
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_FRONTEND }}
+        path: /tmp
 
-    - name: Install Trivy
+    - name: Load image
       run: |
-        sudo apt-get update
-        sudo apt-get install -y curl
-        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
-  
-    - name: Download Trivy vulnerability database
-      run: trivy image --download-db-only
+        docker load --input /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+        docker image ls -a
 
-    - name: create tag with date and time
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Push Image to Docker Hub
       run: |
-        TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-        echo "$TIMESTAMP"
-
-    - name: Run Trivy vulnerability scanner && push it to Docker Hub
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-
-        docker login -u dev126712 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        IMAGES=(
-          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest"
-          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest"
-          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest"
-          "${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest"
-        )
-       
-          mkdir -p "Github Actions/Trivy Automation"
-            
-          echo "ceate output file"
-          OUTPUT_FILE="Github Actions/Trivy Automation/scan-results.json"
-          echo "output file created"
-          
+        # Use the fully qualified name defined in the tag step
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
         
-        for IMAGE in "${IMAGES[@]}"; do
-          echo "Scanning $IMAGE"
-            
-          trivy image \
-            --exit-code 0 \
-            --format json \
-            --ignore-unfixed \
-            --pkg-types os,library \
-            --severity CRITICAL,HIGH,MEDIUM \
-            >>  "$OUTPUT_FILE" \
-            "$IMAGE" 
-
-          ls -l "Github Actions/Trivy Automation"
-          
-          TRIVY_STATUS=$?
-          
-          if [ $TRIVY_STATUS == 0 ]; then
-            docker push $IMAGE
-            echo "$IMAGE pushed to Docke Hub"
-          else 
-            echo "Image not push Vulnerability found"
-          fi
-        done
-
-        git config --global user.email "${{ secrets.GIT_EMAIL }}"
-        git config --global user.name "${{ secrets.GIT_USERNAME }}"
-        git add "Github Actions/Trivy Automation/scan-results.json"
-        git commit -m "Add trivy results (${DATE})"
-        git push
-         
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
+        # Push the correctly tagged image
+        docker push $DOCKER_REPO:latest
+        docker push $DOCKER_REPO:${{ github.sha }}
 
     - name: Docker - Logout
       run: docker logout
-    
+
+  push-backend-image-to-dockerhub:
+    name: Push Backend Image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: scan-backend-with-trivy
+    env:
+      IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
+      
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_BACKEND }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+        docker image ls -a
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        # Use the fully qualified name defined in the tag step
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
+        
+        # Push the correctly tagged image
+        docker push $DOCKER_REPO:latest
+        docker push $DOCKER_REPO:${{ github.sha }}
+
+    - name: Docker - Logout
+      run: docker logout
+
+  push-proxy-image-to-dockerhub:
+    name: Push Proxy Image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: scan-proxy-with-trivy
+    env:
+      IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
+      
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_PROXY }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+        docker image ls -a
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        # Use the fully qualified name defined in the tag step
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
+        
+        # Push the correctly tagged image
+        docker push $DOCKER_REPO:latest
+        docker push $DOCKER_REPO:${{ github.sha }}
+
+    - name: Docker - Logout
+      run: docker logout
+
+  
