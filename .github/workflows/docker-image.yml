@@ -84,7 +84,7 @@ jobs:
       contents: write 
     env:
       IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -118,7 +118,7 @@ jobs:
       contents: write 
     env:
       IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -153,7 +153,7 @@ jobs:
 
     env:
       IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -186,7 +186,7 @@ jobs:
       contents: write 
     env:
       IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
-      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
+      IMAGE_LATEST_TAG: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
