@@ -76,7 +76,7 @@ jobs:
         quiet: true  
         
   build-image-backend:     
-    needs: ["secirity-scan-Checkov-frontend", "secirity-scan-Checkov-backend", "secirity-scan-Checkov-proxy", "secirity-scan-Checkov-database"]
+    needs: secirity-scan-Checkov-backend
     runs-on: ubuntu-latest
     permissions:
       contents: write 
@@ -92,7 +92,7 @@ jobs:
         docker build ./backend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
 
   build-image-frontend:     
-    needs: ["secirity-scan-Checkov-frontend", "secirity-scan-Checkov-backend", "secirity-scan-Checkov-proxy", "secirity-scan-Checkov-database"]
+    needs: secirity-scan-Checkov-frontend
     runs-on: ubuntu-latest
     permissions:
       contents: write 
@@ -108,7 +108,7 @@ jobs:
         docker build ./frontend/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
 
   build-image-proxy:     
-    needs: ["secirity-scan-Checkov-frontend", "secirity-scan-Checkov-backend", "secirity-scan-Checkov-proxy", "secirity-scan-Checkov-database"]
+    needs :secirity-scan-Checkov-proxy
     runs-on: ubuntu-latest
     permissions:
       contents: write 
@@ -124,7 +124,7 @@ jobs:
         docker build ./proxy/ -t ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
 
   build-image-database:     
-    needs: ["secirity-scan-Checkov-frontend", "secirity-scan-Checkov-backend", "secirity-scan-Checkov-proxy", "secirity-scan-Checkov-database"]
+    needs: secirity-scan-Checkov-database
     runs-on: ubuntu-latest
     permissions:
       contents: write 
