@@ -1,28 +1,180 @@
-### Comprehensive DevOps CI/CD Documentation
-
-This document outlines the two core Continuous Integration/Continuous Delivery (CI/CD) pipelines used to manage the project:
-
-1. Application Pipeline: Builds, Scans, and Publishes the three-tier application (Frontend, Backend, Proxy, Database).
-2. Infrastructure Pipeline: Validates, Secures, and Plans changes to the underlying cloud infrastructure (Terraform).
-
-
-
+### DevOps CI/CD Documentation
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/64105d4d0de1f6b2286aa6f47ae82d9ba965c086/licensed-image.jpeg)
 
 # 1. Application CI/CD Pipeline
 
-1. Security Scan (Shift Left): Run Checkov on configuration files for all four services.
 
-2. Build & Artifacts: Build Docker images for all four services in parallel, depending on their Checkov scan passing.
+```
+name: Scan Docker Images, Build Docker Images & Publish it to Docker Hub
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'database/**'
+      - 'proxy/**'
+      - '.github/workflows/*.yml' 
+permissions:
+  contents: read
+  security-events: write
+      
+jobs:
+```
 
-3. Vulnerability Scan: Run Trivy on all four built Docker images.
+1. SAST Scan (Checkov)
 
+````
+  secirity-scan-Checkov-backend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    
+    - name: Run Checkov Security Scan on backend
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: backend/
+        output_format: cli
+        soft_fail: true
+        quiet: true
+```
+
+2. Build & Artifacts: Build Docker images for all four services.
+
+```
+  build-image-backend:     
+    needs: secirity-scan-Checkov-backend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    env:
+      IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
+      IMAGE_LATEST_TAG_BACKEND: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-backend:latest
+      BACKEND_TAG: dockerized-three-tier-app-backend:latest, dockerized-three-tier-app-backend:${{ github.sha }}
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU 
+      uses: docker/setup-qemu-action@v3 
+
+    - name: set up docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build the Docker images
+      uses: docker/build-push-action@v6
+      with:
+        context: ./backend
+        push: false
+        tags: ${{ env.BACKEND_TAG }}
+        load: true
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_BACKEND }}
+        path: /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+```
+
+3. Security Scan (Trivy)
+
+```
+  scan-backend-with-trivy:
+    name: Trivy Security Scan Image Backend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: build-image-backend
+    env:
+      IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_BACKEND }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+        docker image ls -a
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+      
+    - name: Run Trivy vulnerability scan
+      run: |
+        trivy image \
+          --exit-code 0 \
+          --format table \
+          --ignore-unfixed \
+          --pkg-types os,library \
+          --severity CRITICAL,HIGH,MEDIUM \
+          ${{ env.IMAGE_NAME_BACKEND }}:latest
+```
 4. Publish: Push all secure and scanned images to Docker Hub.
 
+```
+push-backend-image-to-dockerhub:
+    name: Push Backend Image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: scan-backend-with-trivy
+    env:
+      IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
+      
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_BACKEND }}
+        path: /tmp
 
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
+        docker image ls -a
 
-## 2. Trigger and Permissions
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
+        
+        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_BACKEND }}:latest $DOCKER_REPO:${{ github.sha }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}"
+        
+        docker push $DOCKER_REPO:latest
+        docker push $DOCKER_REPO:${{ github.sha }}
+
+    - name: Docker - Logout
+      run: docker logout
+
+  
+```
+
+![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
 | Setting | Value | Description |
 | ------------- | ------------- | ------------- |
