@@ -274,9 +274,6 @@ jobs:
         docker push $DOCKER_REPO:latest
         docker push $DOCKER_REPO:${{ github.sha }}
 
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
-
     - name: Docker - Logout
       run: docker logout
       
@@ -326,9 +323,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_FRONTEND }}:latest
-
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -394,9 +388,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_PROXY }}:latest
-
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -465,9 +456,6 @@ jobs:
           --pkg-types os,library \
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_DATABASE }}:latest
-
-    - name: Verify scan results exist
-      run: ls -l "Github Actions/Trivy Automation"
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
