@@ -176,48 +176,6 @@ push-backend-image-to-dockerhub:
 
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
-| Setting | Value | Description |
-| ------------- | ------------- | ------------- |
-| Name | Scan Docker Images, Build Docker Images & Publish it to Docker Hub | he name displayed in the GitHub Actions tab. | 
-| Trigger | push to main branch |The workflow is triggered automatically upon pushing code to the main branch. | 
-| Path Filtering | backend/, frontend/, database/, proxy/, .github/workflows/*.yml|Only triggers if files in the service directories or the workflow file itself are modified. | 
-| Permissions |contents: read, security-events: write|Required for checkout and writing security scanning results (e.g., Checkov reports) back to GitHub Security.|
-
-# Stage A: Configuration Security Scans (Checkov)
-
-These jobs run first and are responsible for validating the configuration of the service directories (e.g., Dockerfiles, YAML files). They run concurrently.
-
-|Job Name | Dependency | Purpose |Tool|
-| ------------- | ------------- | ------------- | ------------- |
-| secirity-scan-Checkov-frontend | None |Scans the frontend/ directory for misconfigurations.| Checkov |
-| secirity-scan-Checkov-backend|None | Scans the backend/ directory for misconfigurations. |
-| secirity-scan-Checkov-proxy| None | Scans the proxy/ directory for misconfigurations. | Checkov |
-| secirity-scan-Checkov-database | None | Scans the database/ directory for misconfigurations.| Checkov |
-
-# Stage B: Build, Artifact, and Vulnerability Scans
-These jobs depend on the Checkov scans passing for their respective components. They build the Docker image, save it as a build artifact, and then run a vulnerability scan (Trivy).
-
-| Job Name | Dependency | Purpose | Tool |
-| ------------- | ------------- | ------------- | ------------- |
-| build-image-frontend | secirity-scan-Checkov-frontend | builds the Docker image for the Frontend and uploads it as an artifact. | Docker Buildx
-|build-image-backend | secirity-scan-Checkov-backend | Builds the Docker image for the Backend and uploads it as an artifact. | Docker Buildx |
-| build-image-proxy | secirity-scan-Checkov-proxy | Builds the Docker image for the Proxy and uploads it as an artifact. |  Docker Buildx |
-| build-image-database | secirity-scan-Checkov-database | Builds the Docker image for the Database and uploads it as an artifact. | Docker Buildx |
-| scan-frontend-with-trivy | build-image-frontend | Downloads the Frontend artifact, loads it, and runs a Trivy vulnerability scan. | Trivy |
-| scan-backend-with-trivy | build-image-backend | Downloads the Backend artifact, loads it, and runs a Trivy vulnerability scan. | Trivy |
-| scan-proxy-with-trivy | build-image-proxy | Downloads the Proxy artifact, loads it, and runs a Trivy vulnerability scan. | Trivy |
-| scan-database-with-trivy | build-image-database | Downloads the Database artifact, loads it, and runs a Trivy vulnerability scan. | Trivy |
-
-## Stage C: Publishing Images (Push to Docker Hub)
-
-These final jobs run only if the corresponding build and Trivy scan jobs pass. They authenticate with Docker Hub, tag the image with the correct repository prefix and SHA, and push the image.
-
-| Job Name | Dependency | Purpose |
-| ------------- | ------------- | ------------- |
-| push-frontend-image-to-dockerhub | scan-frontend-with-trivy | Tags and pushes the secure Frontend image. |
-| push-backend-image-to-dockerhub | scan-backend-with-trivy | Tags and pushes the secure Backend image. |
-| push-proxy-image-to-dockerhub | scan-proxy-with-trivy | Tags and pushes the secure Proxy image. |
-| push-database-image-to-dockerhub | scan-database-with-trivy | Tags and pushes the secure Database image. |
 
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/385680633ba2e36cb8d3122d7224dcd04eaf8e2c/Screenshot%202025-12-03%2011.14.39%20PM.png)
 
