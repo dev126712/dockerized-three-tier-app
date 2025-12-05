@@ -183,6 +183,92 @@ push-backend-image-to-dockerhub:
 This pipeline manages the project's cloud infrastructure using Terraform, focusing on validation, quality, and security before deployment.
 
 
+
+````
+name: Deploy Terraform
+on: 
+  push:
+    paths: 
+      - '**.tf'
+      - '.github/workflows/ci-infra.yml'
+permissions:
+  contents: read
+  packages: read
+  pull-requests: write
+  
+jobs:
+````
+
+# 1. Validate Terraform plan
+
+````
+validate-terraform-plan:
+    env:
+        AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Infrastructure/
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform fmt
+        run: terraform fmt
+        
+      - name: Terraform validate
+        run: terraform validate 
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive  
+        
+      - name: Terraform Plan
+        run: terraform plan 
+````
+
+2. Pre-deploy security check(checkov)
+
+````
+pre_deploy_security_checks:
+      needs: validate-terraform-plan
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: Infrastructure/
+      steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9  
+  
+      - name: Run Checkov Security Scan
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: Infrastructure/
+          framework: terraform
+          output_format: cli
+          soft_fail: true
+          quiet: true
+````
+
+
+
+
+
+
+
+
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/03a21924fc9081f7141dd11238437ae44c90a984/Screenshot%202025-12-04%204.03.11%20PM.png)
 
 
