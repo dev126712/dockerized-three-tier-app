@@ -1,6 +1,6 @@
 FROM node:20-alpine AS test
 WORKDIR /app
-COPY --chown=node:node ["package.json", "package-lock.json", "./" ]
+COPY --chown=node:node ["package.json", "./"]
 RUN npm install
 COPY . .
 
