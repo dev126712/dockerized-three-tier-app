@@ -1,6 +1,6 @@
 FROM node:20-alpine AS test
 WORKDIR /app
-COPY package*.json .
+COPY --chown=node:node ["package.json", "package-lock.json", "./" ]
 RUN npm install
 COPY . .
 
@@ -8,12 +8,11 @@ COPY . .
 FROM node:20-alpine AS production
 WORKDIR /app
 ENV NODE_ENV production
-COPY --from=test /app/package.json ./
+COPY --from=test --chown=node:node /app/package.json ./
 RUN apk add --no-cache curl
 RUN npm install --omit=dev
-COPY --from=test /app .
-RUN adduser -D alexandre
-USER alexandre
+COPY --from=test --chown=node:node /app .
+USER node
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD curl --fail http://localhost:8000/ || exit 1
 EXPOSE 8000
