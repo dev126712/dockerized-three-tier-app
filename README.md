@@ -23,7 +23,7 @@ permissions:
 jobs:
 ```
 
-## 1. SAST Scan (Checkov)
+### -1. SAST Scan (Checkov)
 
 ````
   secirity-scan-Checkov-backend:
@@ -43,7 +43,7 @@ jobs:
         quiet: true
 ````
 
-## 2. Build & Artifacts: Build Docker images for all four services.
+### -2. Build & Artifacts: Build Docker images for all four services.
 
 ````
   build-image-backend:     
@@ -81,7 +81,7 @@ jobs:
         path: /tmp/${{ env.IMAGE_NAME_BACKEND }}.tar
 ````
 
-## 3. Security Scan (Trivy)
+### -3. Security Scan (Trivy)
 
 ````
   scan-backend-with-trivy:
@@ -123,7 +123,7 @@ jobs:
           --severity CRITICAL,HIGH,MEDIUM \
           ${{ env.IMAGE_NAME_BACKEND }}:latest
 ````
-## 4. Publish: Push all secure and scanned images to Docker Hub.
+### -4. Publish: Push all secure and scanned images to Docker Hub.
 
 ````
 push-backend-image-to-dockerhub:
@@ -178,7 +178,7 @@ push-backend-image-to-dockerhub:
 
 
 
-### 2. Infrastructure CI/CD Pipeline
+# 2. Infrastructure CI/CD Pipeline
 
 This pipeline manages the project's cloud infrastructure using Terraform, focusing on validation, quality, and security before deployment.
 
@@ -199,7 +199,7 @@ permissions:
 jobs:
 ````
 
-## 1. Validate Terraform plan
+### -1. Validate Terraform plan
 
 ````
 validate-terraform-plan:
@@ -233,7 +233,7 @@ validate-terraform-plan:
         run: terraform plan 
 ````
 
-## 2. Pre-deploy security check(checkov)
+### -2. Pre-deploy security check(checkov)
 
 ````
 pre_deploy_security_checks:
@@ -292,3 +292,58 @@ dockerized-three-tier-app/
 ├── README.md
 └── .env
 ```
+
+# 3 Security scan (Checkov)
+
+````
+name: security check
+
+on:
+  push:
+    branches:
+      - main
+    paths: '**'
+
+permissions:
+  contents: read
+
+jobs: 
+````
+### -1 Security scan on all the github workflows yml files
+````
+secirity-scan-on-workflows:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+
+    - name: Run Checkov Security Scan on yml files
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory:  .github/workflows
+        output_format: cli
+        soft_fail: true
+        quiet: true
+````
+
+### -2 Security scan on terraform files
+````
+secirity-scan-on-terraform-files:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+
+    - name: Run Checkov Security Scan on yml files
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory:  ./Infrastructure
+        output_format: cli
+        soft_fail: true
+        quiet: true 
+````
+
