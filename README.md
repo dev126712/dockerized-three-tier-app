@@ -1,7 +1,7 @@
 ### DevOps CI/CD Documentation
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/64105d4d0de1f6b2286aa6f47ae82d9ba965c086/licensed-image.jpeg)
 
-# 1. Application CI/CD Pipeline
+# 1. Application CI/CD Pipeline ( docker-image.yml )
 
 
 ```
@@ -178,7 +178,7 @@ push-backend-image-to-dockerhub:
 
 
 
-# 2. Infrastructure CI/CD Pipeline
+# 2. Infrastructure CI/CD Pipeline ( ci-infra.yml )
 
 This pipeline manages the project's cloud infrastructure using Terraform, focusing on validation, quality, and security before deployment.
 
@@ -293,7 +293,7 @@ dockerized-three-tier-app/
 └── .env
 ```
 
-# 3 Security scan (Checkov)
+# 3 Security scan Checkov ( security.yml )
 
 ````
 name: security check
