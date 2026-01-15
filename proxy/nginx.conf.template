@@ -3,10 +3,25 @@ events {
 }
 
 http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+    # Write temp files to /tmp so nginxuser can access them
+        client_body_temp_path /tmp/client_temp;
+        proxy_temp_path       /tmp/proxy_temp;
+    
     server {
-        listen 80;
+        listen ${REVERSE_PROXY_PORT};
+
         location / {
-            proxy_pass "http://$FRONTEND_SERVER_ADDR";
+            proxy_pass http://${FRONTEND_SERVER_ADDR};
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+        location /api/ {
+            proxy_pass http://${API_SERVER_CONTAINER_NAME}:${API_SERVER_PORT};
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
         }
     }
 }

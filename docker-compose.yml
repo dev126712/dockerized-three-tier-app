@@ -4,19 +4,21 @@ services:
       context: ./proxy
       dockerfile: Dockerfile
     environment: 
-      - FRONTEND_SERVER_ADDR=$FRONTEN_CONTAINER_NAME:$FRONTEND_PORT
+      - FRONTEND_SERVER_ADDR=${FRONTEND_CONTAINER_NAME}:${FRONTEND_PORT}
       - API_SERVER_PORT=${API_SERVER_PORT}
+      - API_SERVER_CONTAINER_NAME=${API_SERVER_CONTAINER_NAME}
+      - REVERSE_PROXY_PORT=${REVERSE_PROXY_PORT}
     volumes:
       - ./proxy/nginx.conf.template:/tmp/nginx.conf
     env_file: .env
     container_name: ${REVERSE_PROXY_CONTAINER_NAME}
     ports:
-      - ${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}
+      - "${REVERSE_PROXY_PORT}:${REVERSE_PROXY_PORT}"
     depends_on:
       - api-server
     networks: 
     - frontend
-
+    - backend
   api-server:
     build:
       context: ./backend
@@ -43,7 +45,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: ${FRONTEN_CONTAINER_NAME}
+    container_name: ${FRONTEND_CONTAINER_NAME}
     networks:
     - frontend
     - backend
@@ -62,7 +64,9 @@ services:
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     networks:
-    - db
+      db:
+        aliases:
+          - mongo
     restart: unless-stopped
     volumes:
       - database-v:/data/db
@@ -107,3 +111,4 @@ volumes:
     name: "server-v-node-modules"
   database-v:
     name: "database-v"
+

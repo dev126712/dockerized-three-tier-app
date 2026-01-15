@@ -15,7 +15,7 @@
             🛒 Product Catalog (Tier 1: Frontend - Node.js Container)
         </h1>
         <p class="text-gray-600 mb-6">
-            This client is running in its own **Node.js container** and fetches data directly from the **API server container** using the internal Docker service name.
+            Contenerize 3 thier app with docker and docker compose for non-production uses with a mondodb attach to it with mock data
         </p>
 
         <div id="loading" class="text-center py-4 text-orange-500 font-semibold">Loading data from API...</div>
@@ -34,11 +34,7 @@
             const loading = document.getElementById('loading');
             const errorDiv = document.getElementById('error-message');
 
-            // FIX: Use localhost:8080 because the browser (external client)
-            // makes this request directly to the port exposed by Docker Compose.
-            const API_HOST = `${window.location.protocol}//${window.location.hostname}`;
-            const API_PORT = '8080'; // The port exposed by your API container
-            const API_URL = `${API_HOST}:${API_PORT}/api/products`; 
+            const API_URL = '/api/products';
 
             fetch(API_URL)
                 .then(response => {
@@ -49,8 +45,8 @@
                 })
                 .then(data => {
                     loading.classList.add('hidden');
-                    if (data && Array.isArray(data) && data.data.length > 0) {
-                        data.data.forEach(product => {
+                    if (data && Array.isArray(data) && data.length > 0) {
+                        data.forEach(product => {
                             const card = document.createElement('div');
                             card.className = 'bg-gray-50 p-5 rounded-lg shadow hover:shadow-lg transition duration-300';
                             card.innerHTML = `

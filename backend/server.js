@@ -42,7 +42,7 @@ async function main() {
             // Fetch data from the 'products' collection in MongoDB
             const products = await collection.find({}).toArray();
             res.json(products);
-            
+            console.log(products) 
             console.log(`Fetched ${products.length} products from collection: ${collection.collectionName}`);
         } catch (error) {
             console.error('Error fetching products from database:', error);res.status(500).json({ message: "Internal server error during data fetch" });
