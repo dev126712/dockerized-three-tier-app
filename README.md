@@ -1,5 +1,6 @@
 ### DevOps CI/CD Documentation
 ![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/64105d4d0de1f6b2286aa6f47ae82d9ba965c086/licensed-image.jpeg)
+![alt text](https://github.com/dev126712/dockerized-three-tier-app/blob/edfa35fb944de110bd1977bae7f204915258a006/image.png)
 
 # 1. Application CI/CD Pipeline ( docker-image.yml )
 
