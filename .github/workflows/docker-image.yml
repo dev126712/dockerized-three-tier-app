@@ -375,6 +375,7 @@ jobs:
     permissions:
       contents: write 
     needs: scan-database-with-trivy
+    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
     env:
       IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
 
@@ -420,6 +421,7 @@ jobs:
     permissions:
       contents: write 
     needs: scan-frontend-with-trivy
+    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
     env:
       IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
       
@@ -465,6 +467,7 @@ jobs:
     permissions:
       contents: write 
     needs: scan-backend-with-trivy
+    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
     env:
       IMAGE_NAME_BACKEND: dockerized-three-tier-app-backend
       
@@ -510,6 +513,7 @@ jobs:
     permissions:
       contents: write 
     needs: scan-proxy-with-trivy
+    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
     env:
       IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
       
