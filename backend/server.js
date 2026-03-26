@@ -83,6 +83,25 @@ async function main() {
         }
     });
 
+    app.get('/healthz', (req, res) => {
+    res.status(200).send('OK');
+    });
+    
+    // Readiness: Is the database connection ready?
+    app.get('/ready', async (req, res) => {
+        try {
+            // Check if MongoDB is connected
+            if (client && client.topology && client.topology.isConnected()) {
+                res.status(200).send('Ready');
+            } else {
+                res.status(503).send('Database not connected');
+            }
+        } catch (err) {
+            res.status(503).send('Service Unavailable');
+        }
+    });
+
+
     if (process.env.NODE_ENV !== 'test') {
       app.listen(port, () => {
         console.log(`Application Tier API server running on port ${port}`);
@@ -96,24 +115,6 @@ async function main() {
     }
   }
 }
-
-app.get('/healthz', (req, res) => {
-    res.status(200).send('OK');
-});
-
-// Readiness: Is the database connection ready?
-app.get('/ready', async (req, res) => {
-    try {
-        // Check if MongoDB is connected
-        if (client && client.topology && client.topology.isConnected()) {
-            res.status(200).send('Ready');
-        } else {
-            res.status(503).send('Database not connected');
-        }
-    } catch (err) {
-        res.status(503).send('Service Unavailable');
-    }
-});
 
 module.exports = app;
 
