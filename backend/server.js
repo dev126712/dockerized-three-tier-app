@@ -2,6 +2,9 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+const winston = require('winston'); // Added Winston
+const client = require('prom-client'); // Added Prometheus Client
+
 const app = express();
 const port = 8080;
 
@@ -12,6 +15,37 @@ const dbName = "mydatabase";
 
 app.use(cors());
 app.use(express.json());
+
+// --- 1. Configure Winston Logger ---
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console()
+  ],
+});
+
+// --- 2. Configure Prometheus Metrics ---
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+// Custom metric: Count product fetches
+const httpRequestCounter = new client.Counter({
+  name: 'api_products_fetches_total',
+  help: 'Total number of times products were requested',
+});
+register.registerMetric(httpRequestCounter);
+
+// --- 3. Middleware & Endpoints ---
+app.use(cors());
+app.use(express.json());
+
+// VictoriaMetrics will now scrape this instead of '/'
+app.get('/metrics', async (req, res) => {
+  res.setHeader('Content-Type', register.contentType);
+  res.send(await register.metrics());
+});
+
 
 app.get('/', (req, res) => {
     res.status(200).json({ status: "Welcome" });
@@ -62,6 +96,25 @@ async function main() {
     }
   }
 }
+
+app.get('/healthz', (req, res) => {
+    res.status(200).send('OK');
+});
+
+// Readiness: Is the database connection ready?
+app.get('/ready', async (req, res) => {
+    try {
+        // Check if MongoDB is connected
+        if (client && client.topology && client.topology.isConnected()) {
+            res.status(200).send('Ready');
+        } else {
+            res.status(503).send('Database not connected');
+        }
+    } catch (err) {
+        res.status(503).send('Service Unavailable');
+    }
+});
+
 module.exports = app;
 
 
