@@ -70,18 +70,6 @@ async function main() {
     console.log(`database name: ${dbName}`);
     console.log(`collection name: ${collection.collectionName}`);
 
-    // Define the API endpoint
-    app.get('/api/products', async (req, res) => {
-        try {
-            // Fetch data from the 'products' collection in MongoDB
-            const products = await collection.find({}).toArray();
-            res.json(products);
-            console.log(products) 
-            console.log(`Fetched ${products.length} products from collection: ${collection.collectionName}`);
-        } catch (error) {
-            console.error('Error fetching products from database:', error);res.status(500).json({ message: "Internal server error during data fetch" });
-        }
-    });
 
     app.get('/healthz', (req, res) => {
     res.status(200).send('OK');
@@ -114,6 +102,19 @@ async function main() {
              process.exit(1);
     }
   }
+
+    // Define the API endpoint
+    app.get('/api/products', async (req, res) => {
+        try {
+            // Fetch data from the 'products' collection in MongoDB
+            const products = await collection.find({}).toArray();
+            res.json(products);
+            console.log(products) 
+            console.log(`Fetched ${products.length} products from collection: ${collection.collectionName}`);
+        } catch (error) {
+            console.error('Error fetching products from database:', error);res.status(500).json({ message: "Internal server error during data fetch" });
+        }
+    });
 }
 
 module.exports = app;
