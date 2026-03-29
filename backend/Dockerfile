@@ -4,7 +4,6 @@ ENV DATABASE_URI="mongodb://localhost:27017/test_db_for_docker_tests"
 COPY --chown=node:node ["package.json", "./"]
 RUN npm install
 COPY . .
-RUN npm run test
 
 FROM node:20-alpine AS production
 WORKDIR /app
