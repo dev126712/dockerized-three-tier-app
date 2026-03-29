@@ -159,8 +159,8 @@ jobs:
         yq -i '.backend.image.tag = "${{ github.sha }}"' ./3t-chart/values-dev.yaml
         
         # 3. Commit and Push
-        git config --global user.email ${{ secrets.GIT_EMAIL }}
-        git config --global user.name ${{ secrets.GIT_USERNAME }}
+        git config user.email ${{ secrets.GIT_EMAIL }}
+        git config user.name ${{ secrets.GIT_USERNAME }}
         git add .
         git commit -m "chore(dev): update backend image to ${{ github.sha }} [skip ci]"
         git push origin main
