@@ -150,6 +150,7 @@ jobs:
         PAT_TOKEN: ${{ secrets.MANIFEST_REPO_PAT }}
       run: |
         # 1. Clone the manifest repo
+        git config --global url."https://x-access-token:${{ env.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
         git clone https://x-access-token:${{ env.PAT_TOKEN }}@github.com/${{ env.MANIFEST_REPO }}.git manifest-repo
         ls -la
         cd manifest-repo
