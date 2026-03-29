@@ -152,7 +152,7 @@ jobs:
         # 1. Clone the manifest repo
         git clone https://x-access-token:${{ env.PAT_TOKEN }}@github.com/${{ env.MANIFEST_REPO }}.git manifest-repo
         ls -la
-        cd three-tier-architecture-deployment
+        cd manifest-repo
         
         # 2. Update the tag in the correct directory (3t-chart/values-dev.yaml)
         # Using yq to target the backend object within the dev values file
