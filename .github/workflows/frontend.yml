@@ -1,0 +1,166 @@
+name: Frontend Scan, Build & Publish
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+permissions:
+  contents: read
+  security-events: write
+      
+jobs:
+  secirity-scan-Checkov-frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+
+    - name: Run Checkov Security Scan on frontend
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: frontend/ 
+        output_format: cli
+        soft_fail: true
+        quiet: true  
+
+  build-image-frontend:     
+    needs: secirity-scan-Checkov-frontend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    env:
+      IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
+      IMAGE_LATEST_TAG_FRONTEND: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-frontend:latest
+      FRONTEND_TAGS: dockerized-three-tier-app-frontend:latest, dockerized-three-tier-app-frontend:${{ github.sha }}
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU 
+      uses: docker/setup-qemu-action@v3 
+
+    - name: set up docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build the Docker images
+      uses: docker/build-push-action@v6
+      with:
+        context: ./frontend
+        push: false
+        tags: ${{ env.FRONTEND_TAGS }}
+        load: true
+        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_FRONTEND }}
+        path: /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+
+  scan-frontend-with-trivy:
+    name: Trivy Security Scan Image Frontend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: build-image-frontend
+    env:
+      IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_FRONTEND }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+        docker image ls -a
+
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+  
+    - name: Download Trivy vulnerability database
+      run: trivy image --download-db-only
+      
+    - name: Run Trivy vulnerability scan
+      run: |
+        trivy image \
+          --exit-code 0 \
+          --format table \
+          --ignore-unfixed \
+          --pkg-types os,library \
+          --severity CRITICAL,HIGH,MEDIUM \
+          ${{ env.IMAGE_NAME_FRONTEND }}:latest
+
+  push-frontend-image-to-dockerhub:
+    name: Push Frontend Image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    needs: scan-frontend-with-trivy
+    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
+    env:
+      IMAGE_NAME_FRONTEND: dockerized-three-tier-app-frontend
+      
+    steps:
+    - name: Download Image artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.IMAGE_NAME_FRONTEND }}
+        path: /tmp
+
+    - name: Load image
+      run: |
+        docker load --input /tmp/${{ env.IMAGE_NAME_FRONTEND }}.tar
+        docker image ls -a
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Tag Image with Docker Hub Username Prefix
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
+        
+        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:latest
+        
+        docker tag ${{ env.IMAGE_NAME_FRONTEND }}:latest $DOCKER_REPO:${{ github.sha }}
+
+    - name: Push Image to Docker Hub
+      run: |
+        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}"
+        
+        docker push $DOCKER_REPO:latest
+        docker push $DOCKER_REPO:${{ github.sha }}
+
+    - name: Docker - Logout
+      run: docker logout
+
+    - name: Update Manifest Repository
+      env:
+        MANIFEST_REPO: "dev126712/three-tier-architecture-deployment"
+        PAT_TOKEN: ${{ secrets.MANIFEST_REPO_PAT }}
+      run: |
+        git clone https://x-access-token:${{ env.PAT_TOKEN }}@github.com/${{ env.MANIFEST_REPO }}.git manifest-repo
+        cd three-tier-architecture-deployment
+        
+        # Note: Targeting the frontend object here
+        yq -i '.frontend.image.tag = "${{ github.sha }}"' ./3t-chart/values-dev.yaml
+        
+        git config --global user.email ${{ secrets.GIT_EMAIL }}
+        git config --global user.name ${{ secrets.GIT_USERNAME }}
+        git add .
+        git commit -m "chore(dev): update frontend image to ${{ github.sha }} [skip ci]"
+        git push
+
+  

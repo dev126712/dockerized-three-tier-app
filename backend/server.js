@@ -13,6 +13,9 @@ const port = 8080;
 const mongoDbUrl = process.env.DATABASE_URI;
 const dbName = "mydatabase";
 
+let mongoClient; // To be used by /ready and routes
+let collection;  // To be used by API routes
+
 app.use(cors());
 app.use(express.json());
 
@@ -36,10 +39,6 @@ const httpRequestCounter = new client.Counter({
 });
 register.registerMetric(httpRequestCounter);
 
-// --- 3. Middleware & Endpoints ---
-app.use(cors());
-app.use(express.json());
-
 // VictoriaMetrics will now scrape this instead of '/'
 app.get('/metrics', async (req, res) => {
   res.setHeader('Content-Type', register.contentType);
@@ -49,6 +48,50 @@ app.get('/metrics', async (req, res) => {
 
 app.get('/', (req, res) => {
     res.status(200).json({ status: "Welcome" });
+});
+
+
+
+app.get('/healthz', (req, res) => {
+    res.status(200).send('OK');
+});
+
+app.get('/ready', async (req, res) => {
+    try {
+        // FIX: Use the global mongoClient variable, not the Prometheus 'client'
+        if (mongoClient && mongoClient.topology && mongoClient.topology.isConnected()) {
+            res.status(200).send('Ready');
+        } else {
+            res.status(503).send('Database not connected');
+        }
+    } catch (err) {
+        res.status(503).send('Service Unavailable');
+    }
+});
+
+// --- 2. API ROUTES (Place these OUTSIDE main so they are registered immediately) ---
+app.get('/api/products', async (req, res) => {
+    try {
+        if (!collection) return res.status(503).json({ message: "Database not initialized" });
+        const products = await collection.find({}).toArray();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+app.post('/api/products', async (req, res) => {
+    try {
+        const { name, category, price } = req.body;
+        if (!name || !category || price === undefined) {
+            return res.status(400).json({ message: "Missing fields" });
+        }
+        const newProduct = { name, category, price: parseFloat(price), createdAt: new Date() };
+        const result = await collection.insertOne(newProduct);
+        res.status(201).json({ ...newProduct, _id: result.insertedId });
+    } catch (error) {
+        res.status(500).json({ message: "Error adding product" });
+    }
 });
 
 async function main() {
@@ -71,23 +114,7 @@ async function main() {
     console.log(`collection name: ${collection.collectionName}`);
 
 
-    app.get('/healthz', (req, res) => {
-    res.status(200).send('OK');
-    });
-    
-    // Readiness: Is the database connection ready?
-    app.get('/ready', async (req, res) => {
-        try {
-            // Check if MongoDB is connected
-            if (client && client.topology && client.topology.isConnected()) {
-                res.status(200).send('Ready');
-            } else {
-                res.status(503).send('Database not connected');
-            }
-        } catch (err) {
-            res.status(503).send('Service Unavailable');
-        }
-    });
+
 
 
     if (process.env.NODE_ENV !== 'test') {
@@ -103,26 +130,10 @@ async function main() {
     }
   }
 
-    // Define the API endpoint
-    app.get('/api/products', async (req, res) => {
-        try {
-            // Fetch data from the 'products' collection in MongoDB
-            const products = await collection.find({}).toArray();
-            res.json(products);
-            console.log(products) 
-            console.log(`Fetched ${products.length} products from collection: ${collection.collectionName}`);
-        } catch (error) {
-            console.error('Error fetching products from database:', error);res.status(500).json({ message: "Internal server error during data fetch" });
-        }
-    });
 }
 
 module.exports = app;
 
-
 if (require.main === module) {
-    main()
-        .then(() => console.log('Server module initialized.'))
-        .catch(err => console.error('Initialization failed', err));
+    main().catch(err => console.error('Initialization failed', err));
 }
-

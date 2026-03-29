@@ -19,6 +19,21 @@
         </p>
 
         <div id="loading" class="text-center py-4 text-orange-500 font-semibold">Loading data from API...</div>
+        <div class="mb-10 p-6 bg-blue-50 rounded-lg border border-blue-100">
+            <h2 class="text-xl font-bold text-blue-800 mb-4">Add New Product</h2>
+            <form id="product-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input type="text" id="name" placeholder="Product Name" required 
+                    class="p-2 border rounded focus:ring-2 focus:ring-blue-400 outline-none">
+                <input type="text" id="category" placeholder="Category" required 
+                    class="p-2 border rounded focus:ring-2 focus:ring-blue-400 outline-none">
+                <input type="number" id="price" placeholder="Price" step="0.01" required 
+                    class="p-2 border rounded focus:ring-2 focus:ring-blue-400 outline-none">
+                <button type="submit" id="submit-btn" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                    Add Product
+                </button>
+            </form>
+        </div>
         <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Products will be injected here -->
         </div>
@@ -29,45 +44,86 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const productList = document.getElementById('product-list');
-            const loading = document.getElementById('loading');
-            const errorDiv = document.getElementById('error-message');
+    document.addEventListener('DOMContentLoaded', () => {
+        const productList = document.getElementById('product-list');
+        const loading = document.getElementById('loading');
+        const errorDiv = document.getElementById('error-message');
+        const productForm = document.getElementById('product-form');
+        const submitBtn = document.getElementById('submit-btn');
 
-            const API_URL = '/api/products';
+        const API_URL = '/api/products';
 
-            fetch(API_URL)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    loading.classList.add('hidden');
-                    if (data && Array.isArray(data) && data.length > 0) {
-                        data.forEach(product => {
-                            const card = document.createElement('div');
-                            card.className = 'bg-gray-50 p-5 rounded-lg shadow hover:shadow-lg transition duration-300';
-                            card.innerHTML = `
-                                <h2 class="text-xl font-bold text-gray-800 mb-2">${product.name}</h2>
-                                <p class="text-sm text-gray-500 mb-3">${product.category}</p>
-                                <p class="text-2xl font-extrabold text-green-600">$${product.price.toFixed(2)}</p>
-                            `;
-                            productList.appendChild(card);
-                        });
-                    } else {
-                        productList.innerHTML = '<p class="text-gray-500">No products found.</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                    loading.classList.add('hidden');
-                    errorDiv.classList.remove('hidden');
-                    // Display the correct failure URL
-                    errorDiv.innerHTML = '<strong>Connection Error:</strong> Failed to connect to ' + API_URL + '. Check your Docker logs!';
+        // --- 1. Reusable Fetch & Render Function ---
+        async function refreshProducts() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                
+                const data = await response.json();
+                
+                loading.classList.add('hidden');
+                productList.innerHTML = ''; // Clear current list
+
+                if (data && data.length > 0) {
+                    data.forEach(product => {
+                        const card = document.createElement('div');
+                        card.className = 'bg-gray-50 p-5 rounded-lg shadow hover:shadow-lg transition duration-300 border-t-4 border-blue-500';
+                        card.innerHTML = `
+                            <h2 class="text-xl font-bold text-gray-800 mb-2">${product.name}</h2>
+                            <p class="text-sm text-gray-500 mb-3">${product.category}</p>
+                            <p class="text-2xl font-extrabold text-green-600">$${Number(product.price).toFixed(2)}</p>
+                        `;
+                        productList.appendChild(card);
+                    });
+                } else {
+                    productList.innerHTML = '<p class="text-gray-500 col-span-full text-center">No products found. Add your first one above!</p>';
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                errorDiv.innerHTML = `<strong>Connection Error:</strong> Could not reach ${API_URL}.`;
+            }
+        }
+
+        // --- 2. Handle Form Submission ---
+        productForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // UI Feedback
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-pulse">Processing...</span>';
+
+            const payload = {
+                name: document.getElementById('name').value,
+                category: document.getElementById('category').value,
+                price: parseFloat(document.getElementById('price').value)
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) throw new Error('Failed to add product');
+
+                // Reset form and update UI without reloading the whole page
+                productForm.reset();
+                await refreshProducts(); 
+                
+            } catch (error) {
+                alert('Error adding product. Is the backend container running?');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Add Product';
+            }
         });
-    </script>
-</body>
-</html>
+
+        // --- 3. Initial Load ---
+        refreshProducts();
+    });
+        </script>
+    </body>
+    </html>

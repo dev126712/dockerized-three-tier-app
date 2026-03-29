@@ -3,7 +3,7 @@ on:
   push:
     paths: 
       - '**.tf'
-      - '.github/workflows/ci-infra.yml'
+      - '.github/workflows/infrastructure.yml'
 permissions:
   contents: read
   packages: read
