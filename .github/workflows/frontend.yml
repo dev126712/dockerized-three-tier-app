@@ -151,6 +151,7 @@ jobs:
         MANIFEST_REPO: "dev126712/three-tier-architecture-deployment"
         PAT_TOKEN: ${{ secrets.MANIFEST_REPO_PAT }}
       run: |
+        git config --global url."https://x-access-token:${{ env.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
         git clone https://x-access-token:${{ env.PAT_TOKEN }}@github.com/${{ env.MANIFEST_REPO }}.git manifest-repo
         ls -la
         cd manifest-repo
