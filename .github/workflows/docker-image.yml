@@ -1,285 +1,285 @@
-name: Scan Docker Images, Build Docker Images & Publish it to Docker Hub
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'database/**'
-      - 'proxy/**'
-      - '.github/workflows/docker-image.yml' 
-permissions:
-  contents: read
-  security-events: write
+# name: Scan Docker Images, Build Docker Images & Publish it to Docker Hub
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - 'database/**'
+#       - 'proxy/**'
+#       - '.github/workflows/docker-image.yml' 
+# permissions:
+#   contents: read
+#   security-events: write
       
-jobs:    
-  secirity-scan-Checkov-proxy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
+# jobs:    
+#   secirity-scan-Checkov-proxy:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     steps:
+#     - name: checkout repo
+#       uses: actions/checkout@v4
         
-    - name: Run Checkov Security Scan on proxy
-      uses: bridgecrewio/checkov-action@master
-      with:
-        directory: proxy/
-        output_format: cli
-        soft_fail: true
-        quiet: true   
+#     - name: Run Checkov Security Scan on proxy
+#       uses: bridgecrewio/checkov-action@master
+#       with:
+#         directory: proxy/
+#         output_format: cli
+#         soft_fail: true
+#         quiet: true   
 
-  secirity-scan-Checkov-database:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
+#   secirity-scan-Checkov-database:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     steps:
+#     - name: checkout repo
+#       uses: actions/checkout@v4
         
-    - name: Run Checkov Security Scan on database
-      uses: bridgecrewio/checkov-action@master
-      with:
-        directory: database/
-        output_format: cli
-        soft_fail: true
-        quiet: true  
+#     - name: Run Checkov Security Scan on database
+#       uses: bridgecrewio/checkov-action@master
+#       with:
+#         directory: database/
+#         output_format: cli
+#         soft_fail: true
+#         quiet: true  
 
-  build-image-proxy:     
-    needs: secirity-scan-Checkov-proxy
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
+#   build-image-proxy:     
+#     needs: secirity-scan-Checkov-proxy
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
 
-    env:
-      IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
-      IMAGE_LATEST_TAG_PROXY: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
-      PROXY_TAG: dockerized-three-tier-app-proxy:latest, dockerized-three-tier-app-proxy:${{ github.sha }}
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
+#     env:
+#       IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
+#       IMAGE_LATEST_TAG_PROXY: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-proxy:latest
+#       PROXY_TAG: dockerized-three-tier-app-proxy:latest, dockerized-three-tier-app-proxy:${{ github.sha }}
+#     steps:
+#     - name: checkout repo
+#       uses: actions/checkout@v4
 
-    - name: Set up QEMU 
-      uses: docker/setup-qemu-action@v3 
+#     - name: Set up QEMU 
+#       uses: docker/setup-qemu-action@v3 
 
-    - name: set up docker
-      uses: docker/setup-buildx-action@v2
+#     - name: set up docker
+#       uses: docker/setup-buildx-action@v2
 
-    - name: Build the Docker images
-      uses: docker/build-push-action@v6
-      with:
-        context: ./proxy
-        push: false
-        tags: ${{ env.PROXY_TAG }}
-        load: true
-        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+#     - name: Build the Docker images
+#       uses: docker/build-push-action@v6
+#       with:
+#         context: ./proxy
+#         push: false
+#         tags: ${{ env.PROXY_TAG }}
+#         load: true
+#         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_PROXY }}.tar
 
-    - name: Upload Image Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME_PROXY }}
-        path: /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+#     - name: Upload Image Artifact
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: ${{ env.IMAGE_NAME_PROXY }}
+#         path: /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
 
-  build-image-database:     
-    needs: secirity-scan-Checkov-database
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    env:
-      IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
-      IMAGE_LATEST_TAG_DATABASE: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
-      DATABASE_TAG: dockerized-three-tier-app-database:latest, dockerized-three-tier-app-database:${{ github.sha }}
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
+#   build-image-database:     
+#     needs: secirity-scan-Checkov-database
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     env:
+#       IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
+#       IMAGE_LATEST_TAG_DATABASE: ${{ secrets.GIT_USERNAME }}/dockerized-three-tier-app-database:latest
+#       DATABASE_TAG: dockerized-three-tier-app-database:latest, dockerized-three-tier-app-database:${{ github.sha }}
+#     steps:
+#     - name: checkout repo
+#       uses: actions/checkout@v4
 
-    - name: set up docker
-      uses: docker/setup-buildx-action@v2
+#     - name: set up docker
+#       uses: docker/setup-buildx-action@v2
 
-    - name: Build the Docker images
-      uses: docker/build-push-action@v6
-      with:
-        context: ./database
-        push: false
-        tags: ${{ env.DATABASE_TAG }}
-        load: true
-        outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
+#     - name: Build the Docker images
+#       uses: docker/build-push-action@v6
+#       with:
+#         context: ./database
+#         push: false
+#         tags: ${{ env.DATABASE_TAG }}
+#         load: true
+#         outputs: type=docker,dest=/tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
 
-    - name: Upload Image Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME_DATABASE }}
-        path: /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
+#     - name: Upload Image Artifact
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: ${{ env.IMAGE_NAME_DATABASE }}
+#         path: /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
 
-  scan-proxy-with-trivy:
-    name: Trivy Security Scan Image Proxy
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    needs: build-image-proxy
-    env:
-      IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy 
-    steps:
-    - name: Download Image artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME_PROXY }}
-        path: /tmp
+#   scan-proxy-with-trivy:
+#     name: Trivy Security Scan Image Proxy
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     needs: build-image-proxy
+#     env:
+#       IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy 
+#     steps:
+#     - name: Download Image artifact
+#       uses: actions/download-artifact@v4
+#       with:
+#         name: ${{ env.IMAGE_NAME_PROXY }}
+#         path: /tmp
 
-    - name: Load image
-      run: |
-        docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
-        docker image ls -a
+#     - name: Load image
+#       run: |
+#         docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+#         docker image ls -a
 
-    - name: Install Trivy
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl
-        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+#     - name: Install Trivy
+#       run: |
+#         sudo apt-get update
+#         sudo apt-get install -y curl
+#         curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
   
-    - name: Download Trivy vulnerability database
-      run: trivy image --download-db-only
+#     - name: Download Trivy vulnerability database
+#       run: trivy image --download-db-only
       
-    - name: Run Trivy vulnerability scan
-      run: |
-        trivy image \
-          --exit-code 0 \
-          --format table \
-          --ignore-unfixed \
-          --pkg-types os,library \
-          --severity CRITICAL,HIGH,MEDIUM \
-          ${{ env.IMAGE_NAME_PROXY }}:latest
+#     - name: Run Trivy vulnerability scan
+#       run: |
+#         trivy image \
+#           --exit-code 0 \
+#           --format table \
+#           --ignore-unfixed \
+#           --pkg-types os,library \
+#           --severity CRITICAL,HIGH,MEDIUM \
+#           ${{ env.IMAGE_NAME_PROXY }}:latest
 
-  scan-database-with-trivy:
-    name: Trivy Security Scan Image Database
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    needs: build-image-database
-    env:
-      IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
-    steps:
-    - name: Download Image artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME_DATABASE }}
-        path: /tmp
+#   scan-database-with-trivy:
+#     name: Trivy Security Scan Image Database
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     needs: build-image-database
+#     env:
+#       IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
+#     steps:
+#     - name: Download Image artifact
+#       uses: actions/download-artifact@v4
+#       with:
+#         name: ${{ env.IMAGE_NAME_DATABASE }}
+#         path: /tmp
 
-    - name: Load image
-      run: |
-        docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
-        docker image ls -a
+#     - name: Load image
+#       run: |
+#         docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
+#         docker image ls -a
 
-    - name: Install Trivy
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl
-        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
+#     - name: Install Trivy
+#       run: |
+#         sudo apt-get update
+#         sudo apt-get install -y curl
+#         curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.57.0
   
-    - name: Download Trivy vulnerability database
-      run: trivy image --download-db-only
+#     - name: Download Trivy vulnerability database
+#       run: trivy image --download-db-only
       
-    - name: Run Trivy vulnerability scan
-      run: |
+#     - name: Run Trivy vulnerability scan
+#       run: |
 
-        trivy image \
-          --exit-code 0 \
-          --format table \
-          --ignore-unfixed \
-          --pkg-types os,library \
-          --severity CRITICAL,HIGH,MEDIUM \
-          ${{ env.IMAGE_NAME_DATABASE }}:latest
+#         trivy image \
+#           --exit-code 0 \
+#           --format table \
+#           --ignore-unfixed \
+#           --pkg-types os,library \
+#           --severity CRITICAL,HIGH,MEDIUM \
+#           ${{ env.IMAGE_NAME_DATABASE }}:latest
 
-  push-database-image-to-dockerhub:
-    name: Push Database Image to Docker Hub
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    needs: scan-database-with-trivy
-    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
-    env:
-      IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
+#   push-database-image-to-dockerhub:
+#     name: Push Database Image to Docker Hub
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     needs: scan-database-with-trivy
+#     if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
+#     env:
+#       IMAGE_NAME_DATABASE: dockerized-three-tier-app-database
 
-    steps:
-    - name: Download Image artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME_DATABASE }}
-        path: /tmp
+#     steps:
+#     - name: Download Image artifact
+#       uses: actions/download-artifact@v4
+#       with:
+#         name: ${{ env.IMAGE_NAME_DATABASE }}
+#         path: /tmp
 
-    - name: Load image
-      run: |
-        docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
-        docker image ls -a
+#     - name: Load image
+#       run: |
+#         docker load --input /tmp/${{ env.IMAGE_NAME_DATABASE }}.tar
+#         docker image ls -a
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+#     - name: Login to Docker Hub
+#       uses: docker/login-action@v3
+#       with:
+#         username: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Tag Image with Docker Hub Username Prefix
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
+#     - name: Tag Image with Docker Hub Username Prefix
+#       run: |
+#         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
         
-        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:latest
+#         docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:latest
         
-        docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:${{ github.sha }}
+#         docker tag ${{ env.IMAGE_NAME_DATABASE }}:latest $DOCKER_REPO:${{ github.sha }}
 
-    - name: Push Image to Docker Hub
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
+#     - name: Push Image to Docker Hub
+#       run: |
+#         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_DATABASE }}"
         
-        docker push $DOCKER_REPO:latest
-        docker push $DOCKER_REPO:${{ github.sha }}
+#         docker push $DOCKER_REPO:latest
+#         docker push $DOCKER_REPO:${{ github.sha }}
 
-    - name: Docker - Logout
-      run: docker logout
+#     - name: Docker - Logout
+#       run: docker logout
 
-  push-proxy-image-to-dockerhub:
-    name: Push Proxy Image to Docker Hub
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write 
-    needs: scan-proxy-with-trivy
-    if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
-    env:
-      IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
+#   push-proxy-image-to-dockerhub:
+#     name: Push Proxy Image to Docker Hub
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write 
+#     needs: scan-proxy-with-trivy
+#     if: always() && needs.scan-backend-with-trivy.result != 'cancelled'
+#     env:
+#       IMAGE_NAME_PROXY: dockerized-three-tier-app-proxy
       
-    steps:
-    - name: Download Image artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.IMAGE_NAME_PROXY }}
-        path: /tmp
+#     steps:
+#     - name: Download Image artifact
+#       uses: actions/download-artifact@v4
+#       with:
+#         name: ${{ env.IMAGE_NAME_PROXY }}
+#         path: /tmp
 
-    - name: Load image
-      run: |
-        docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
-        docker image ls -a
+#     - name: Load image
+#       run: |
+#         docker load --input /tmp/${{ env.IMAGE_NAME_PROXY }}.tar
+#         docker image ls -a
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+#     - name: Login to Docker Hub
+#       uses: docker/login-action@v3
+#       with:
+#         username: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Tag Image with Docker Hub Username Prefix
-      run: |
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
+#     - name: Tag Image with Docker Hub Username Prefix
+#       run: |
+#         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
         
-        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:latest
+#         docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:latest
         
-        docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:${{ github.sha }}
+#         docker tag ${{ env.IMAGE_NAME_PROXY }}:latest $DOCKER_REPO:${{ github.sha }}
 
-    - name: Push Image to Docker Hub
-      run: |
-        # Use the fully qualified name defined in the tag step
-        DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
+#     - name: Push Image to Docker Hub
+#       run: |
+#         # Use the fully qualified name defined in the tag step
+#         DOCKER_REPO="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME_PROXY }}"
         
-        docker push $DOCKER_REPO:latest
-        docker push $DOCKER_REPO:${{ github.sha }}
+#         docker push $DOCKER_REPO:latest
+#         docker push $DOCKER_REPO:${{ github.sha }}
 
-    - name: Docker - Logout
-      run: docker logout
+#     - name: Docker - Logout
+#       run: docker logout
 
   
